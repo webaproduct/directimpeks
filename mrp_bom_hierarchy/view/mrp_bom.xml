@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_bom_form_view" model="ir.ui.view">
+        <field name="name">mrp.bom.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='bom_line_ids']/tree/field[@name='product_tmpl_id']" position="after">
+                <field invisible="1" name="has_bom"/>
+                <button class="btn btn-link" icon="fa-folder-open" invisible="has_bom != True" name="action_open_product_bom_tree_view" title="View product's BoM" type="object"/>
+            </xpath></field>
+    </record>
+    <record id="view_mrp_bom_filter" model="ir.ui.view">
+        <field name="name">mrp.bom.select</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//separator[1]" position="before">
+                <field name="has_parent"/>
+                <field name="has_child"/>
+                <separator/>
+                <filter domain="[('has_parent','=','True')]" name="parent_bom" string="Has parent BoMs"/>
+                <filter domain="[('has_child','=','True')]" name="child_bom" string="Has child BoMs"/>
+            </xpath></field>
+    </record>
+    <record id="mrp_bom_hierarchy_tree_view" model="ir.ui.view">
+        <field name="name">mrp.bom.tree</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="active" position="before">
+                <button class="btn btn-link" icon="fa-level-up" invisible="has_parent != True" name="action_open_parent_tree_view" title="Parent BoMs" type="object"/>
+                <button class="btn btn-link" icon="fa-level-down" invisible="has_child != True" name="action_open_child_tree_view" title="Child BoMs" type="object"/>
+                <field invisible="1" name="has_parent"/>
+                <field invisible="1" name="has_child"/></field>
+            <field name="type" position="before">
+                <field invisible="1" name="product_has_other_bom"/>
+                <button class="btn btn-link" icon="fa-folder-open" invisible="product_has_other_bom != True" name="action_open_product_other_bom_tree_view" title="View product's other BoMs" type="object"/></field></field>
+    </record>
+</odoo>

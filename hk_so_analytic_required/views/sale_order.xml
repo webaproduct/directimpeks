@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2019 ForgeFlow S.L.
+     Serpent Consulting Services Pvt. Ltd.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <record id="view_order_form_hk" model="ir.ui.view">
+        <field name="name">sale.order.form.hk</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="attributes">
+                <attribute name="required">True</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
