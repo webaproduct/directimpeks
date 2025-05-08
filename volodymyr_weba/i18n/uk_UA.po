@@ -1,0 +1,318 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* volodymyr_weba
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-22 13:05+0000\n"
+"PO-Revision-Date: 2025-02-22 13:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_needaction
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_needaction
+msgid "Action Needed"
+msgstr "Дія потрібна"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__active
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__active
+msgid "Active"
+msgstr "Активний"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_ids
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_ids
+msgid "Activities"
+msgstr "Активності"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_exception_decoration
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Декорація виключення активності"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_state
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_state
+msgid "Activity State"
+msgstr "Стан активності"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_type_icon
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Іконка типу активності"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_attachment_count
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_attachment_count
+msgid "Attachment Count"
+msgstr "Кількість прикріплених файлів"
+
+#. module: volodymyr_weba
+#: model:ir.model,name:volodymyr_weba.model_res_partner
+msgid "Contact"
+msgstr "Контакт"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__create_uid
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__create_uid
+msgid "Created by"
+msgstr "Створено"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__create_date
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__create_date
+#: model_terms:ir.ui.view,arch_db:volodymyr_weba.view_res_partner_form_inherit
+msgid "Created on"
+msgstr "Створено"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_res_partner__date_of_birth
+#: model:ir.model.fields,field_description:volodymyr_weba.field_res_users__date_of_birth
+#: model_terms:ir.ui.view,arch_db:volodymyr_weba.view_res_partner_form_inherit
+msgid "Date of birth"
+msgstr "Дата народження"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_crm_lead__department_id
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__name
+#: model_terms:ir.ui.view,arch_db:volodymyr_weba.department_id_form_view
+msgid "Department"
+msgstr "Підрозділ"
+
+#. module: volodymyr_weba
+#: model:ir.actions.act_window,name:volodymyr_weba.department_id_action
+#: model:ir.ui.menu,name:volodymyr_weba.department_id_menu
+#: model_terms:ir.ui.view,arch_db:volodymyr_weba.department_id_tree_view
+msgid "Departments"
+msgstr "Підрозділи"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_crm_lead__direction_id
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__name
+#: model_terms:ir.ui.view,arch_db:volodymyr_weba.direction_id_form_view
+msgid "Direction"
+msgstr "Напрямок"
+
+#. module: volodymyr_weba
+#: model:ir.actions.act_window,name:volodymyr_weba.direction_id_action
+#: model:ir.ui.menu,name:volodymyr_weba.direction_id_menu
+#: model_terms:ir.ui.view,arch_db:volodymyr_weba.direction_id_tree_view
+msgid "Directions"
+msgstr "Напрямки"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__display_name
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__display_name
+msgid "Display Name"
+msgstr "Відображаеме ім'я"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_follower_ids
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_follower_ids
+msgid "Followers"
+msgstr "Підписники"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_partner_ids
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Підписники (Партнери)"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__activity_type_icon
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Іконка Font awesome, наприклад, fa-tasks"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__has_message
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__has_message
+msgid "Has Message"
+msgstr "Містить повідомлення"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__id
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__id
+msgid "ID"
+msgstr "ID"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_exception_icon
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_exception_icon
+msgid "Icon"
+msgstr "Іконка"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__activity_exception_icon
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Іконка, що показує виключення активності."
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__message_needaction
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Якщо ви вибрали це, нові повідомлення потребують вашого уваги."
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__message_has_error
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__message_has_sms_error
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__message_has_error
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Якщо ви вибрали це, деякі повідомлення мають помилку доставки."
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_is_follower
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_is_follower
+msgid "Is Follower"
+msgstr "Підписник"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__write_uid
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__write_uid
+msgid "Last Updated by"
+msgstr "Останнє оновлення"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__write_date
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__write_date
+msgid "Last Updated on"
+msgstr "Останнє оновлення"
+
+#. module: volodymyr_weba
+#: model:ir.model,name:volodymyr_weba.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Лід/Нагода"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_has_error
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_has_error
+msgid "Message Delivery error"
+msgstr "Помилка доставки повідомлення"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_ids
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_ids
+msgid "Messages"
+msgstr "Повідомлення"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__my_activity_date_deadline
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Моя дата майбутнього виклику"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_calendar_event_id
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Наступне майбутнє виклику"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_date_deadline
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Моя дата майбутнього виклику"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_summary
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_summary
+msgid "Next Activity Summary"
+msgstr "Наступне майбутнє виклику"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_type_id
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_type_id
+msgid "Next Activity Type"
+msgstr "Тип наступного виклику"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_needaction_counter
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Кількість дій"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_has_error_counter
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_has_error_counter
+msgid "Number of errors"
+msgstr "Кількість помилок"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__message_needaction_counter
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Кількість повідомлень, які потребують дій"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__message_has_error_counter
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Кількість повідомлень з надісланими помилками"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__rating_ids
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__rating_ids
+msgid "Ratings"
+msgstr "Оцінки"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__activity_user_id
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__activity_user_id
+msgid "Responsible User"
+msgstr "Відповідальний користувач"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__message_has_sms_error
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Помилка надсилання SMS"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__activity_state
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__activity_exception_decoration
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Тип виклику на записі."
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,field_description:volodymyr_weba.field_department_id__website_message_ids
+#: model:ir.model.fields,field_description:volodymyr_weba.field_direction_id__website_message_ids
+msgid "Website Messages"
+msgstr "Веб-повідомлення"
+
+#. module: volodymyr_weba
+#: model:ir.model.fields,help:volodymyr_weba.field_department_id__website_message_ids
+#: model:ir.model.fields,help:volodymyr_weba.field_direction_id__website_message_ids
+msgid "Website communication history"
+msgstr "Історія веб-повідомлень"
+
+#. module: volodymyr_weba
+#: model:ir.model,name:volodymyr_weba.model_department_id
+msgid "department.id"
+msgstr "Підрозділ"
+
+#. module: volodymyr_weba
+#: model:ir.model,name:volodymyr_weba.model_direction_id
+msgid "direction.id"
+msgstr "Напрямок"

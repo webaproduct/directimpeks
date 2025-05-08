@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_department_id_user,department_id user,model_department_id,base.group_user,1,1,1,1
+access_department_id_admin,department_id admin,model_department_id,base.group_system,1,1,1,1
+
+access_direction_id_user,direction_id user,model_direction_id,base.group_user,1,1,1,1
+access_direction_id_admin,direction_id admin,model_direction_id,base.group_system,1,1,1,1

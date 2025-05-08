@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="department_id_tree_view" model="ir.ui.view">
+        <field name="name">department.id.tree</field>
+        <field name="model">department.id</field>
+        <field name="arch" type="xml">
+            <tree string="Departments">
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="department_id_form_view" model="ir.ui.view">
+        <field name="name">department.id.form</field>
+        <field name="model">department.id</field>
+        <field name="arch" type="xml">
+            <form string="Department">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="department_id_action" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">department.id</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        id="department_id_menu" 
+        name="Departments" 
+        parent="crm.crm_menu_config"
+        action="department_id_action" 
+        sequence="11"/>
+</odoo>

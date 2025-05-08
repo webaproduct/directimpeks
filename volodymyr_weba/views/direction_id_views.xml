@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="direction_id_tree_view" model="ir.ui.view">
+        <field name="name">direction.id.tree</field>
+        <field name="model">direction.id</field>
+        <field name="arch" type="xml">
+            <tree string="Directions">
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="direction_id_form_view" model="ir.ui.view">
+        <field name="name">direction.id.form</field>
+        <field name="model">direction.id</field>
+        <field name="arch" type="xml">
+            <form string="Direction">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="direction_id_action" model="ir.actions.act_window">
+        <field name="name">Directions</field>
+        <field name="res_model">direction.id</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        id="direction_id_menu" 
+        name="Directions" 
+        parent="crm.crm_menu_config"
+        action="direction_id_action" 
+        sequence="11"/>
+</odoo>

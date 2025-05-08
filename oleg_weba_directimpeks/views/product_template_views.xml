@@ -1,0 +1,45 @@
+<odoo>
+
+    <record id="product_template_form_view_inherit2" model="ir.ui.view">
+        <field name="name">product.template.form.view.inherit2</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="after">
+                <group class="o_label_nowrap">
+                    <group string="Product template" name="product_template">
+                        <field name="brand"/>
+                        <field name="number_line"/>
+                        <field name="name_line"/>
+                        <field name="season_base"/>
+                        <field name="chemical_composition"/>
+
+                        <field name="category_one"/>
+                        <field name="sub_category_one"/>
+                        <field name="sub_lower_category_one"/>
+
+                        <field name="category_two"/>
+                        <field name="sub_category_two"/>
+                        <field name="sub_lower_category_two"/>
+
+                        <field name="form"/>
+                        <field name="processing"/>
+                        <field name="purpose_one"/>
+                        <field name="purpose_two"/>
+                        <field name="gender"/>
+                        <field name="streak"/>
+                        <field name="drying"/>
+                        <field name="iron"/>
+                        <field name="whitening"/>
+                        <field name="professional_cleaning"/>
+                        <field name="meta_title"/>
+                        <field name="meta_description"/>
+                        <field name="short_description"/>
+                        <field name="description"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

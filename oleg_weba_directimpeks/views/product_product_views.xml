@@ -1,0 +1,18 @@
+<odoo>
+
+    <record id="product_normal_form_view_inherit2" model="ir.ui.view">
+        <field name="name">product.normal.form.view.inherit2</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='product_template']" position="after">
+                <group string="Product variant" name="product_variant">
+                    <field name="size_original_manufacturer"/>
+                    <field name="color_manufacturer"/>
+                    <field name="palette_colors"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

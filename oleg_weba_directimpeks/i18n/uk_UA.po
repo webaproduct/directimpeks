@@ -1,0 +1,207 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* oleg_weba_directimpeks
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-08 16:07+0000\n"
+"PO-Revision-Date: 2025-05-08 16:07+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__brand
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__brand
+msgid "Brand"
+msgstr "Бренд"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__category_one
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__category_one
+msgid "Category 1"
+msgstr "Категорія 1"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__category_two
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__category_two
+msgid "Category 2"
+msgstr "Категорія 2"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__chemical_composition
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__chemical_composition
+msgid "Chemical composition"
+msgstr "Склад хімічний"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__code_2
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__code_2
+msgid "Code"
+msgstr "Код"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__color_manufacturer
+msgid "Color manufacturer"
+msgstr "Колір виробника"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__description
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__description
+msgid "Description"
+msgstr "Опис"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__drying
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__drying
+msgid "Drying"
+msgstr "Сушіння"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__form
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__form
+msgid "Form"
+msgstr "Форма"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__gender
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__gender
+msgid "Gender"
+msgstr "Стать"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__iron
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__iron
+msgid "Iron"
+msgstr "Прасування"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__meta_description
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__meta_description
+msgid "Meta description"
+msgstr ""
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__meta_title
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__meta_title
+msgid "Meta title"
+msgstr ""
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__name_line
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__name_line
+msgid "Name Line"
+msgstr "Назва лінії"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__number_line
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__number_line
+msgid "Number Line"
+msgstr "№ лінії"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__palette_colors
+msgid "Palette colors"
+msgstr "Палітра колорів"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__processing
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__processing
+msgid "Processing"
+msgstr "Обробка"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model,name:oleg_weba_directimpeks.model_product_template
+msgid "Product"
+msgstr "Товар"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model,name:oleg_weba_directimpeks.model_product_product
+msgid "Product Variant"
+msgstr "Варіант товару"
+
+#. module: oleg_weba_directimpeks
+#: model_terms:ir.ui.view,arch_db:oleg_weba_directimpeks.product_template_form_view_inherit2
+msgid "Product template"
+msgstr "Шаблон товару"
+
+#. module: oleg_weba_directimpeks
+#: model_terms:ir.ui.view,arch_db:oleg_weba_directimpeks.product_normal_form_view_inherit2
+msgid "Product variant"
+msgstr "Варіант товару"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__professional_cleaning
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__professional_cleaning
+msgid "Professional cleaning"
+msgstr "Професійна чистка"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__purpose_one
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__purpose_one
+msgid "Purpose 1"
+msgstr "Призначення 1"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__purpose_two
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__purpose_two
+msgid "Purpose 2"
+msgstr "Призначення 2"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__season_base
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__season_base
+msgid "Season/Base"
+msgstr "Сезон/База"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__short_description
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__short_description
+msgid "Short description"
+msgstr "Короткий опис"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__size_original_manufacturer
+msgid "Size original (manufacturer)"
+msgstr "Розмір оригінальний (виробника)"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__streak
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__streak
+msgid "Streak"
+msgstr "Смуга"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_category_one
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__sub_category_one
+msgid "Sub category 1"
+msgstr "Підкатегорія 1"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_category_two
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__sub_category_two
+msgid "Sub category 2"
+msgstr "Підкатегорія 2"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_lower_category_one
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__sub_lower_category_one
+msgid "Sub lower category 1"
+msgstr "Підкатегорія нижча 2"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_lower_category_two
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__sub_lower_category_two
+msgid "Sub lower category 2"
+msgstr "Підкатегорія нижча 2"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__whitening
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__whitening
+msgid "Whitening"
+msgstr "Відбілювання"
