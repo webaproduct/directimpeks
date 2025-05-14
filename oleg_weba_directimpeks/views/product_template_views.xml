@@ -42,4 +42,36 @@
         </field>
     </record>
 
+    <record id="product_template_search_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.search.view.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="brand"/>
+                <field name="number_line"/>
+                <field name="name_line"/>
+                <field name="season_base"/>
+                <field name="category_one"/>
+                <field name="sub_category_one"/>
+                <field name="sub_lower_category_one"/>
+                <field name="form"/>
+                <field name="processing"/>
+                <field name="gender"/>
+            </xpath>
+            <xpath expr="//filter[@name='categ_id']" position="after">
+                <filter name="brand" context="{'group_by':'brand'}"/>
+                <filter name="number_line" context="{'group_by':'number_line'}"/>
+                <filter name="name_line" context="{'group_by':'name_line'}"/>
+                <filter name="season_base" context="{'group_by':'season_base'}"/>
+                <filter name="category_one" context="{'group_by':'category_one'}"/>
+                <filter name="sub_category_one" context="{'group_by':'sub_category_one'}"/>
+                <filter name="sub_lower_category_one" context="{'group_by':'sub_lower_category_one'}"/>
+                <filter name="form" context="{'group_by':'form'}"/>
+                <filter name="processing" context="{'group_by':'processing'}"/>
+                <filter name="gender" context="{'group_by':'gender'}"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

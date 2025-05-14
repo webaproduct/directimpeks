@@ -192,7 +192,7 @@ msgstr "Підкатегорія 2"
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_lower_category_one
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__sub_lower_category_one
 msgid "Sub lower category 1"
-msgstr "Підкатегорія нижча 2"
+msgstr "Підкатегорія нижча 1"
 
 #. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_lower_category_two

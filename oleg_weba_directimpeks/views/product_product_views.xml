@@ -15,4 +15,23 @@
         </field>
     </record>
 
+    <record id="product_search_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.search</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='gender']" position="after">
+                <field name="size_original_manufacturer"/>
+                <field name="color_manufacturer"/>
+                <field name="palette_colors"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='gender']" position="after">
+                <filter name="size_original_manufacturer" context="{'group_by':'size_original_manufacturer'}"/>
+                <filter name="color_manufacturer" context="{'group_by':'color_manufacturer'}"/>
+                <filter name="palette_colors" context="{'group_by':'palette_colors'}"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
