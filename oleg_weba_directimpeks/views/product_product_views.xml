@@ -12,6 +12,40 @@
                     <field name="palette_colors"/>
                 </group>
             </xpath>
+
+            <xpath expr="//field[@name='product_template_variant_value_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_template_variant_value_ids']" position="after">
+                <field name="product_template_attribute_value_ids" widget="many2many_tags" readonly="1" options="{'color_field': 'color'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_tree_view2" model="ir.ui.view">
+        <field name="name">product.product.tree.view2</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_template_variant_value_ids']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_template_variant_value_ids']" position="after">
+                <field name="product_template_attribute_value_ids" widget="many2many_tags" optional="show" options="{'color_field': 'color'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_kanban_view_inherit" model="ir.ui.view">
+        <field name="name">product.kanban.view.inherit</field>
+        <field name="inherit_id" ref="product.product_kanban_view"/>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_tags_section')]" position="replace">
+                <div class="o_kanban_tags_section">
+                    <field name="product_template_attribute_value_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </div>
+            </xpath>
         </field>
     </record>
 
