@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 16:07+0000\n"
-"PO-Revision-Date: 2025-05-08 16:07+0000\n"
+"POT-Creation-Date: 2025-06-07 15:58+0000\n"
+"PO-Revision-Date: 2025-06-07 15:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,30 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: oleg_weba_directimpeks
-#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__brand
-#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__brand
+#: model:ir.ui.menu,name:oleg_weba_directimpeks.menu_sale_аdditional_groups
+msgid "Additional groups"
+msgstr "Додаткові групи"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_pricelist_item__applied_on
+msgid "Apply On"
+msgstr "Застосувати на"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_pricelist_item__brand_id
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__brand_id
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__brand_id
+#: model:ir.model.fields.selection,name:oleg_weba_directimpeks.selection__product_pricelist_item__applied_on__4_brand
 msgid "Brand"
 msgstr "Бренд"
+
+#. module: oleg_weba_directimpeks
+#. odoo-python
+#: code:addons/oleg_weba_directimpeks/models/product_pricelist_item.py:0
+#: code:addons/user_addons/directimpeks/oleg_weba_directimpeks/models/product_pricelist_item.py:0
+#, python-format
+msgid "Brand: %s"
+msgstr "Бренд: %s"
 
 #. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__category_one
@@ -51,10 +71,25 @@ msgid "Color manufacturer"
 msgstr "Колір виробника"
 
 #. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__description
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__description
 msgid "Description"
 msgstr "Опис"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__display_name
+msgid "Display Name"
+msgstr ""
 
 #. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__drying
@@ -75,10 +110,25 @@ msgid "Gender"
 msgstr "Стать"
 
 #. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__id
+msgid "ID"
+msgstr ""
+
+#. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__iron
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__iron
 msgid "Iron"
 msgstr "Прасування"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__write_date
+msgid "Last Updated on"
+msgstr ""
 
 #. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__meta_description
@@ -91,6 +141,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__meta_title
 msgid "Meta title"
 msgstr ""
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_brand__name
+msgid "Name"
+msgstr "Назва"
 
 #. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__name_line
@@ -110,6 +165,24 @@ msgid "Palette colors"
 msgstr "Палітра колорів"
 
 #. module: oleg_weba_directimpeks
+#. odoo-python
+#: code:addons/oleg_weba_directimpeks/models/product_pricelist_item.py:0
+#: code:addons/user_addons/directimpeks/oleg_weba_directimpeks/models/product_pricelist_item.py:0
+#, python-format
+msgid "Please specify the brand for which this rule should be applied"
+msgstr "Будь ласка, вкажіть бренд, для якого слід застосовувати це правило"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model.fields,help:oleg_weba_directimpeks.field_product_pricelist_item__applied_on
+msgid "Pricelist Item applicable on selected option"
+msgstr "Вартість пункту, що застосовується до вибраної опції"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.model,name:oleg_weba_directimpeks.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Правило прайс-листа"
+
+#. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__processing
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__processing
 msgid "Processing"
@@ -124,6 +197,14 @@ msgstr "Товар"
 #: model:ir.model,name:oleg_weba_directimpeks.model_product_product
 msgid "Product Variant"
 msgstr "Варіант товару"
+
+#. module: oleg_weba_directimpeks
+#: model:ir.actions.act_window,name:oleg_weba_directimpeks.action_product_brand
+#: model:ir.model,name:oleg_weba_directimpeks.model_product_brand
+#: model:ir.ui.menu,name:oleg_weba_directimpeks.menu_product_brand
+#: model_terms:ir.ui.view,arch_db:oleg_weba_directimpeks.product_brand_tree
+msgid "Product brand"
+msgstr "Бренд"
 
 #. module: oleg_weba_directimpeks
 #: model_terms:ir.ui.view,arch_db:oleg_weba_directimpeks.product_template_form_view_inherit2
@@ -192,7 +273,7 @@ msgstr "Підкатегорія 2"
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_lower_category_one
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_template__sub_lower_category_one
 msgid "Sub lower category 1"
-msgstr "Підкатегорія нижча 1"
+msgstr "Підкатегорія нижча 2"
 
 #. module: oleg_weba_directimpeks
 #: model:ir.model.fields,field_description:oleg_weba_directimpeks.field_product_product__sub_lower_category_two
