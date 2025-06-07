@@ -1,10 +1,10 @@
-from odoo import models, fields
+from odoo import models, fields, _
 
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    brand = fields.Char(string="Brand", translate=True)
+    brand_id = fields.Many2one(comodel_name="product.brand", string="Brand")
     number_line = fields.Char(string="Number Line", translate=True)
     name_line = fields.Char(string="Name Line", translate=True)
     season_base = fields.Char(string="Season/Base", translate=True)
@@ -33,3 +33,33 @@ class ProductTemplate(models.Model):
     meta_description = fields.Char(string="Meta description", translate=True)
     short_description = fields.Char(string="Short description", translate=True)
     description = fields.Char(string="Description", translate=True)
+
+    # <---------For customization pricelist----------->
+    def _compute_item_count(self):
+        for template in self:
+            # Pricelist item count counts the rules applicable on current template or on
+            # its variants.
+            domain = [
+                '&',
+                '|',
+                ('product_tmpl_id', '=', template.id),
+                '|',  # Custom
+                ('product_id', 'in', template.product_variant_ids.ids),
+                ("brand_id", "=", self.brand_id.id),  # Custom
+
+                ('pricelist_id.active', '=', True),
+            ]
+            template.pricelist_item_count = template.env[
+                "product.pricelist.item"].search_count(domain)
+
+    def open_pricelist_rules(self):
+        res = super().open_pricelist_rules()
+        res["domain"] = [
+            "|",
+            ("product_tmpl_id", "=", self.id),
+            "|",  # Custom
+            ("product_id", "in", self.product_variant_ids.ids),
+            ("brand_id", "=", self.brand_id.id),  # Custom
+        ]
+        return res
+    # <---------For customization pricelist----------->

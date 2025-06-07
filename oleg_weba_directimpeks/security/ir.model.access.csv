@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_class_group_user,User access on class_group,model_class_group,base.group_user,1,0,0,0
-access_class_group_admin,Full access on class_group,model_class_group,base.group_system,1,1,1,1
+access_product_brand_user,User access on product_brand,model_product_brand,base.group_user,1,1,1,1
+access_product_brand_admin,Full access on product_brand,model_product_brand,base.group_system,1,1,1,1

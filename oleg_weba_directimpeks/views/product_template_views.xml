@@ -8,7 +8,7 @@
             <xpath expr="//group" position="after">
                 <group class="o_label_nowrap">
                     <group string="Product template" name="product_template">
-                        <field name="brand"/>
+                        <field name="brand_id"/>
                         <field name="number_line"/>
                         <field name="name_line"/>
                         <field name="season_base"/>
@@ -48,7 +48,7 @@
         <field name="inherit_id" ref="product.product_template_search_view"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
-                <field name="brand"/>
+                <field name="brand_id"/>
                 <field name="number_line"/>
                 <field name="name_line"/>
                 <field name="season_base"/>
@@ -60,7 +60,7 @@
                 <field name="gender"/>
             </xpath>
             <xpath expr="//filter[@name='categ_id']" position="after">
-                <filter name="brand" context="{'group_by':'brand'}"/>
+                <filter name="brand_id" context="{'group_by':'brand_id'}"/>
                 <filter name="number_line" context="{'group_by':'number_line'}"/>
                 <filter name="name_line" context="{'group_by':'name_line'}"/>
                 <filter name="season_base" context="{'group_by':'season_base'}"/>
