@@ -15,7 +15,7 @@ class PricelistItem(models.Model):
     def _compute_name_and_price(self):
         super()._compute_name_and_price()
         for item in self:
-            if item.brand_id and item.applied_on == "brand":
+            if item.brand_id and item.applied_on == "4_brand":
                 item.name = _("Brand: %s", item.brand_id.display_name)
 
     @api.constrains('product_id', 'product_tmpl_id', 'categ_id', 'brand_id')

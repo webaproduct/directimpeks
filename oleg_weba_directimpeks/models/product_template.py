@@ -41,13 +41,12 @@ class ProductTemplate(models.Model):
             # its variants.
             domain = [
                 '&',
-                '|',
-                ('product_tmpl_id', '=', template.id),
-                '|',  # Custom
-                ('product_id', 'in', template.product_variant_ids.ids),
-                ("brand_id", "=", self.brand_id.id),  # Custom
-
                 ('pricelist_id.active', '=', True),
+                    '|',
+                        ('product_tmpl_id', '=', template.id),
+                    '|',  # Custom
+                        ('product_id', 'in', template.product_variant_ids.ids),
+                        ("brand_id", "=", self.brand_id.id),  # Custom
             ]
             template.pricelist_item_count = template.env[
                 "product.pricelist.item"].search_count(domain)
@@ -56,10 +55,10 @@ class ProductTemplate(models.Model):
         res = super().open_pricelist_rules()
         res["domain"] = [
             "|",
-            ("product_tmpl_id", "=", self.id),
-            "|",  # Custom
-            ("product_id", "in", self.product_variant_ids.ids),
-            ("brand_id", "=", self.brand_id.id),  # Custom
+                ("product_tmpl_id", "=", self.id),
+                "|",  # Custom
+                    ("product_id", "in", self.product_variant_ids.ids),
+                    ("brand_id", "=", self.brand_id.id),  # Custom
         ]
         return res
     # <---------For customization pricelist----------->
