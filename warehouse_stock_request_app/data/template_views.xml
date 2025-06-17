@@ -1,0 +1,26 @@
+<odoo>
+
+    <data>
+        <!--Email template -->
+        <record id="stock_request_email_template" model="mail.template">
+            <field name="name">Stock Email Template</field>
+            <field name="model_id" ref="warehouse_stock_request_app.model_stock_request"/>
+            <field name="email_to" >{{object.company_id.email}}</field>
+            <field name="subject">{{object.name}}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">{{object.partner_id.lang}}</field>
+            <field name="body_html"><![CDATA[
+                <p>Hello <t t-out="object.company_id.name or ''"></t></p>
+                <br/>
+                <p>Please check attached stock request for internal transfer</p>
+                <br/>
+                <p>Thank you.</p>
+                <p><t t-out="object.env.user.name"></t></p>
+                ]]>
+            </field>
+            <field name="report_template_ids" eval="[(4, ref('warehouse_stock_request_app.action_report_stock_request'))]"/>
+        </record>
+
+    </data>
+
+</odoo>
