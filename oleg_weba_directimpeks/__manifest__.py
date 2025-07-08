@@ -4,7 +4,7 @@
     "author": "Oleg (Weba)",
     "website": "https://weba.com.ua/",
     "category": "Uncategorized",
-    "version": "17.0.3.0.2",
+    "version": "17.0.4.0.0",
     "license": "LGPL-3",
     "depends": ["product", "sale"],
     "data": [
