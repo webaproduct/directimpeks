@@ -1,0 +1,96 @@
+<odoo>
+    <record id="view_move_form_inherit_contract" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.contract</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//group[@id='header_left_group']//field[@name='partner_id']/.."
+                position="after"
+            >
+                <field name="is_contract_required" invisible="1" />
+                <field
+                    name="contract_id"
+                    readonly="state in ['posted']"
+                    invisible="move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']"
+                    required="is_contract_required and move_type in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund']"
+                    context="{'default_partner_id': partner_id}"
+                />
+            </xpath>
+
+            <xpath
+                expr="//field[@name='line_ids']/tree//field[@name='partner_id']"
+                position="after"
+            >
+                <field name='contract_required' column_invisible='1' />
+                <field
+                    name="contract_id"
+                    required="contract_required == True"
+                    optional="hide"
+                    column_invisible="parent.move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'entry']"
+                    readonly="parent.state in ['posted']"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.invoice.select.inherit.contract</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" />
+            </field>
+            <group position="inside">
+                <filter
+                    name="group_contract_id"
+                    string="Contract"
+                    domain="[]"
+                    context="{'group_by':'contract_id'}"
+                />
+            </group>
+        </field>
+    </record>
+
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account.invoice.tree.inherit.contract</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="contract_id" optional="hide" readonly="state != 'draft'" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_move_line_filter" model="ir.ui.view">
+        <field name="name">account.move.line.search.inherit.contract</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" />
+            </field>
+            <group position="inside">
+                <filter
+                    name="group_contract_id"
+                    string="Contract"
+                    domain="[]"
+                    context="{'group_by':'contract_id'}"
+                />
+            </group>
+        </field>
+    </record>
+
+    <record id="view_move_line_tree" model="ir.ui.view">
+        <field name="name">account.move.line.tree.inherit.contract</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" optional="hide" />
+            </field>
+        </field>
+    </record>
+</odoo>

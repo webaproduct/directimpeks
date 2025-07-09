@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_form_account" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='accounting_entries']" position="inside">
+                <!-- <group name="property_contract"> -->
+                <field name="is_contract_required" widget="boolean_toggle" />
+                <!-- </group> -->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_form_contract" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="contract.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="sale_contract_count" position="attributes">
+                <attribute name="string">Sale Contracts</attribute>
+            </field>
+
+            <xpath
+                expr="//form//sheet//field[@name='sale_contract_count']/.."
+                position="attributes"
+            >
+                <attribute name="invisible">0</attribute>
+            </xpath>
+
+            <xpath
+                expr="//form//sheet//field[@name='purchase_contract_count']/.."
+                position="attributes"
+            >
+                <attribute name="invisible">0</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

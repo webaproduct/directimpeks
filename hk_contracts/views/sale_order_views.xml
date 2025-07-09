@@ -1,0 +1,68 @@
+<odoo>
+    <record id="view_order_form_inherit_contract" model="ir.ui.view">
+        <field name="name">view.order.form.inherit.contract</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_contract_product" invisible="1" />
+                <field name="is_contract_required" invisible="1" />
+                <field
+                    name="contract_id"
+                    required='is_contract_required'
+                    readonly="state in ['sale']"
+                    context="{'default_contract_type': 'sale', 'default_partner_id': partner_id}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="before">
+                <button
+                    string="Refresh Lines by Contract"
+                    name="action_refresh_so_lines"
+                    type="object"
+                    class="btn-primary"
+                    invisible="not is_contract_product"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree_with_contract" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="contract_id" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_tree_with_contract" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_with_contract" model="ir.ui.view">
+        <field name="name">sale.order.search.with.contract</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" />
+            </field>
+            <group>
+                <filter
+                    domain="[]"
+                    name="contract_id"
+                    context="{'group_by':'contract_id'}"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,15 @@
+from . import (
+    abstract_contract,
+    account,
+    account_move,
+    account_move_line,
+    account_payment,
+    contract,
+    contract_recurrency_mixin,
+    purchase_order,
+    purchase_order_line,
+    res_config_settings,
+    res_partner,
+    sale_order,
+    # template_ua,
+)

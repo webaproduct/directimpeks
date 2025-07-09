@@ -1,0 +1,85 @@
+<odoo>
+    <record id="purchase_order_form_inherit_contract" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.contract</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="is_contract_product" invisible="1" />
+                <field name="is_contract_required" invisible="1" />
+                <field
+                    name="contract_id"
+                    required='is_contract_required'
+                    readonly="state in ['sale']"
+                    context="{'default_contract_type': 'purchase', 'default_partner_id': partner_id}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="before">
+                <button
+                    string="Refresh Lines by Contract"
+                    name="action_refresh_lines"
+                    type="object"
+                    class="btn-primary"
+                    invisible="not is_contract_product"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_kpis_tree_inherit_purchase_contract" model="ir.ui.view">
+        <field name="name">purchase.order.kpis.tree (contract)</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="contract_id" optional="hide" />
+            </field>
+        </field>
+    </record>
+    <record id="purchase_order_view_tree_inherit_purchase_contract" model="ir.ui.view">
+        <field name="name">purchase.order.tree (contract)</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_view_search_with_contract" model="ir.ui.view">
+        <field name="name">purchase.order.search.with.contract</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_search" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" />
+            </field>
+            <group>
+                <filter
+                    domain="[]"
+                    name="contract_id"
+                    context="{'group_by':'contract_id'}"
+                />
+            </group>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_filter_with_contract" model="ir.ui.view">
+        <field name="name">purchase.order.search.with.contract</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="contract_id" />
+            </field>
+            <group>
+                <filter
+                    domain="[]"
+                    name="contract_id"
+                    context="{'group_by':'contract_id'}"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>

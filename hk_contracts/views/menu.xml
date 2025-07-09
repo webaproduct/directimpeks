@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    <menuitem-->
+<!--        id="contract.sale_contract_manually_create_invoice_menu"-->
+<!--        parent="simbioz_fams_base.earnings_client_actions_menu"-->
+<!--        sequence="10"-->
+<!--    />-->
+<!--    <menuitem-->
+<!--        id="contract.purchase_contract_manually_create_invoice_menu"-->
+<!--        parent="simbioz_fams_base.expenses_actions_menu"-->
+<!--        sequence="10"-->
+<!--    />-->
+
+<!--    <menuitem-->
+<!--        id="contract.menu_contract_contract_customer"-->
+<!--        parent="simbioz_fams_base.earnings_client_catalogs_menu"-->
+<!--        sequence="10"-->
+<!--    />-->
+<!--    <menuitem-->
+<!--        id="contract.menu_contract_contract_supplier"-->
+<!--        parent="simbioz_fams_base.expenses_catalogs_menu"-->
+<!--        sequence="20"-->
+<!--    />-->
+    <menuitem
+        id="contract.menu_config_contract"
+        parent="account.menu_finance_configuration"
+        sequence="40"
+    />
+</odoo>

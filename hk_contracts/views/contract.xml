@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="contract_contract_form_view" model="ir.ui.view">
+        <field name="name">contract.contract form view (Simbioz)</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view" />
+        <field name="arch" type="xml">
+
+            <!-- <field name="group_id" position="attributes">
+                <attribute name="required">1</attribute>
+            </field> -->
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="contract_number" readonly="is_terminated" />
+                <field name="printable_title" readonly="is_terminated" />
+            </xpath>
+            <xpath expr="//group[@name='recurring_invoices']" position="before">
+                <group>
+                    <field name="contract_type" />
+                    <field name="is_not_recurrence" />
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='recurring_invoices']" position="attributes">
+                <attribute name="invisible">is_not_recurrence</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="simbioz_contract_form_view" model="ir.ui.view">
+        <field name="name">contract.contract.form  (Simbioz)</field>
+        <field name="model">contract.contract</field>
+        <field
+            name="inherit_id"
+            ref="contract_sale_generation.contract_contract_form_view_recurring_sale_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='recurring_invoices']" position="after">
+                <group
+                    name="recurring_type_new"
+                    invisible="is_not_recurrence"
+                    string="Recurring Type"
+                >
+                    <group>
+                        <field name="generation_type" />
+                    </group>
+                    <group>
+                        <field
+                            name="sale_autoconfirm"
+                            invisible="generation_type != 'sale'"
+                        />
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//group[@name='recurring_type']" position="attributes">
+                <attribute name="col" />
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <menuitem
+        id="menu_procurement_management_contract_name"
+        name="Contracts"
+        parent="purchase.menu_procurement_management"
+        action="contract.action_supplier_contract"
+        sequence="25"
+    />
+
+</odoo>

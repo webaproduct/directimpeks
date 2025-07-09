@@ -1,0 +1,172 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* simbioz_contracts
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-20 15:05+0000\n"
+"PO-Revision-Date: 2025-05-20 15:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_contract_abstract_contract
+msgid "Abstract Recurring Contract"
+msgstr "Анотація повторюваного договору"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_account_account
+msgid "Account"
+msgstr "Рахунок"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Шаблон плану рахунків"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_res_company
+msgid "Companies"
+msgstr "Компанії"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_res_config_settings
+msgid "Config Settings"
+msgstr "Налаштування"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_res_partner
+msgid "Contact"
+msgstr "Контакт"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_contract_contract
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_bank_statement_line__contract_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_move__contract_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_move_line__contract_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_payment__contract_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_payment_register__contract_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_purchase_order__contract_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_sale_order__contract_id
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.view_account_move_line_filter
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.view_account_payment_search_inherit
+msgid "Contract"
+msgstr "Договір"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_contract_contract__contract_number
+msgid "Contract Number"
+msgstr "Номер контракту"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_res_company__contract_plan_id
+#: model:ir.model.fields,field_description:simbioz_contracts.field_res_config_settings__contract_plan_id
+msgid "Contract Plan"
+msgstr "Аналітичний план для контрактів"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_move__is_contract_required
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_move_line__contract_required
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_payment__is_contract_required
+#: model:ir.model.fields,field_description:simbioz_contracts.field_purchase_order__is_contract_required
+#: model:ir.model.fields,field_description:simbioz_contracts.field_res_partner__is_contract_required
+#: model:ir.model.fields,field_description:simbioz_contracts.field_res_users__is_contract_required
+#: model:ir.model.fields,field_description:simbioz_contracts.field_sale_order__is_contract_required
+msgid "Contract Required"
+msgstr "Потрібен Контракт"
+
+#. module: simbioz_contracts
+#: model:ir.ui.menu,name:simbioz_contracts.menu_procurement_management_contract_name
+msgid "Contracts"
+msgstr "Контракти"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_purchase_order__is_contract_product
+#: model:ir.model.fields,field_description:simbioz_contracts.field_sale_order__is_contract_product
+msgid "Is Contract Product"
+msgstr "Є товари в Контракті"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_bank_statement_line__is_contract_required
+msgid "Is Contract Required"
+msgstr ""
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_contract_contract__is_not_recurrence
+#: model:ir.model.fields,field_description:simbioz_contracts.field_contract_line__is_not_recurrence
+#: model:ir.model.fields,field_description:simbioz_contracts.field_contract_recurrency_mixin__is_not_recurrence
+msgid "Is Not Recurrence"
+msgstr "Не повторюється"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_account_move
+msgid "Journal Entry"
+msgstr "Запис у журналі"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_account_move_line
+msgid "Journal Item"
+msgstr "Елемент журналу"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_account_payment
+msgid "Payments"
+msgstr "Платежі"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_contract_contract__printable_title
+msgid "Printable Title"
+msgstr "Назва для друку"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_purchase_order
+msgid "Purchase Order"
+msgstr "Замовлення на купівлю"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Рядок замовлення на купівлю"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_contract_recurrency_mixin
+msgid "Recurrency mixin for contract models"
+msgstr "Повторюваний mixin для моделей логовору"
+
+#. module: simbioz_contracts
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.simbioz_contract_form_view
+msgid "Recurring Type"
+msgstr "Тип, що повторюється"
+
+#. module: simbioz_contracts
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.purchase_order_form_inherit_contract
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.view_order_form_inherit_contract
+msgid "Refresh Lines by Contract"
+msgstr "Оновити рядки за контрактом"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_account_payment_register
+msgid "Register Payment"
+msgstr "Зареєструвати платіж"
+
+#. module: simbioz_contracts
+#: model_terms:ir.ui.view,arch_db:simbioz_contracts.view_partner_form_contract
+msgid "Sale Contracts"
+msgstr "Контракти продажу"
+
+#. module: simbioz_contracts
+#: model:ir.model,name:simbioz_contracts.model_sale_order
+msgid "Sales Order"
+msgstr "Замовлення на продаж"
+
+#. module: simbioz_contracts
+#: model:ir.model.fields,field_description:simbioz_contracts.field_account_account__l10n_ua_track_by_contract
+msgid "Track by contract"
+msgstr "Облік по договорах"
