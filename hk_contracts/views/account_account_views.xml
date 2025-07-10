@@ -8,8 +8,9 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page name="tracking_settings" string="Tracking settings">
-                    <group name="main_group" />
+                    <group name="main_group">
                         <field name="l10n_ua_track_by_contract" />
+                    </group>
                 </page>
             </notebook>
         </field>
