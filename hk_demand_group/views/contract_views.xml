@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Розширення представлення форми контракту -->
+    <record id="contract_contract_form_view_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">contract.contract.form.inherit.hk.demand.group</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Додаємо поле contragent_id після поля partner_id -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="contragent_id" readonly="is_terminated"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

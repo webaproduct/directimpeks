@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Розширення представлення форми локації -->
+    <record id="view_location_form_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.location.form.inherit.hk.demand.group</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <!-- Додаємо поле internal_owner_id до групи "Additional Information" -->
+            <xpath expr="//group[@name='additional_info']" position="inside">
+                <field name="internal_owner_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
