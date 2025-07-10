@@ -13,6 +13,7 @@
         "stock",
         "purchase",
         "warehouse_stock_request_app",
+        "contract",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -23,6 +24,9 @@
         "views/stock_move_views.xml",
         "views/sale_views.xml",
         "views/stock_lot_views.xml",
+        "views/stock_location_views.xml",
+        "views/contract_views.xml",
+        "views/res_config_settings_views.xml",
     ],
     "installable": True,
     "auto_install": False,
