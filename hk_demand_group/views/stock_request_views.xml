@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Додаємо поле до форми запиту на склад -->
+    <record id="view_stock_request_form_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.request.form.view.inherit.hk.demand.group</field>
+        <field name="model">stock.request</field>
+        <field name="inherit_id" ref="warehouse_stock_request_app.wh_stock_request_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="demand_group_id"/>
+            </xpath>
+            
+            <!-- Перекладаємо кнопку "Create Picking" на українську мову -->
+            <xpath expr="//button[@name='action_create_picking']" position="attributes">
+                <attribute name="string">Узгодити</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
