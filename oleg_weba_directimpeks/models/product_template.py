@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import models, fields, _, api
 
 
 class ProductTemplate(models.Model):
@@ -33,6 +33,21 @@ class ProductTemplate(models.Model):
     meta_description = fields.Char(string="Meta description", translate=True)
     short_description = fields.Char(string="Short description", translate=True)
     description = fields.Char(string="Description", translate=True)
+
+    list_price = fields.Float(
+        compute="_compute_list_price", inverse="_inverse_list_price", store=True)
+    markup_coefficient = fields.Float(string="Markup Coefficient")
+
+    @api.depends("markup_coefficient", "seller_ids")
+    def _compute_list_price(self):
+        for rec in self:
+            if rec.markup_coefficient and rec.seller_ids:
+                last_price = rec.seller_ids[0].price
+                markup = last_price * (rec.markup_coefficient / 100)
+                rec.list_price = last_price + markup
+
+    def _inverse_list_price(self):
+        pass
 
     # <---------For customization pricelist----------->
     def _compute_item_count(self):

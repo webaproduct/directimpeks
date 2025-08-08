@@ -39,6 +39,16 @@
                     </group>
                 </group>
             </xpath>
+
+            <xpath expr="//label[@for='list_price']" position="before">
+                <label for="markup_coefficient" groups="base.group_system"/>
+                <div class="o_row" groups="base.group_system">
+                    <span>
+                        <field name="markup_coefficient" class="oe_inline"/>
+                        %
+                    </span>
+                </div>
+            </xpath>
         </field>
     </record>
 
