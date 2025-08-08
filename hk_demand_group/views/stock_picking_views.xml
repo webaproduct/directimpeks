@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Додаємо поля до форми переміщення -->
+    <record id="view_picking_form_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.hk.demand.group</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Додаємо поле demand_group_id до форми переміщення -->
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="demand_group_id"/>
+            </xpath>
+            
+            <!-- Додаємо поле internal_owner_id до форми переміщення з умовами видимості та редагування -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="internal_owner_id"/>
+            </xpath>
+            
+            <!-- Робимо поле group_id доступним для редагування -->
+            <xpath expr="//field[@name='group_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

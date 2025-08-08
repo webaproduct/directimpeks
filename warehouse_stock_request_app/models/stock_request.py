@@ -102,8 +102,8 @@ class StockRequest(models.Model):
 						'partner_id': record.partner_id.id,
 						'picking_type_id' : record.picking_type_id.id,
 						'origin': self.name,
-						'location_id': record.delivery_location_id.id,
-						'location_dest_id': record.stock_location_id.id,
+						'location_id': record.stock_location_id.id,
+						'location_dest_id': record.delivery_location_id.id,
 						'move_ids_without_package': picking_line,
 					}
 				for lines in self.stock_line_ids:
@@ -111,8 +111,8 @@ class StockRequest(models.Model):
 								'product_id': lines.product_id.id,
 								'name': lines.description,
 								'product_uom_qty': lines.product_qty,
-								'location_id': record.delivery_location_id.id,
-								'location_dest_id': record.stock_location_id.id,
+								'location_id': record.stock_location_id.id,
+								'location_dest_id': record.delivery_location_id.id,
 								'product_uom': lines.product_id.uom_id.id
 								})))
 				picking_id = self.env['stock.picking'].create(picking_data)

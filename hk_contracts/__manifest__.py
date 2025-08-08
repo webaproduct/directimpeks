@@ -3,7 +3,7 @@
     "summary": "Contract's requisites base module (SIMBIOZ, Hotkey) ",
     "version": "17.0.2.4.0",
     "license": "LGPL-3",
-    "author": "Simbioz Holding, Zhmyhova T.N., Pavlo Zub",
+    "author": "Timkovych V, Zhmyhova T.N., Pavlo Zub",
     "depends": [
         "contract_sale_generation",
         "contract_purchase_generation",

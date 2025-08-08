@@ -2,7 +2,7 @@
     "name": "Lot costing",
     "summary": """Use the cost of the lot in moves""",
     "category": "Warehouse",
-    "author": "Simbioz Holding, Borovlev A. S., Hotkey, Pavlo Zub",
+    "author": "Timkovych V, Borovlev A.S., Pavlo Zub",
     "maintainer": "Hotkey",
     "website": "https://hotkey.ua",
     "version": "17.0.2.0.0",
