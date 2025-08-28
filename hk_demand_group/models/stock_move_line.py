@@ -4,6 +4,17 @@ from odoo import api, fields, models
 class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
 
+    demand_group_id = fields.Many2one(
+        'demand.group', 
+        string='Група попиту',
+        related='move_id.demand_group_id',         store=True
+    )
+    
+    buyer_id = fields.Many2one(
+        'res.partner', 
+        string='Отримувач', 
+        related='demand_group_id.partner_id'
+    )
     def _prepare_new_lot_vals(self):
         """Розширення методу створення лотів для заповнення додаткових полів"""
         vals = super(StockMoveLine, self)._prepare_new_lot_vals()

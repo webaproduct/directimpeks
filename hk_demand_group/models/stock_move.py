@@ -17,6 +17,17 @@ class StockMove(models.Model):
         related='demand_group_id.partner_id'
     )
     
+    def _update_reserved_quantity(self, need, location_id, quant_ids=None, lot_id=None, package_id=None, owner_id=None, strict=True):
+        """Розширення стандартного методу для передачі demand_group_id у контекст при резервуванні запасів"""
+        # Якщо є demand_group_id, передаємо його в контекст
+        if self.demand_group_id:
+            return super(StockMove, self.with_context(demand_group_id=self.demand_group_id.id))._update_reserved_quantity(
+                need, location_id, quant_ids=quant_ids, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict
+            )
+        return super()._update_reserved_quantity(
+            need, location_id, quant_ids=quant_ids, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict
+        )
+    
     def _action_done(self, cancel_backorder=False):
         """Розширення стандартного методу для створення бухгалтерських проводок
         при переведенні stock.move у статус Done"""

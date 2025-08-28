@@ -14,7 +14,7 @@ class StockRequest(models.Model):
             if not request.demand_group_id:
                 # Створюємо новий запис demand.group
                 vals = {
-                    'name': request.name,
+                    'name': f'{request.partner_id.name}/{request.name}',
                     'partner_id': request.partner_id.id,
                     'stock_request_id': request.id,
                 }
@@ -22,7 +22,13 @@ class StockRequest(models.Model):
                 
                 # Зберігаємо посилання на створену групу
                 request.demand_group_id = demand_group.id
-        
+
+            # # Оновлюємо поля у переміщеннях, створених на підставі цього замовлення
+            # for picking in request.picking_ids:
+            #     picking.demand_group_id = demand_group.id
+            #     # Оновлюємо поля у пов'язаних stock.move
+            #     for move in picking.move_ids_without_package:
+            #         move.demand_group_id = demand_group.id
         return res
 
     def action_create_picking(self):
@@ -53,8 +59,18 @@ class StockRequest(models.Model):
                     })))
 
                 picking_id = self.env['stock.picking'].create(picking_data)
+
+                # додаємо групу
+                for move in picking_id.move_ids_without_package:
+                    move.demand_group_id = record.demand_group_id.id
+
                 record.write({
                     'states': 'approve',
                     'approved_by': self.env.user,
                 })
 
+    def copy(self, default=None):
+        """При копіюванні замовлення не копіюємо значення demand_group_id"""
+        default = dict(default or {})
+        default['demand_group_id'] = False
+        return super(StockRequest, self).copy(default)

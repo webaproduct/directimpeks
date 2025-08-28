@@ -7,14 +7,16 @@ class DemandGroup(models.Model):
     _description = 'Група замовлень'
     _order = 'id desc'
 
-    name = fields.Char(string='Назва', required=True, copy=False, default=lambda self: _('Нова'))
+    name = fields.Char(string='Назва', required=True, copy=False, default=lambda self: _('Нова'), store=True, compute='_compute_name')
     active = fields.Boolean(default=True)
     
     # Зв'язки з sale.order або stock.request
     sale_order_id = fields.Many2one('sale.order', string='Замовлення на продаж')
     stock_request_id = fields.Many2one('stock.request', string='Запит на склад')
     partner_id = fields.Many2one('res.partner', string='Партнер')
-    
+
+    def _compute_name(self):
+        self.name =  f'{self.partner_id}/{self.sale_order_id.name if self.sale_order_id else self.stock_request_id.name if self.stock_request_id else ""}'
     
     # @api.constrains('sale_order_id', 'stock_request_id')
     # def _check_relation_type(self):

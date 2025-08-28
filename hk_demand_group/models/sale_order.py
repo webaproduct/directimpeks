@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
             if not order.demand_group_id:
                 # Створюємо новий запис demand.group
                 vals = {
-                    'name': order.name,
+                    'name': f'{order.partner_id.name}/{order.name}',
                     'partner_id': order.partner_id.id,
                     'sale_order_id': order.id,
                 }
@@ -33,3 +33,9 @@ class SaleOrder(models.Model):
                         move.demand_group_id = demand_group.id
         
         return res
+
+    def copy(self, default=None):
+        """При копіюванні замовлення не копіюємо значення demand_group_id"""
+        default = dict(default or {})
+        default['demand_group_id'] = False
+        return super(SaleOrder, self).copy(default)
