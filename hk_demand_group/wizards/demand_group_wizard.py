@@ -17,8 +17,10 @@ class DemandGroupWizard(models.TransientModel):
         """Генерація звіту на основі обраних параметрів"""
         self.ensure_one()
         
+        date_yesterday = fields.Date.today() - timedelta(days=1)
         # Очищення попередніх записів
-        self.line_ids.unlink()
+        self.env["demand.group.wizard.line"].sudo().search([("create_date", "<=", date_yesterday)]).unlink()
+        # self.line_ids.unlink()
         
         # Отримання підтверджених замовлень на продаж за період
         sale_orders = self.env['sale.order'].search([
@@ -137,6 +139,7 @@ class DemandGroupWizardLine(models.TransientModel):
     _name = 'demand.group.wizard.line'
     _description = 'Лінія аналізу потреб'
     
+    date = fields.Date(readonly=True, default=datetime.today())
     wizard_id = fields.Many2one('demand.group.wizard', string='Майстер', ondelete='cascade')
     product_id = fields.Many2one('product.product', string='Товар', required=True)
     demand_group_id = fields.Many2one('demand.group', string='Група попиту')
