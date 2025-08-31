@@ -27,11 +27,12 @@ class DemandGroupWizard(models.TransientModel):
             ('date_order', '<=', self.date_to),
         ])
         
-        # Отримання підтверджених запитів на склад за період
+        # Отримання підтверджених запитів на склад за період з прапорцем "Для закупівлі"
         stock_requests = self.env['stock.request'].search([
             ('states', 'in', ['approve', 'receive']),
             ('requested_date', '>=', self.date_from),
             ('requested_date', '<=', self.date_to),
+            ('for_purchase', '=', True),
         ])
         
         # Словник для збору даних по продуктах
