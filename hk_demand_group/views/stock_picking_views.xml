@@ -20,6 +20,30 @@
             <xpath expr="//field[@name='group_id']" position="attributes">
                 <attribute name="readonly">0</attribute>
             </xpath>
+            
+            <!-- Додаємо колонку demand_group_id до списку stock.move на формі stock.picking -->
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom']" position="after">
+                <field name="demand_group_id" optional="show"/>
+                <field name="buyer_id" optional="hide"/>
+            </xpath>
+            
+<!--            &lt;!&ndash; Додаємо колонку demand_group_id до списку stock.move.line на формі stock.picking &ndash;&gt;-->
+<!--            <xpath expr="//page[@name='operations']//field[@name='package_level_ids']" position="before">-->
+<!--                <field name="move_line_ids_without_package" readonly="state == 'done' and is_locked" context="{'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">-->
+<!--                    <tree editable="bottom" decoration-muted="state == 'done' and is_locked == True">-->
+<!--                        <field name="product_id" readonly="state == 'done' and is_locked" domain="[('company_id', '=', company_id)]"/>-->
+<!--                        <field name="lot_id" groups="stock.group_production_lot"/>-->
+<!--                        <field name="lot_name" groups="stock.group_production_lot"/>-->
+<!--                        <field name="quantity" string="Done"/>-->
+<!--                        <field name="product_uom_id" groups="uom.group_uom"/>-->
+<!--                        <field name="demand_group_id" optional="show"/>-->
+<!--                        <field name="buyer_id" optional="hide"/>-->
+<!--                        <field name="state" invisible="1"/>-->
+<!--                        <field name="is_locked" invisible="1"/>-->
+<!--                        <field name="company_id" invisible="1"/>-->
+<!--                    </tree>-->
+<!--                </field>-->
+<!--            </xpath>-->
         </field>
     </record>
 </odoo>

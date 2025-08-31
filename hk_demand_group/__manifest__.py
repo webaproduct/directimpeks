@@ -23,6 +23,7 @@
         "views/stock_picking_views.xml",
         "views/stock_request_views.xml",
         "views/stock_move_views.xml",
+        "views/stock_move_line_views.xml",
         "views/sale_views.xml",
         "views/stock_lot_views.xml",
         "views/stock_location_views.xml",
