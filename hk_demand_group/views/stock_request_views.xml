@@ -10,6 +10,10 @@
                 <field name="demand_group_id"/>
             </xpath>
             
+            <xpath expr="//field[@name='approved_by']" position="after">
+                <field name="for_purchase"/>
+            </xpath>
+            
             <!-- Перекладаємо кнопку "Create Picking" на українську мову -->
             <xpath expr="//button[@name='action_create_picking']" position="attributes">
                 <attribute name="string">Узгодити</attribute>

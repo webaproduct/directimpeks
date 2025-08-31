@@ -5,6 +5,8 @@ class StockRequest(models.Model):
     _inherit = 'stock.request'
 
     demand_group_id = fields.Many2one('demand.group', string='Група попиту')
+    for_purchase = fields.Boolean(string='Для закупівлі', default=True, 
+                                 help='Позначте, якщо запит потрібно враховувати при формуванні закупівель')
     
     def action_confirm(self):
         """Розширення стандартного методу підтвердження для створення групи попиту"""
@@ -70,7 +72,8 @@ class StockRequest(models.Model):
                 })
 
     def copy(self, default=None):
-        """При копіюванні замовлення не копіюємо значення demand_group_id"""
+        """При копіюванні замовлення не копіюємо значення demand_group_id та for_purchase"""
         default = dict(default or {})
         default['demand_group_id'] = False
+        default['for_purchase'] = False
         return super(StockRequest, self).copy(default)
