@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_demand_group_user,demand.group.user,model_demand_group,base.group_user,1,1,1,0
 access_demand_group_manager,demand.group.manager,model_demand_group,base.group_system,1,1,1,1
+access_demand_group_wizard_user,demand.group.wizard.user,model_demand_group_wizard,purchase.group_purchase_user,1,1,1,1
+access_demand_group_wizard_line_user,demand.group.wizard.line.user,model_demand_group_wizard_line,purchase.group_purchase_user,1,1,1,1

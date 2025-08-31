@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Форма wizard'а -->
+    <record id="view_demand_group_wizard_form" model="ir.ui.view">
+        <field name="name">demand.group.wizard.form</field>
+        <field name="model">demand.group.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Аналіз потреб">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="consider_ordered"/>-->
+<!--                        </group>-->
+                    </group>
+                    <notebook invisible="1">
+                        <page string="Лінії" name="lines">
+                            <field name="line_ids">
+                                <tree>
+                                    <field name="product_id"/>
+                                    <field name="demand_group_id"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="stock_request_id"/>
+                                    <field name="quantity_demand"/>
+                                    <field name="quantity_purchase"/>
+                                    <field name="quantity_to_order"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_generate_report" string="Сформувати звіт" type="object" class="btn-primary"/>
+                    <button string="Скасувати" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Дерево для ліній wizard'а -->
+    <record id="view_demand_group_wizard_line_tree" model="ir.ui.view">
+        <field name="name">demand.group.wizard.line.tree</field>
+        <field name="model">demand.group.wizard.line</field>
+        <field name="arch" type="xml">
+            <tree string="Аналіз потреб" create="0" delete="0" multi_edit="1">
+                <field name="product_id"/>
+                <field name="demand_group_id"/>
+                <field name="sale_order_id"/>
+                <field name="stock_request_id"/>
+                <field name="quantity_demand"/>
+                <field name="quantity_purchase"/>
+                <field name="quantity_to_order"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Форма для ліній wizard'а -->
+    <record id="view_demand_group_wizard_line_form" model="ir.ui.view">
+        <field name="name">demand.group.wizard.line.form</field>
+        <field name="model">demand.group.wizard.line</field>
+        <field name="arch" type="xml">
+            <form string="Аналіз потреб" create="0" delete="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="demand_group_id" readonly="1"/>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="stock_request_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="quantity_demand" readonly="1"/>
+                            <field name="quantity_purchase" readonly="1"/>
+                            <field name="quantity_to_order"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Пошук для ліній wizard'а -->
+    <record id="view_demand_group_wizard_line_search" model="ir.ui.view">
+        <field name="name">demand.group.wizard.line.search</field>
+        <field name="model">demand.group.wizard.line</field>
+        <field name="arch" type="xml">
+            <search string="Аналіз потреб">
+                <field name="product_id"/>
+                <field name="demand_group_id"/>
+                <field name="sale_order_id"/>
+                <field name="stock_request_id"/>
+                <filter string="Потрібно замовити" name="filter_to_order" domain="[('quantity_to_order', '>', 0)]"/>
+                <filter string="Є потреба" name="filter_demand" domain="[('quantity_demand', '>', 0)]"/>
+                <group expand="0" string="Групувати за">
+                    <filter string="Товар" name="group_by_product" context="{'group_by': 'product_id'}"/>
+                    <filter string="Група попиту" name="group_by_demand_group" context="{'group_by': 'demand_group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Дія для відкриття wizard'а -->
+    <record id="action_demand_group_wizard" model="ir.actions.act_window">
+        <field name="name">Аналіз потреб</field>
+        <field name="res_model">demand.group.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Дія для відкриття списку ліній -->
+    <record id="action_demand_group_wizard_line" model="ir.actions.act_window">
+        <field name="name">Аналіз потреб</field>
+        <field name="res_model">demand.group.wizard.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Server Action для створення Purchase Order -->
+    <record id="action_create_purchase_order" model="ir.actions.server">
+        <field name="name">Створити замовлення на закупівлю</field>
+        <field name="model_id" ref="model_demand_group_wizard_line"/>
+        <field name="binding_model_id" ref="model_demand_group_wizard_line"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_create_purchase_order()</field>
+    </record>
+
+    <!-- Пункт меню для відкриття wizard'а -->
+    <menuitem id="menu_demand_group_wizard"
+              name="Аналіз потреб"
+              parent="purchase.menu_procurement_management"
+              action="action_demand_group_wizard"
+              sequence="20"/>
+</odoo>
