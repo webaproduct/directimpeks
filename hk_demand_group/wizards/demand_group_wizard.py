@@ -92,6 +92,12 @@ class DemandGroupWizard(models.TransientModel):
             # Розрахунок кількості для замовлення
             quantity_to_order = data['quantity_demand'] - data['quantity_purchase']
             
+            # Отримання основного постачальника для товару
+            product = self.env['product.product'].browse(data['product_id'])
+            supplier_id = False
+            if product.seller_ids:
+                supplier_id = product.seller_ids[0].partner_id.id
+            
             # Створюємо запис тільки якщо є потреба
             if quantity_to_order > 0 or data['quantity_demand'] > 0:
                 lines_to_create.append({
@@ -103,6 +109,7 @@ class DemandGroupWizard(models.TransientModel):
                     'quantity_demand': data['quantity_demand'],
                     'quantity_purchase': data['quantity_purchase'],
                     'quantity_to_order': quantity_to_order,
+                    'supplier_id': supplier_id,
                 })
         
         # Створення записів
@@ -116,7 +123,11 @@ class DemandGroupWizard(models.TransientModel):
             'res_model': 'demand.group.wizard.line',
             'view_mode': 'tree,form',
             'domain': [('wizard_id', '=', self.id)],
-            'context': {'search_default_filter_to_order': 1},
+            'context': {
+                'search_default_group_by_supplier': 1,
+                'search_default_group_by_demand_group': 1,
+                'search_default_filter_to_order': 1
+            },
         }
         return action
 
@@ -133,6 +144,7 @@ class DemandGroupWizardLine(models.TransientModel):
     quantity_demand = fields.Float(string='Кількість потреби', digits='Product Unit of Measure')
     quantity_purchase = fields.Float(string='Кількість закупівлі', digits='Product Unit of Measure')
     quantity_to_order = fields.Float(string='Кількість до замовлення', digits='Product Unit of Measure')
+    supplier_id = fields.Many2one('res.partner', string='Постачальник')
     
     def action_create_purchase_order(self):
         """Створення замовлення на закупівлю на основі обраних записів"""
@@ -145,21 +157,31 @@ class DemandGroupWizardLine(models.TransientModel):
             if line.quantity_to_order <= 0:
                 continue
                 
-            # Отримання основного постачальника для товару
-            seller = line.product_id.seller_ids and line.product_id.seller_ids[0]
-            if not seller:
-                raise UserError(_('Для товару %s не вказано постачальника') % line.product_id.display_name)
+            # Використовуємо вже визначеного постачальника або отримуємо основного
+            supplier_id = line.supplier_id.id
+            if not supplier_id:
+                seller = line.product_id.seller_ids and line.product_id.seller_ids[0]
+                if not seller:
+                    raise UserError(_('Для товару %s не вказано постачальника') % line.product_id.display_name)
+                supplier_id = seller.partner_id.id
             
-            supplier_id = seller.partner_id.id
             if supplier_id not in supplier_products:
                 supplier_products[supplier_id] = []
+            
+            # Отримання ціни від постачальника
+            seller = self.env['product.supplierinfo'].search([
+                ('partner_id', '=', supplier_id),
+                ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id)
+            ], limit=1)
+            
+            price_unit = seller.price if seller else 0.0
             
             supplier_products[supplier_id].append({
                 'product_id': line.product_id.id,
                 'name': line.product_id.display_name,
                 'product_qty': line.quantity_to_order,
                 'product_uom': line.product_id.uom_po_id.id,
-                'price_unit': seller.price,
+                'price_unit': price_unit,
                 'date_planned': fields.Datetime.now(),
                 'demand_group_id': line.demand_group_id.id if line.demand_group_id else False,
             })
