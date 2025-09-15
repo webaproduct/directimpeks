@@ -10,6 +10,7 @@
                 <field name="internal_owner_id"/>
                 <field name="purchase_order_id"/>
                 <field name="demand_group_id"/>
+                <field name="buyer_id"/>
             </xpath>
         </field>
     </record>
@@ -24,6 +25,7 @@
                 <field name="internal_owner_id"/>
                 <field name="purchase_order_id"/>
                 <field name="demand_group_id"/>
+                <field name="buyer_id"/>
             </xpath>
         </field>
     </record>

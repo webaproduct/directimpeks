@@ -10,6 +10,27 @@ class StockQuant(models.Model):
         string='Група попиту',
         related='lot_id.demand_group_id',         store=True
     )
+    
+    internal_owner_id = fields.Many2one(
+        'res.partner',
+        string='Власник товару',
+        related='lot_id.internal_owner_id',
+        store=True
+    )
+    
+    purchase_order_id = fields.Many2one(
+        'purchase.order',
+        string='Замовлення на купівлю',
+        related='lot_id.purchase_order_id',
+        store=True
+    )
+    
+    buyer_id = fields.Many2one(
+        'res.partner',
+        string='Отримувач',
+        related='lot_id.buyer_id',
+        store=True
+    )
 
     def _get_reserve_quantity(self, product_id, location_id, quantity, product_packaging_id=None, uom_id=None, lot_id=None, package_id=None, owner_id=None, strict=False):
         """Розширення стандартного методу для врахування demand_group_id при резервуванні запасів.

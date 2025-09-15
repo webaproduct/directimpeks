@@ -27,6 +27,7 @@
         "views/sale_views.xml",
         "views/stock_lot_views.xml",
         "views/stock_location_views.xml",
+        "views/stock_quant_views.xml",
         "views/contract_views.xml",
         "views/res_config_settings_views.xml",
     ],

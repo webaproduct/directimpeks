@@ -8,12 +8,12 @@
         <field name="arch" type="xml">
             <!-- Додаємо поле demand_group_id до форми переміщення -->
             <xpath expr="//field[@name='origin']" position="after">
-                <field name="demand_group_id"/>
+                <field name="demand_group_id"  invisible="picking_type_code == 'incoming'" />
             </xpath>
             
             <!-- Додаємо поле internal_owner_id до форми переміщення з умовами видимості та редагування -->
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="internal_owner_id"/>
+                <field name="internal_owner_id" invisible="picking_type_code != 'incoming'" readonly="state in ['cancel', 'done']"/>
             </xpath>
             
             <!-- Робимо поле group_id доступним для редагування -->

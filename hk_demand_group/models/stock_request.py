@@ -7,36 +7,23 @@ class StockRequest(models.Model):
     demand_group_id = fields.Many2one('demand.group', string='Група попиту')
     for_purchase = fields.Boolean(string='Для закупівлі', default=True, 
                                  help='Позначте, якщо запит потрібно враховувати при формуванні закупівель')
-    
-    def action_confirm(self):
-        """Розширення стандартного методу підтвердження для створення групи попиту"""
-        res = super(StockRequest, self).action_confirm()
-        
-        for request in self:
-            if not request.demand_group_id:
-                # Створюємо новий запис demand.group
-                vals = {
-                    'name': f'{request.partner_id.name}/{request.name}',
-                    'partner_id': request.partner_id.id,
-                    'stock_request_id': request.id,
-                }
-                demand_group = self.env['demand.group'].create(vals)
-                
-                # Зберігаємо посилання на створену групу
-                request.demand_group_id = demand_group.id
 
-            # # Оновлюємо поля у переміщеннях, створених на підставі цього замовлення
-            # for picking in request.picking_ids:
-            #     picking.demand_group_id = demand_group.id
-            #     # Оновлюємо поля у пов'язаних stock.move
-            #     for move in picking.move_ids_without_package:
-            #         move.demand_group_id = demand_group.id
-        return res
 
     def action_create_picking(self):
         """Розширення стандартного методу створення переміщення"""
         if self.env.user.has_group('stock.group_stock_manager'):
             for record in self:
+                if not record.demand_group_id and record.for_purchase:
+                    # Створюємо новий запис demand.group
+                    vals = {
+                        'name': f'{record.partner_id.name}/{record.name}',
+                        'partner_id': record.partner_id.id,
+                        'stock_request_id': record.id,
+                    }
+                    demand_group = self.env['demand.group'].create(vals)
+
+                    # Зберігаємо посилання на створену групу
+                    record.demand_group_id = demand_group.id
                 picking_line = []
                 picking_data = {
                     'partner_id': record.partner_id.id,
@@ -72,8 +59,24 @@ class StockRequest(models.Model):
                 })
 
     def copy(self, default=None):
-        """При копіюванні замовлення не копіюємо значення demand_group_id та for_purchase"""
+        """При копіюванні замовлення копіюємо рядки, але не копіюємо значення demand_group_id та for_purchase"""
         default = dict(default or {})
         default['demand_group_id'] = False
         default['for_purchase'] = False
-        return super(StockRequest, self).copy(default)
+        
+        # Створюємо копію запису
+        new_request = super(StockRequest, self).copy(default)
+        
+        # Якщо рядки не скопіювалися автоматично, копіюємо їх вручну
+        if not new_request.stock_line_ids and self.stock_line_ids:
+            for line in self.stock_line_ids:
+                line_vals = {
+                    'stock_request_id': new_request.id,
+                    'product_id': line.product_id.id,
+                    'description': line.description,
+                    'product_qty': line.product_qty,
+                    'product_uom': line.product_uom.id,
+                }
+                self.env['stock.request.lines'].create(line_vals)
+        
+        return new_request

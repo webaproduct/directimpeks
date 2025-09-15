@@ -144,7 +144,7 @@ class DemandGroupWizardLine(models.TransientModel):
     product_id = fields.Many2one('product.product', string='Товар', required=True)
     demand_group_id = fields.Many2one('demand.group', string='Група попиту')
     sale_order_id = fields.Many2one('sale.order', string='Замовлення на продаж')
-    stock_request_id = fields.Many2one('stock.request', string='Запит на склад')
+    stock_request_id = fields.Many2one('stock.request', string='Замовлення магазину')
     quantity_demand = fields.Float(string='Кількість потреби', digits='Product Unit of Measure')
     quantity_purchase = fields.Float(string='Кількість закупівлі', digits='Product Unit of Measure')
     quantity_to_order = fields.Float(string='Кількість до замовлення', digits='Product Unit of Measure')

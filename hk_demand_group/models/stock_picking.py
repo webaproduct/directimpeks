@@ -44,3 +44,27 @@ class StockPicking(models.Model):
                     move.demand_group_id = picking.demand_group_id.id
         
         return super(StockPicking, self).button_validate()
+        
+    def copy(self, default=None):
+        """
+        Розширення стандартного методу копіювання для забезпечення копіювання поля demand_group_id
+        в рядках stock.move
+        """
+        self.ensure_one()
+        default = dict(default or {})
+        
+        # Створюємо копію переміщення
+        new_picking = super(StockPicking, self).copy(default)
+        
+        # Копіюємо поле demand_group_id в рядках stock.move
+        if self.demand_group_id and new_picking.demand_group_id:
+            for move in new_picking.move_ids_without_package:
+                move.demand_group_id = new_picking.demand_group_id.id
+        
+        # Копіюємо поле internal_owner_id в рядках stock.move
+        if self.internal_owner_id and new_picking.internal_owner_id:
+            for move in new_picking.move_ids_without_package:
+                if hasattr(move, 'internal_owner_id'):
+                    move.internal_owner_id = new_picking.internal_owner_id.id
+        
+        return new_picking
