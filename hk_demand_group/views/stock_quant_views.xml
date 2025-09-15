@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Додаємо поля до пошуку stock.quant -->
+    <record id="quant_search_view_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.quant.search.inherit.hk.demand.group</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.quant_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_id']" position="after">
+                <field name="internal_owner_id"/>
+                <field name="purchase_order_id"/>
+                <field name="demand_group_id"/>
+                <field name="buyer_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='Lot_Serial_number']" position="after">
+                <filter string="Власник товару" name="internal_owner_group" domain="[]" context="{'group_by': 'internal_owner_id'}"/>
+                <filter string="Замовлення на купівлю" name="purchase_order_group" domain="[]" context="{'group_by': 'purchase_order_id'}"/>
+                <filter string="Група попиту" name="demand_group" domain="[]" context="{'group_by': 'demand_group_id'}"/>
+                <filter string="Отримувач" name="buyer_group" domain="[]" context="{'group_by': 'buyer_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Додаємо поля до дерева stock.quant -->
+    <record id="view_stock_quant_tree_editable_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.quant.tree.editable.inherit.hk.demand.group</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_id']" position="after">
+                <field name="internal_owner_id" optional="show"/>
+                <field name="purchase_order_id" optional="hide"/>
+                <field name="demand_group_id" optional="show"/>
+                <field name="buyer_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Додаємо поля до форми stock.quant -->
+    <record id="view_stock_quant_form_editable_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.quant.form.editable.inherit.hk.demand.group</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_form_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="internal_owner_id"/>
+                <field name="purchase_order_id"/>
+                <field name="demand_group_id"/>
+                <field name="buyer_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Додаємо поля до інвентаризаційного дерева stock.quant -->
+    <record id="view_stock_quant_tree_inventory_editable_inherit_hk_demand_group" model="ir.ui.view">
+        <field name="name">stock.quant.inventory.tree.editable.inherit.hk.demand.group</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="internal_owner_id" optional="show"/>
+                <field name="purchase_order_id" optional="hide"/>
+                <field name="demand_group_id" optional="show"/>
+                <field name="buyer_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
