@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class StockRequest(models.Model):
@@ -7,6 +8,15 @@ class StockRequest(models.Model):
     demand_group_id = fields.Many2one('demand.group', string='Група попиту')
     for_purchase = fields.Boolean(string='Для закупівлі', default=True, 
                                  help='Позначте, якщо запит потрібно враховувати при формуванні закупівель')
+
+    # Перевизначаємо поле states, щоб додати статус cancelled
+    states = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirmed', 'Confirmed'),
+        ('approve', 'Approved'),
+        ('receive', 'Received'),
+        ('cancelled', 'Cancelled')],
+        string='Status', readonly=True, copy=False, index=True, tracking=True, default='draft')
 
 
     def action_create_picking(self):
@@ -80,3 +90,44 @@ class StockRequest(models.Model):
                 self.env['stock.request.lines'].create(line_vals)
         
         return new_request
+        
+    def action_cancel(self):
+        """Відміна запиту на склад та пов'язаних переміщень"""
+        for request in self:
+            # Перевіряємо, чи є пов'язані переміщення
+            pickings = self.env['stock.picking'].search([('origin', '=', request.name)])
+            
+            # Перевіряємо, чи всі переміщення можна відмінити
+            validated_pickings = pickings.filtered(lambda p: p.state == 'done')
+            if validated_pickings:
+                raise UserError(_(
+                    "Неможливо відмінити запит, оскільки деякі пов'язані переміщення вже підтверджені. "
+                    "Підтверджені переміщення: %s"
+                ) % ", ".join(validated_pickings.mapped('name')))
+            
+            # Відміняємо всі переміщення, які ще не підтверджені
+            for picking in pickings.filtered(lambda p: p.state != 'done'):
+                picking.action_cancel()
+            
+            # Змінюємо статус запиту на cancelled
+            request.write({'states': 'cancelled'})
+            
+    def action_draft(self):
+        """Повернення запиту на склад до статусу draft"""
+        for request in self:
+            # Перевіряємо, чи є пов'язані переміщення
+            pickings = self.env['stock.picking'].search([('origin', '=', request.name)])
+            
+            # Перевіряємо, чи всі переміщення відмінені
+            active_pickings = pickings.filtered(lambda p: p.state != 'cancel')
+            if active_pickings:
+                raise UserError(_(
+                    "Неможливо повернути запит до статусу чернетки, оскільки є активні пов'язані переміщення. "
+                    "Спочатку відмініть всі пов'язані переміщення."
+                ))
+            
+            # Змінюємо статус запиту на draft
+            request.write({
+                'states': 'draft',
+                'approved_by': False,  # Скидаємо поле approved_by
+            })
