@@ -1,6 +1,6 @@
 {
     "name": "Hotkey demand group",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.0.2",
     "category": "Accounting/Accounting",
     "license": "LGPL-3",
     "author": "Pavlo Zub",
