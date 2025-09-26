@@ -1,0 +1,494 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * hk_demand_group
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-26 15:35+0000\n"
+"PO-Revision-Date: 2025-09-26 19:33+0300\n"
+"Last-Translator: \n"
+"Language-Team: Ukrainian\n"
+"Language: uk_UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__active
+msgid "Active"
+msgstr "Активний"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_stock_request_form_inherit_hk_demand_group
+msgid "Approve"
+msgstr "Затвердити"
+
+#. module: hk_demand_group
+#: model:ir.model.fields.selection,name:hk_demand_group.selection__stock_request__states__approve
+msgid "Approved"
+msgstr "Затверджено"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_search
+msgid "Archived"
+msgstr "Заархівовано"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_form
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_stock_request_form_inherit_hk_demand_group
+msgid "Cancel"
+msgstr "Скасувати"
+
+#. module: hk_demand_group
+#: model:ir.model.fields.selection,name:hk_demand_group.selection__stock_request__states__cancelled
+msgid "Cancelled"
+msgstr "Скасовано"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/models/stock_request.py:0
+#, python-format
+msgid ""
+"Cannot cancel the request because some related movements are already "
+"confirmed. Confirmed movements: %s"
+msgstr "Неможливо скасувати запит, оскільки деякі повʼязані переміщення вже підтверджено. Підтверджені переміщення: %s"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/models/stock_request.py:0
+#, python-format
+msgid ""
+"Cannot return the request to draft status because there are active related "
+"movements. First cancel all related movements."
+msgstr "Неможливо повернути запит у стан чернетки, оскільки існують активні повʼязані переміщення. Спочатку скасуйте всі повʼязані переміщення."
+
+#. module: hk_demand_group
+#: model:ir.model.fields,help:hk_demand_group.field_stock_request__for_purchase
+msgid "Check if the request should be considered when forming purchases"
+msgstr "Позначте, якщо запит слід враховувати під час формування закупівель"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_res_company
+msgid "Companies"
+msgstr "Компанії"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_res_config_settings
+msgid "Config Settings"
+msgstr "Налаштування"
+
+#. module: hk_demand_group
+#: model:ir.model.fields.selection,name:hk_demand_group.selection__stock_request__states__confirmed
+msgid "Confirmed"
+msgstr "Підтверджено"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_contract_contract
+msgid "Contract"
+msgstr "Договір"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_contract_contract__contragent_id
+msgid "Counterparty"
+msgstr "Контрагент"
+
+#. module: hk_demand_group
+#: model:ir.actions.server,name:hk_demand_group.action_create_purchase_order
+msgid "Create Purchase Order"
+msgstr "Створити замовлення на купівлю"
+
+#. module: hk_demand_group
+#: model_terms:ir.actions.act_window,help:hk_demand_group.action_demand_group
+msgid "Create the first order group"
+msgstr "Створіть першу групу замовлень"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/wizards/demand_group_wizard.py:0
+#, python-format
+msgid "Created Purchase Orders"
+msgstr "Створені замовлення на купівлю"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__create_uid
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__create_uid
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__create_uid
+msgid "Created by"
+msgstr "Створив(ла)"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__create_date
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__create_date
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__create_date
+msgid "Created on"
+msgstr "Створено"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__date
+msgid "Date"
+msgstr "Дата"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__date_from
+msgid "Date From"
+msgstr "Дата з"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__date_to
+msgid "Date To"
+msgstr "Дата по"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/wizards/demand_group_wizard.py:0
+#: model:ir.actions.act_window,name:hk_demand_group.action_demand_group_wizard
+#: model:ir.actions.act_window,name:hk_demand_group.action_demand_group_wizard_line
+#: model:ir.ui.menu,name:hk_demand_group.menu_demand_group_wizard
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_form
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_form
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_tree
+#, python-format
+msgid "Demand Analysis"
+msgstr "Аналіз попиту"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_demand_group_wizard_line
+msgid "Demand Analysis Line"
+msgstr "Рядок аналізу попиту"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_purchase_order__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_sale_order__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_lot__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_move__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_move_line__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_picking__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_quant__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_request__demand_group_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_reservation__demand_group_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.quant_search_view_inherit_hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.stock_move_line_view_search_inherit_hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_move_search_inherit_hk_demand_group
+msgid "Demand Group"
+msgstr "Група попиту"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__quantity_demand
+msgid "Demand Quantity"
+msgstr "Кількість попиту"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__display_name
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__display_name
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__display_name
+msgid "Display Name"
+msgstr "Відображувана назва"
+
+#. module: hk_demand_group
+#: model:ir.model.fields.selection,name:hk_demand_group.selection__stock_request__states__draft
+msgid "Draft"
+msgstr "Чернетка"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_request__for_purchase
+msgid "For Purchase"
+msgstr "Для закупівлі"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_form
+msgid "Generate Report"
+msgstr "Згенерувати звіт"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_form
+msgid "Group Name"
+msgstr "Назва групи"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_purchase_order_line__demand_partner_id
+msgid "Group Partner"
+msgstr "Партнер групи"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_search
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+msgid "Group by"
+msgstr "Групувати за"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+msgid "Has Demand"
+msgstr "Є попит"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__id
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__id
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_res_company__intercompany_account_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_res_config_settings__intercompany_account_id
+msgid "Intercompany Settlement Account"
+msgstr "Рахунок для міжкомпанійних розрахунків"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_res_company__intercompany_price_list_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_res_config_settings__intercompany_price_list_id
+msgid "Intercompany Settlement Pricelist"
+msgstr "Прайс-лист для міжкомпанійних розрахунків"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.res_config_settings_view_form_inherit_hk_demand_group
+msgid "Intercompany Settlements"
+msgstr "Міжкомпанійні розрахунки"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_location
+msgid "Inventory Locations"
+msgstr "Розташування складів"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/models/stock_quant.py:0
+#, python-format
+msgid ""
+"It is not possible to unreserve more products of %s than you have in stock."
+msgstr "Неможливо зняти резерв більше товару %s, ніж є на складі."
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__write_uid
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__write_uid
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr "Останні зміни вніс(ла)"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__write_date
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__write_date
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__write_date
+msgid "Last Updated on"
+msgstr "Останнє оновлення"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_form
+msgid "Lines"
+msgstr "Рядки"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_location__internal_owner_id
+msgid "Location Owner"
+msgstr "Власник розташування"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_lot
+msgid "Lot/Serial"
+msgstr "Партія/Серійний номер"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_request
+msgid "Material Request"
+msgstr "Запит на матеріали"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__name
+msgid "Name"
+msgstr "Назва"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/models/demand_group.py:0
+#, python-format
+msgid "New"
+msgstr "Новий"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/wizards/demand_group_wizard.py:0
+#, python-format
+msgid "No records selected to create an order"
+msgstr "Не вибрано жодного запису для створення замовлення"
+
+#. module: hk_demand_group
+#. odoo-python
+#: code:addons/hk_demand_group/wizards/demand_group_wizard.py:0
+#, python-format
+msgid "No supplier specified for product %s"
+msgstr "Не вказано постачальника для товару %s"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_form
+msgid "Order Group"
+msgstr "Група замовлень"
+
+#. module: hk_demand_group
+#: model:ir.actions.act_window,name:hk_demand_group.action_demand_group
+#: model:ir.ui.menu,name:hk_demand_group.menu_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_tree
+msgid "Order Groups"
+msgstr "Групи замовлень"
+
+#. module: hk_demand_group
+#: model_terms:ir.actions.act_window,help:hk_demand_group.action_demand_group
+msgid ""
+"Order groups allow aggregating order lines related to sales orders or stock "
+"requests."
+msgstr "Групи замовлень дозволяють агрегувати рядки замовлень, повʼязані із замовленнями на продаж або складськими запитами."
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard__line_ids
+msgid "Orders"
+msgstr "Замовлення"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__partner_id
+msgid "Partner"
+msgstr "Партнер"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__product_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+msgid "Product"
+msgstr "Товар"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Переміщення товару (Рядок складського переміщення)"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_purchase_order__internal_owner_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_lot__internal_owner_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_picking__internal_owner_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_quant__internal_owner_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.quant_search_view_inherit_hk_demand_group
+msgid "Product Owner"
+msgstr "Власник товару"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_purchase_order
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_lot__purchase_order_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_quant__purchase_order_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.quant_search_view_inherit_hk_demand_group
+msgid "Purchase Order"
+msgstr "Замовлення на купівлю"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_demand_group_wizard
+msgid "Purchase Order Creation Wizard"
+msgstr "Майстер створення замовлення на купівлю"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Рядок замовлення на купівлю"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__quantity_purchase
+msgid "Purchase Quantity"
+msgstr "Кількість до закупівлі"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__quantity_to_order
+msgid "Quantity to Order"
+msgstr "Кількість до замовлення"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_quant
+msgid "Quants"
+msgstr "Залишки"
+
+#. module: hk_demand_group
+#: model:ir.model.fields.selection,name:hk_demand_group.selection__stock_request__states__receive
+msgid "Received"
+msgstr "Отримано"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_purchase_order_line__demand_group_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.purchase_order_line_form_inherit_hk_demand_group
+msgid "Receiving Group"
+msgstr "Група-одержувач"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_lot__buyer_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_move__buyer_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_move_line__buyer_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_quant__buyer_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_reservation__buyer_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.quant_search_view_inherit_hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.stock_move_line_view_search_inherit_hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_move_search_inherit_hk_demand_group
+msgid "Recipient"
+msgstr "Одержувач"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__sale_order_id
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__sale_order_id
+msgid "Sale Order"
+msgstr "Замовлення на продаж"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_sale_order
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_search
+msgid "Sales Order"
+msgstr "Замовлення на продаж"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_search
+msgid "Search Order Groups"
+msgstr "Пошук груп замовлень"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_stock_request_form_inherit_hk_demand_group
+msgid "Set to Draft"
+msgstr "Встановити як чернетку"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_stock_request__states
+msgid "Status"
+msgstr "Статус"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_move
+msgid "Stock Move"
+msgstr "Складське переміщення"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group__stock_request_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_search
+msgid "Stock Request"
+msgstr "Складський запит"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__stock_request_id
+msgid "Store Order"
+msgstr "Складське замовлення"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__supplier_id
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+msgid "Supplier"
+msgstr "Постачальник"
+
+#. module: hk_demand_group
+#: model_terms:ir.ui.view,arch_db:hk_demand_group.view_demand_group_wizard_line_search
+msgid "To Order"
+msgstr "До замовлення"
+
+#. module: hk_demand_group
+#: model:ir.model,name:hk_demand_group.model_stock_picking
+msgid "Transfer"
+msgstr "Переміщення"
+
+#. module: hk_demand_group
+#: model:ir.model.fields,field_description:hk_demand_group.field_demand_group_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Майстер"
