@@ -4,13 +4,13 @@ from odoo import api, fields, models
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    demand_group_id = fields.Many2one('demand.group', string='Група попиту')
-    internal_owner_id = fields.Many2one('res.partner', string='Власник товару')
+    demand_group_id = fields.Many2one('demand.group', string='Demand Group')
+    internal_owner_id = fields.Many2one('res.partner', string='Product Owner')
     
     @api.model
     def create(self, vals):
-        """Розширення методу створення для заповнення полів internal_owner_id та demand_group_id"""
-        # Якщо переміщення створюється з замовлення на купівлю
+        """Extension of the create method to populate internal_owner_id and demand_group_id fields"""
+        # If the picking is created from a purchase order
         if vals.get('purchase_id'):
             purchase_order = self.env['purchase.order'].browse(vals['purchase_id'])
             if purchase_order.internal_owner_id:
@@ -21,10 +21,10 @@ class StockPicking(models.Model):
         return super(StockPicking, self).create(vals)
 
     def write(self, vals):
-        """Розширення методу запису для заповнення полів у пов'язаних stock.move"""
+        """Extension of the write method to populate fields on related stock.move lines"""
         res = super(StockPicking, self).write(vals)
 
-        # Якщо змінюється поле demand_group_id, оновлюємо його у всіх пов'язаних stock.move
+        # If demand_group_id is changed, update it on all related stock.move lines
         if 'demand_group_id' in vals:
             for picking in self:
                 for move in picking.move_ids_without_package:
@@ -34,10 +34,10 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         """
-        Розширення стандартного методу підтвердження переміщення для заповнення полів
-        demand_group_id та buyer_id у моделі stock.move
+        Extension of the standard picking validation method to populate
+        demand_group_id and buyer_id fields on the stock.move model
         """
-        # Перед підтвердженням переміщення заповнюємо поля у пов'язаних stock.move
+        # Before validation, populate fields on related stock.move records
         for picking in self:
             if picking.demand_group_id:
                 for move in picking.move_ids_without_package:
@@ -47,21 +47,21 @@ class StockPicking(models.Model):
         
     def copy(self, default=None):
         """
-        Розширення стандартного методу копіювання для забезпечення копіювання поля demand_group_id
-        в рядках stock.move
+        Extension of the standard copy method to ensure the demand_group_id field
+        is copied on stock.move lines
         """
         self.ensure_one()
         default = dict(default or {})
         
-        # Створюємо копію переміщення
+        # Create a copy of the picking
         new_picking = super(StockPicking, self).copy(default)
         
-        # Копіюємо поле demand_group_id в рядках stock.move
+        # Copy demand_group_id into stock.move lines
         if self.demand_group_id and new_picking.demand_group_id:
             for move in new_picking.move_ids_without_package:
                 move.demand_group_id = new_picking.demand_group_id.id
         
-        # Копіюємо поле internal_owner_id в рядках stock.move
+        # Copy internal_owner_id into stock.move lines
         if self.internal_owner_id and new_picking.internal_owner_id:
             for move in new_picking.move_ids_without_package:
                 if hasattr(move, 'internal_owner_id'):

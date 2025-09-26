@@ -7,19 +7,19 @@ class StockMove(models.Model):
 
     demand_group_id = fields.Many2one(
         'demand.group', 
-        string='Група попиту',
+        string='Demand Group',
         related='purchase_line_id.demand_group_id',         store=True
     )
     
     buyer_id = fields.Many2one(
         'res.partner', 
-        string='Отримувач', 
+        string='Recipient', 
         related='demand_group_id.partner_id'
     )
     
     def _update_reserved_quantity(self, need, location_id, quant_ids=None, lot_id=None, package_id=None, owner_id=None, strict=True):
-        """Розширення стандартного методу для передачі demand_group_id у контекст при резервуванні запасів"""
-        # Якщо є demand_group_id, передаємо його в контекст
+        """Extension of the standard method to pass demand_group_id in the context when reserving inventory"""
+        # If there is demand_group_id, pass it in the context
         if self.demand_group_id:
             return super(StockMove, self.with_context(demand_group_id=self.demand_group_id.id))._update_reserved_quantity(
                 need, location_id, quant_ids=quant_ids, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict
@@ -29,22 +29,22 @@ class StockMove(models.Model):
         )
     
     def _action_done(self, cancel_backorder=False):
-        """Розширення стандартного методу для створення бухгалтерських проводок
-        при переведенні stock.move у статус Done"""
-        # Викликаємо оригінальний метод
+        """Extension of the standard method to create accounting entries
+        when transferring stock.move to Done status"""
+        # Call the original method
         moves = super()._action_done(cancel_backorder=cancel_backorder)
         
-        # Створюємо бухгалтерські проводки для переміщень, які відповідають умовам
+        # Create accounting entries for movements that meet the conditions
         for move in moves:
-            # Перевіряємо, чи локація призначення - це локація клієнта
+            # Check if the destination location is a customer location
             if move.location_dest_id.usage == 'customer':
-                # Перевіряємо наявність lot_ids
+                # Check for lot_ids
                 for move_line in move.move_line_ids:
                     if move_line.lot_id and move_line.lot_id.internal_owner_id:
                         lot = move_line.lot_id
-                        # Перевіряємо умову різних власників
+                        # Check the condition of different owners
                         if move.location_id.internal_owner_id and lot.internal_owner_id != move.location_id.internal_owner_id:
-                            # Шукаємо відповідний контракт
+                            # Look for the corresponding contract
                             contract_sale = self.env['contract.contract'].search([
                                 ('contragent_id', '=', move.location_id.internal_owner_id.id),
                                 ('partner_id', '=', lot.internal_owner_id.id)
@@ -55,17 +55,17 @@ class StockMove(models.Model):
                             ], limit=1)
 
                             if not contract_sale or not contract_purchase:
-                                continue  # Пропускаємо, якщо контракт не знайдено
+                                continue  # Skip if contract not found
                             
-                            # Отримуємо налаштування для міжкомпанійних взаєморозрахунків
+                            # Get settings for intercompany settlements
                             company = self.env.company
                             intercompany_account = company.intercompany_account_id
                             intercompany_price_list = company.intercompany_price_list_id
                             
                             if not intercompany_account or not intercompany_price_list:
-                                continue  # Пропускаємо, якщо не налаштовані рахунок або прайс-лист
+                                continue  # Skip if account or price list not configured
                             
-                            # Отримуємо ціну з прайс-листа
+                            # Get price from price list
                             price_unit = intercompany_price_list._get_product_price(
                                 product=lot.product_id,
                                 quantity=move_line.quantity,
@@ -74,18 +74,18 @@ class StockMove(models.Model):
                                 uom=move.product_uom
                             )
                             
-                            # Розраховуємо суму
+                            # Calculate amount
                             amount = price_unit * move_line.quantity
                             
-                            # Створюємо бухгалтерську проводку
+                            # Create accounting entry
                             move_vals = {
                                 'move_type': 'entry',
                                 'stock_move_id': move.id,
                                 'date': fields.Date.today(),
                                 'journal_id': self.env['account.journal'].search([('type', '=', 'general')], limit=1).id,
-                                'ref': f'Міжкомпанійне переміщення: {move.name}, Партія: {lot.name}',
+                                'ref': f'Intercompany Movement: {move.name}, Lot: {lot.name}',
                                 'line_ids': [
-                                    # Запис 1 - кредит
+                                    # Entry 1 - credit
                                     (0, 0, {
                                         'product_id': lot.product_id.id,
                                         'partner_id': move.location_id.internal_owner_id.id,
@@ -95,9 +95,9 @@ class StockMove(models.Model):
                                         'price_unit': price_unit,
                                         'credit': amount,
                                         'debit': 0.0,
-                                        'name': f'Міжкомпанійне переміщення: {move.name}, Партія: {lot.name}',
+                                        'name': f'Intercompany Movement: {move.name}, Lot: {lot.name}',
                                     }),
-                                    # Запис 2 - дебет
+                                    # Entry 2 - debit
                                     (0, 0, {
                                         'product_id': lot.product_id.id,
                                         'partner_id': lot.internal_owner_id.id,
@@ -107,13 +107,13 @@ class StockMove(models.Model):
                                         'price_unit': price_unit,
                                         'debit': amount,
                                         'credit': 0.0,
-                                        'name': f'Міжкомпанійне переміщення: {move.name}, Партія: {lot.name}',
+                                        'name': f'Intercompany Movement: {move.name}, Lot: {lot.name}',
                                     })
                                 ]
                             }
                             
-                            # Створюємо проводку
+                            # Create entry
                             account_move = self.env['account.move'].create(move_vals)
-                            account_move.action_post()  # Підтверджуємо проводку
+                            account_move.action_post()  # Confirm entry
         
         return moves

@@ -4,17 +4,17 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    demand_group_id = fields.Many2one('demand.group', string='Група попиту')
+    demand_group_id = fields.Many2one('demand.group', string='Demand Group')
     
     def action_confirm(self):
-        """Розширення стандартного методу підтвердження для створення групи попиту"""
-        # Викликаємо оригінальний метод
+        """Extension of the standard confirm method to create a demand group"""
+        # Call original method
         res = super(SaleOrder, self).action_confirm()
         
         for order in self:
-            # Якщо група попиту не встановлена, створюємо нову
+            # If a demand group is not set, create a new one
             if not order.demand_group_id:
-                # Створюємо новий запис demand.group
+                # Create a new demand.group record
                 vals = {
                     'name': f'{order.partner_id.name}/{order.name}',
                     'partner_id': order.partner_id.id,
@@ -22,20 +22,20 @@ class SaleOrder(models.Model):
                 }
                 demand_group = self.env['demand.group'].create(vals)
                 
-                # Зберігаємо посилання на створену групу
+                # Save a reference to the created group
                 order.demand_group_id = demand_group.id
                 
-                # Оновлюємо поля у переміщеннях, створених на підставі цього замовлення
+                # Update fields in pickings created from this order
                 for picking in order.picking_ids:
                     picking.demand_group_id = demand_group.id
-                    # Оновлюємо поля у пов'язаних stock.move
+                    # Update fields in related stock.move
                     for move in picking.move_ids_without_package:
                         move.demand_group_id = demand_group.id
         
         return res
 
     def copy(self, default=None):
-        """При копіюванні замовлення не копіюємо значення demand_group_id"""
+        """When copying the order, do not copy demand_group_id"""
         default = dict(default or {})
         default['demand_group_id'] = False
         return super(SaleOrder, self).copy(default)

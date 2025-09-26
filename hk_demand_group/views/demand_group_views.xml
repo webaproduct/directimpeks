@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Форма для demand.group -->
+    <!-- Form for demand.group -->
     <record id="view_demand_group_form" model="ir.ui.view">
         <field name="name">demand.group.form</field>
         <field name="model">demand.group</field>
         <field name="arch" type="xml">
-            <form string="Група замовлень">
+            <form string="Order Group">
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Назва групи"/>
+                            <field name="name" placeholder="Group Name"/>
                         </h1>
                     </div>
                     <group>
@@ -23,12 +23,12 @@
         </field>
     </record>
 
-    <!-- Дерево для demand.group -->
+    <!-- Tree for demand.group -->
     <record id="view_demand_group_tree" model="ir.ui.view">
         <field name="name">demand.group.tree</field>
         <field name="model">demand.group</field>
         <field name="arch" type="xml">
-            <tree string="Групи замовлень">
+            <tree string="Order Groups">
                 <field name="name"/>
                 <field name="sale_order_id"/>
                 <field name="stock_request_id"/>
@@ -36,45 +36,44 @@
         </field>
     </record>
 
-    <!-- Пошук для demand.group -->
+    <!-- Search for demand.group -->
     <record id="view_demand_group_search" model="ir.ui.view">
         <field name="name">demand.group.search</field>
         <field name="model">demand.group</field>
         <field name="arch" type="xml">
-            <search string="Пошук груп замовлень">
+            <search string="Search Order Groups">
                 <field name="name"/>
                 <field name="sale_order_id"/>
                 <field name="stock_request_id"/>
                 <separator/>
-                <filter string="Архівовані" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Групувати за">
-                    <filter string="Замовлення на продаж" name="sale_order" context="{'group_by': 'sale_order_id'}"/>
-                    <filter string="Запит на склад" name="stock_request" context="{'group_by': 'stock_request_id'}"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group by">
+                    <filter string="Sales Order" name="sale_order" context="{'group_by': 'sale_order_id'}"/>
+                    <filter string="Stock Request" name="stock_request" context="{'group_by': 'stock_request_id'}"/>
                 </group>
             </search>
         </field>
     </record>
 
-    <!-- Дія для demand.group -->
+    <!-- Action for demand.group -->
     <record id="action_demand_group" model="ir.actions.act_window">
-        <field name="name">Групи замовлень</field>
+        <field name="name">Order Groups</field>
         <field name="res_model">demand.group</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_demand_group_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Створіть першу групу замовлень
+                Create the first order group
             </p>
             <p>
-                Групи замовлень дозволяють об'єднувати строки замовлень,
-                пов'язані з замовленнями на продаж або запитами на склад.
+                Order groups allow aggregating order lines related to sales orders or stock requests.
             </p>
         </field>
     </record>
 
-    <!-- Пункт меню для demand.group -->
+    <!-- Menu item for demand.group -->
     <menuitem id="menu_demand_group"
-              name="Групи замовлень"
+              name="Order Groups"
               action="action_demand_group"
               parent="stock.menu_stock_warehouse_mgmt"
               sequence="20"/>

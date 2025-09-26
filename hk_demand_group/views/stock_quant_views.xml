@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Додаємо поля до пошуку stock.quant -->
+    <!-- Add fields to stock.quant search -->
     <record id="quant_search_view_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.quant.search.inherit.hk.demand.group</field>
         <field name="model">stock.quant</field>
@@ -13,15 +13,15 @@
                 <field name="buyer_id"/>
             </xpath>
             <xpath expr="//filter[@name='Lot_Serial_number']" position="after">
-                <filter string="Власник товару" name="internal_owner_group" domain="[]" context="{'group_by': 'internal_owner_id'}"/>
-                <filter string="Замовлення на купівлю" name="purchase_order_group" domain="[]" context="{'group_by': 'purchase_order_id'}"/>
-                <filter string="Група попиту" name="demand_group" domain="[]" context="{'group_by': 'demand_group_id'}"/>
-                <filter string="Отримувач" name="buyer_group" domain="[]" context="{'group_by': 'buyer_id'}"/>
+                <filter string="Product Owner" name="internal_owner_group" domain="[]" context="{'group_by': 'internal_owner_id'}"/>
+                <filter string="Purchase Order" name="purchase_order_group" domain="[]" context="{'group_by': 'purchase_order_id'}"/>
+                <filter string="Demand Group" name="demand_group" domain="[]" context="{'group_by': 'demand_group_id'}"/>
+                <filter string="Recipient" name="buyer_group" domain="[]" context="{'group_by': 'buyer_id'}"/>
             </xpath>
         </field>
     </record>
 
-    <!-- Додаємо поля до дерева stock.quant -->
+    <!-- Add fields to stock.quant tree -->
     <record id="view_stock_quant_tree_editable_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.quant.tree.editable.inherit.hk.demand.group</field>
         <field name="model">stock.quant</field>
@@ -36,7 +36,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до форми stock.quant -->
+    <!-- Add fields to stock.quant form -->
     <record id="view_stock_quant_form_editable_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.quant.form.editable.inherit.hk.demand.group</field>
         <field name="model">stock.quant</field>
@@ -51,7 +51,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до інвентаризаційного дерева stock.quant -->
+    <!-- Add fields to stock.quant inventory tree -->
     <record id="view_stock_quant_tree_inventory_editable_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.quant.inventory.tree.editable.inherit.hk.demand.group</field>
         <field name="model">stock.quant</field>

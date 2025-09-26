@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Додаємо поля до представлення списку переміщень (детальний список) -->
+    <!-- Add fields to detailed move lines tree -->
     <record id="view_move_line_tree_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.line.tree.inherit.hk.demand.group</field>
         <field name="model">stock.move.line</field>
@@ -13,7 +13,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до представлення списку переміщень у відбірці (детальні операції) -->
+    <!-- Add fields to detailed operations tree in picking -->
     <record id="view_stock_move_line_detailed_operation_tree_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.line.detailed.operation.tree.inherit.hk.demand.group</field>
         <field name="model">stock.move.line</field>
@@ -26,7 +26,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до пошуку переміщень -->
+    <!-- Add fields to stock.move.line search -->
     <record id="stock_move_line_view_search_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.line.search.inherit.hk.demand.group</field>
         <field name="model">stock.move.line</field>
@@ -37,8 +37,8 @@
                 <field name="buyer_id"/>
             </xpath>
             <xpath expr="//filter[@name='groupby_product_id']" position="after">
-                <filter string="Група попиту" name="by_demand_group" context="{'group_by': 'demand_group_id'}"/>
-                <filter string="Отримувач" name="by_buyer" context="{'group_by': 'buyer_id'}"/>
+                <filter string="Demand Group" name="by_demand_group" context="{'group_by': 'demand_group_id'}"/>
+                <filter string="Recipient" name="by_buyer" context="{'group_by': 'buyer_id'}"/>
             </xpath>
         </field>
     </record>

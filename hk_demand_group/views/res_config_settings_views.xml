@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Розширення представлення налаштувань системи -->
+    <!-- Settings view extension -->
     <record id="res_config_settings_view_form_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">res.config.settings.view.form.inherit.hk.demand.group</field>
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="account.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <!-- Додаємо нові поля до розділу "Default Accounts" -->
+            <!-- Add new fields to the "Default Accounts" section -->
             <xpath expr="//block[@id='default_accounts']" position="inside">
-                <setting string="Міжкомпанійні взаєморозрахунки">
+                <setting string="Intercompany Settlements">
                     <div class="content-group">
                         <div class="row mt8">
                             <label for="intercompany_account_id" class="col-lg-5 o_light_label"/>

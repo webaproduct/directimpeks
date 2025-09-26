@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Додаємо поля до форми переміщення товарів -->
+    <!-- Add fields to stock.move form -->
     <record id="view_move_form_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.form.inherit.hk.demand.group</field>
         <field name="model">stock.move</field>
         <field name="inherit_id" ref="stock.view_move_form"/>
         <field name="arch" type="xml">
-            <!-- Додаємо поля в групу "Походження" -->
+            <!-- Add fields into the "Origin" group -->
             <xpath expr="//group[@name='origin_grp']" position="inside">
                 <field name="demand_group_id"/>
                 <field name="buyer_id"/>
@@ -14,7 +14,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до представлення списку переміщень -->
+    <!-- Add fields to stock.move tree view -->
     <record id="view_move_tree_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.tree.inherit.hk.demand.group</field>
         <field name="model">stock.move</field>
@@ -27,7 +27,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до представлення списку переміщень у відбірці -->
+    <!-- Add fields to picking move tree view -->
     <record id="view_picking_move_tree_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.picking.tree.inherit.hk.demand.group</field>
         <field name="model">stock.move</field>
@@ -40,7 +40,7 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до пошуку переміщень -->
+    <!-- Add fields to stock.move search -->
     <record id="view_move_search_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.move.search.inherit.hk.demand.group</field>
         <field name="model">stock.move</field>
@@ -51,8 +51,8 @@
                 <field name="buyer_id"/>
             </xpath>
             <xpath expr="//filter[@name='groupby_dest_location_id']" position="after">
-                <filter string="Група попиту" name="groupby_demand_group" context="{'group_by': 'demand_group_id'}"/>
-                <filter string="Отримувач" name="groupby_buyer" context="{'group_by': 'buyer_id'}"/>
+                <filter string="Demand Group" name="groupby_demand_group" context="{'group_by': 'demand_group_id'}"/>
+                <filter string="Recipient" name="groupby_buyer" context="{'group_by': 'buyer_id'}"/>
             </xpath>
         </field>
     </record>

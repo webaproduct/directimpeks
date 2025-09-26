@@ -6,5 +6,5 @@ class StockLocation(models.Model):
 
     internal_owner_id = fields.Many2one(
         'res.partner',
-        string='Власник локації'
+        string='Location Owner'
     )

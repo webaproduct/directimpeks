@@ -6,7 +6,7 @@ class ResConfigSettings(models.TransientModel):
 
     intercompany_account_id = fields.Many2one(
         'account.account',
-        string='Рахунок обліку взаєморозрахунків між своїми компаніями',
+        string='Intercompany Settlement Account',
         related='company_id.intercompany_account_id',
         readonly=False,
         check_company=True,
@@ -15,7 +15,7 @@ class ResConfigSettings(models.TransientModel):
     
     intercompany_price_list_id = fields.Many2one(
         'product.pricelist',
-        string='Прайс-лист взаєморозрахунків між своїми компаніями',
+        string='Intercompany Settlement Pricelist',
         related='company_id.intercompany_price_list_id',
         readonly=False,
         check_company=True

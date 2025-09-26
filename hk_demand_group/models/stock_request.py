@@ -5,11 +5,11 @@ from odoo.exceptions import UserError
 class StockRequest(models.Model):
     _inherit = 'stock.request'
 
-    demand_group_id = fields.Many2one('demand.group', string='Група попиту')
-    for_purchase = fields.Boolean(string='Для закупівлі', default=True, 
-                                 help='Позначте, якщо запит потрібно враховувати при формуванні закупівель')
+    demand_group_id = fields.Many2one('demand.group', string='Demand Group')
+    for_purchase = fields.Boolean(string='For Purchase', default=True, 
+                                 help='Check if the request should be considered when forming purchases')
 
-    # Перевизначаємо поле states, щоб додати статус cancelled
+    # Redefining the states field to add cancelled status
     states = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
@@ -20,11 +20,11 @@ class StockRequest(models.Model):
 
 
     def action_create_picking(self):
-        """Розширення стандартного методу створення переміщення"""
+        """Extension of the standard method for creating movement"""
         if self.env.user.has_group('stock.group_stock_manager'):
             for record in self:
                 if not record.demand_group_id and record.for_purchase:
-                    # Створюємо новий запис demand.group
+                    # Creating a new demand.group record
                     vals = {
                         'name': f'{record.partner_id.name}/{record.name}',
                         'partner_id': record.partner_id.id,
@@ -32,7 +32,7 @@ class StockRequest(models.Model):
                     }
                     demand_group = self.env['demand.group'].create(vals)
 
-                    # Зберігаємо посилання на створену групу
+                    # Saving reference to the created group
                     record.demand_group_id = demand_group.id
                 picking_line = []
                 picking_data = {
@@ -42,7 +42,7 @@ class StockRequest(models.Model):
                     'location_id': record.stock_location_id.id,
                     'location_dest_id': record.delivery_location_id.id,
                     'move_ids_without_package': picking_line,
-                    #додаємо групу
+                    #adding group
                     'demand_group_id': record.demand_group_id.id,
                 }
                 for lines in self.stock_line_ids:
@@ -53,13 +53,13 @@ class StockRequest(models.Model):
                         'location_id': record.stock_location_id.id,
                         'location_dest_id': record.delivery_location_id.id,
                         'product_uom': lines.product_id.uom_id.id,
-                        # додаємо групу
+                        # adding group
                         'demand_group_id': record.demand_group_id.id,
                     })))
 
                 picking_id = self.env['stock.picking'].create(picking_data)
 
-                # додаємо групу
+                # adding group
                 for move in picking_id.move_ids_without_package:
                     move.demand_group_id = record.demand_group_id.id
 
@@ -69,15 +69,15 @@ class StockRequest(models.Model):
                 })
 
     def copy(self, default=None):
-        """При копіюванні замовлення копіюємо рядки, але не копіюємо значення demand_group_id та for_purchase"""
+        """When copying an order, copy the lines but don't copy demand_group_id and for_purchase values"""
         default = dict(default or {})
         default['demand_group_id'] = False
         default['for_purchase'] = False
         
-        # Створюємо копію запису
+        # Creating a copy of the record
         new_request = super(StockRequest, self).copy(default)
         
-        # Якщо рядки не скопіювалися автоматично, копіюємо їх вручну
+        # If lines were not copied automatically, copy them manually
         if not new_request.stock_line_ids and self.stock_line_ids:
             for line in self.stock_line_ids:
                 line_vals = {
@@ -92,42 +92,42 @@ class StockRequest(models.Model):
         return new_request
         
     def action_cancel(self):
-        """Відміна запиту на склад та пов'язаних переміщень"""
+        """Cancellation of stock request and related movements"""
         for request in self:
-            # Перевіряємо, чи є пов'язані переміщення
+            # Checking if there are related movements
             pickings = self.env['stock.picking'].search([('origin', '=', request.name)])
             
-            # Перевіряємо, чи всі переміщення можна відмінити
+            # Checking if all movements can be cancelled
             validated_pickings = pickings.filtered(lambda p: p.state == 'done')
             if validated_pickings:
                 raise UserError(_(
-                    "Неможливо відмінити запит, оскільки деякі пов'язані переміщення вже підтверджені. "
-                    "Підтверджені переміщення: %s"
+                    "Cannot cancel the request because some related movements are already confirmed. "
+                    "Confirmed movements: %s"
                 ) % ", ".join(validated_pickings.mapped('name')))
             
-            # Відміняємо всі переміщення, які ще не підтверджені
+            # Cancelling all movements that are not yet confirmed
             for picking in pickings.filtered(lambda p: p.state != 'done'):
                 picking.action_cancel()
             
-            # Змінюємо статус запиту на cancelled
+            # Changing the request status to cancelled
             request.write({'states': 'cancelled'})
             
     def action_draft(self):
-        """Повернення запиту на склад до статусу draft"""
+        """Returning the stock request to draft status"""
         for request in self:
-            # Перевіряємо, чи є пов'язані переміщення
+            # Checking if there are related movements
             pickings = self.env['stock.picking'].search([('origin', '=', request.name)])
             
-            # Перевіряємо, чи всі переміщення відмінені
+            # Checking if all movements are cancelled
             active_pickings = pickings.filtered(lambda p: p.state != 'cancel')
             if active_pickings:
                 raise UserError(_(
-                    "Неможливо повернути запит до статусу чернетки, оскільки є активні пов'язані переміщення. "
-                    "Спочатку відмініть всі пов'язані переміщення."
+                    "Cannot return the request to draft status because there are active related movements. "
+                    "First cancel all related movements."
                 ))
             
-            # Змінюємо статус запиту на draft
+            # Changing the request status to draft
             request.write({
                 'states': 'draft',
-                'approved_by': False,  # Скидаємо поле approved_by
+                'approved_by': False,  # Resetting the approved_by field
             })

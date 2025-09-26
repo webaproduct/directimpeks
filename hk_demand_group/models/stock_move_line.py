@@ -6,20 +6,20 @@ class StockMoveLine(models.Model):
 
     demand_group_id = fields.Many2one(
         'demand.group', 
-        string='Група попиту',
+        string='Demand Group',
         related='move_id.demand_group_id',         store=True
     )
     
     buyer_id = fields.Many2one(
         'res.partner', 
-        string='Отримувач', 
+        string='Recipient', 
         related='demand_group_id.partner_id'
     )
     def _prepare_new_lot_vals(self):
-        """Розширення методу створення лотів для заповнення додаткових полів"""
+        """Extension of the lot creation method to populate additional fields"""
         vals = super(StockMoveLine, self)._prepare_new_lot_vals()
         
-        # Додаємо поля internal_owner_id, group_purchase та group_demand
+        # Add internal_owner_id, group_purchase and group_demand fields
         if self.picking_id and self.picking_id.internal_owner_id:
             vals['internal_owner_id'] = self.picking_id.internal_owner_id.id
         elif self.move_id and self.move_id.picking_id and self.move_id.picking_id.internal_owner_id:

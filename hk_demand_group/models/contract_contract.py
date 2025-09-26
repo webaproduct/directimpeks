@@ -6,5 +6,5 @@ class ContractContract(models.Model):
 
     contragent_id = fields.Many2one(
         'res.partner',
-        string='З ким заключений'
+        string='Counterparty'
     )

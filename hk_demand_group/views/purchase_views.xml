@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Додаємо поля до форми рядка замовлення на купівлю -->
+    <!-- Add fields to purchase order line form -->
     <record id="purchase_order_line_form_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">purchase.order.line.form.inherit.hk.demand.group</field>
         <field name="model">purchase.order.line</field>
         <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//form//group" position="inside">
-                <group string="Група отримання">
+                <group string="Receiving Group">
                     <field name="demand_group_id"/>
                     <field name="demand_partner_id"/>
                 </group>
@@ -15,18 +15,18 @@
         </field>
     </record>
 
-    <!-- Додаємо поля до форми замовлення на купівлю для відображення в рядках -->
+    <!-- Add fields to purchase order form for displaying in lines -->
     <record id="purchase_order_form_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">purchase.order.form.inherit.hk.demand.group</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
-            <!-- Додаємо поле internal_owner_id до форми замовлення -->
+            <!-- Add internal_owner_id to order form -->
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="internal_owner_id"/>
             </xpath>
             
-            <!-- Додаємо поля до рядків замовлення -->
+            <!-- Add fields to order lines -->
             <xpath expr="//field[@name='order_line']/tree//field[@name='price_subtotal']" position="after">
                 <field name="demand_group_id" optional="show"/>
                 <field name="demand_partner_id" optional="hide"/>

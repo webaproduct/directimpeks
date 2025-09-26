@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Додаємо поле до форми запиту на склад -->
+    <!-- Add field to stock request form -->
     <record id="view_stock_request_form_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">stock.request.form.view.inherit.hk.demand.group</field>
         <field name="model">stock.request</field>
@@ -14,38 +14,31 @@
                 <field name="for_purchase"/>
             </xpath>
             
-<!--            &lt;!&ndash; Перекладаємо кнопку "Create Picking" на українську мову &ndash;&gt;-->
-<!--            <xpath expr="//button[@name='action_create_picking']" position="attributes">-->
-<!--                <attribute name="string">Узгодити</attribute>-->
-<!--            </xpath>-->
-            
-            <!-- Оновлюємо видимість кнопки Create Picking -->
+            <!-- Update visibility and labels for buttons -->
             <xpath expr="//button[@name='action_create_picking']" position="attributes">
                 <attribute name="invisible">states in ('draft','approve','receive','cancelled')</attribute>
-                <attribute name="string">Узгодити</attribute>
+                <attribute name="string">Approve</attribute>
             </xpath>
             
-            <!-- Оновлюємо видимість кнопки Done -->
             <xpath expr="//button[@name='action_done']" position="attributes">
                 <attribute name="invisible">states in ('draft','confirmed','receive','cancelled')</attribute>
             </xpath>
             
-            <!-- Оновлюємо видимість кнопки Cancel -->
             <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="invisible">states in ('cancelled', 'receive')</attribute>
-                <attribute name="string">Відмінити</attribute>
+                <attribute name="string">Cancel</attribute>
                 <attribute name="special"></attribute>
                 <attribute name="class">btn-secondary</attribute>
             </xpath>
             
-            <!-- Додаємо кнопку Set to Draft для статусу cancelled -->
+            <!-- Add Set to Draft button for cancelled status -->
             <xpath expr="//button[@name='action_cancel']" position="after">
-                <button name="action_draft" string="Повернути в чернетку" 
+                <button name="action_draft" string="Set to Draft" 
                         type="object" class="btn-secondary"
                         invisible="states != 'cancelled'"/>
             </xpath>
             
-            <!-- Додаємо статус cancelled до statusbar -->
+            <!-- Add cancelled to statusbar -->
             <xpath expr="//field[@name='states']" position="attributes">
                 <attribute name="statusbar_visible">draft,confirmed,approve,receive,cancelled</attribute>
             </xpath>

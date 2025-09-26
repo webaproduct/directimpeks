@@ -6,13 +6,13 @@ class ResCompany(models.Model):
 
     intercompany_account_id = fields.Many2one(
         'account.account',
-        string='Рахунок обліку взаєморозрахунків між своїми компаніями',
+        string='Intercompany Settlement Account',
         check_company=True,
         domain="[('deprecated', '=', False)]"
     )
     
     intercompany_price_list_id = fields.Many2one(
         'product.pricelist',
-        string='Прайс-лист взаєморозрахунків між своїми компаніями',
+        string='Intercompany Settlement Pricelist',
         check_company=True
     )

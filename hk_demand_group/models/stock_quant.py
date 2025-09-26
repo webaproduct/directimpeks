@@ -7,75 +7,75 @@ class StockQuant(models.Model):
     _inherit = 'stock.quant'
     demand_group_id = fields.Many2one(
         'demand.group',
-        string='Група попиту',
+        string='Demand Group',
         related='lot_id.demand_group_id',         store=True
     )
     
     internal_owner_id = fields.Many2one(
         'res.partner',
-        string='Власник товару',
+        string='Product Owner',
         related='lot_id.internal_owner_id',
         store=True
     )
     
     purchase_order_id = fields.Many2one(
         'purchase.order',
-        string='Замовлення на купівлю',
+        string='Purchase Order',
         related='lot_id.purchase_order_id',
         store=True
     )
     
     buyer_id = fields.Many2one(
         'res.partner',
-        string='Отримувач',
+        string='Recipient',
         related='lot_id.buyer_id',
         store=True
     )
 
     def _get_reserve_quantity(self, product_id, location_id, quantity, product_packaging_id=None, uom_id=None, lot_id=None, package_id=None, owner_id=None, strict=False):
-        """Розширення стандартного методу для врахування demand_group_id при резервуванні запасів.
+        """Extension of the standard method to consider demand_group_id when reserving inventory.
         
-        Якщо в контексті є demand_group_id, то запаси будуть резервуватися з урахуванням цього параметру.
+        If demand_group_id is in the context, inventory will be reserved taking this parameter into account.
         """
         self = self.sudo()
         rounding = product_id.uom_id.rounding
         
-        # Отримуємо demand_group_id з контексту, якщо він є
+        # Get demand_group_id from context if it exists
         demand_group_id = self.env.context.get('demand_group_id', False)
         
-        # Виклик стандартного методу для отримання запасів
+        # Call the standard method to get inventory
         quants = self._gather(product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict, qty=quantity)
         
-        # Якщо є demand_group_id в контексті, фільтруємо запаси
+        # If there is demand_group_id in the context, filter inventory
         if not (demand_group_id and quants):
             return []
-        # Отримуємо всі партії (lots), які пов'язані з цією групою попиту
+        # Get all lots associated with this demand group
         demand_group_lots = self.env['stock.lot'].search([('demand_group_id', '=', demand_group_id)])
 
         if not (demand_group_lots):
             return []
-        # Фільтруємо запаси, щоб спочатку використовувати ті, що пов'язані з цією групою попиту
+        # Filter inventory to first use those associated with this demand group
         priority_quants = quants.filtered(lambda q: q.lot_id in demand_group_lots)
 
-        # Якщо є пріоритетні запаси, використовуємо їх першими
+        # If there are priority quants, use them first
         if not (priority_quants):
             return []
-            # Перевіряємо, чи достатньо пріоритетних запасів
+            # Check if there are enough priority quants
             priority_available = priority_quants._get_available_quantity(product_id, location_id, lot_id, package_id, owner_id, strict)
 
             if float_compare(priority_available, quantity, precision_rounding=rounding) >= 0:
-                # Якщо пріоритетних запасів достатньо, використовуємо тільки їх
+                # If there are enough priority quants, use only them
                 quants = priority_quants
             else:
-                # Якщо пріоритетних запасів недостатньо, сортуємо всі запаси так, щоб пріоритетні були першими
+                # If there are not enough priority quants, sort all quants so that priority ones are first
                 other_quants = quants - priority_quants
-                # Створюємо новий recordset з пріоритетними запасами спочатку
+                # Create a new recordset with priority quants first
                 sorted_quants = self.env['stock.quant']
                 sorted_quants |= priority_quants
                 sorted_quants |= other_quants
                 quants = sorted_quants
         
-        # Продовжуємо стандартну логіку резервування
+        # Continue with standard reservation logic
         available_quantity = quants._get_available_quantity(product_id, location_id, lot_id, package_id, owner_id, strict)
 
         # do full packaging reservation when it's needed
@@ -84,7 +84,7 @@ class StockQuant(models.Model):
 
         quantity = min(quantity, available_quantity)
 
-        # Конвертація одиниць виміру, якщо потрібно
+        # Unit conversion if needed
         if not strict and uom_id and product_id.uom_id != uom_id:
             quantity_move_uom = product_id.uom_id._compute_quantity(quantity, uom_id, rounding_method='DOWN')
             quantity = uom_id._compute_quantity(quantity_move_uom, product_id.uom_id, rounding_method='HALF-UP')
