@@ -60,20 +60,20 @@ class StockQuant(models.Model):
         # If there are priority quants, use them first
         if not (priority_quants):
             return []
-            # Check if there are enough priority quants
-            priority_available = priority_quants._get_available_quantity(product_id, location_id, lot_id, package_id, owner_id, strict)
+        # Check if there are enough priority quants
+        priority_available = priority_quants._get_available_quantity(product_id, location_id, lot_id, package_id, owner_id, strict)
 
-            if float_compare(priority_available, quantity, precision_rounding=rounding) >= 0:
-                # If there are enough priority quants, use only them
-                quants = priority_quants
-            else:
-                # If there are not enough priority quants, sort all quants so that priority ones are first
-                other_quants = quants - priority_quants
-                # Create a new recordset with priority quants first
-                sorted_quants = self.env['stock.quant']
-                sorted_quants |= priority_quants
-                sorted_quants |= other_quants
-                quants = sorted_quants
+        if float_compare(priority_available, quantity, precision_rounding=rounding) >= 0:
+            # If there are enough priority quants, use only them
+            quants = priority_quants
+        else:
+            # If there are not enough priority quants, sort all quants so that priority ones are first
+            other_quants = quants - priority_quants
+            # Create a new recordset with priority quants first
+            sorted_quants = self.env['stock.quant']
+            sorted_quants |= priority_quants
+            sorted_quants |= other_quants
+            quants = sorted_quants
         
         # Continue with standard reservation logic
         available_quantity = quants._get_available_quantity(product_id, location_id, lot_id, package_id, owner_id, strict)
