@@ -1,5 +1,5 @@
-from odoo import api, fields, models
-
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
@@ -39,6 +39,9 @@ class StockPicking(models.Model):
         """
         # Before validation, populate fields on related stock.move records
         for picking in self:
+            # Guard: incoming pickings must have an internal owner set before validation
+            if picking.picking_type_code == 'incoming' and not picking.internal_owner_id:
+                raise UserError(_("Для вхідного переміщення потрібно заповнити поле 'Власник' (internal_owner_id) перед підтвердженням."))
             if picking.demand_group_id:
                 for move in picking.move_ids_without_package:
                     move.demand_group_id = picking.demand_group_id.id
