@@ -77,8 +77,8 @@ class DemandGroupWizard(models.TransientModel):
         # Getting purchase orders for the period
         purchase_orders = self.env['purchase.order'].search([
             ('state', 'in', ['purchase', 'done']),
-            ('date_order', '>=', self.date_from),
-            ('date_order', '<=', self.date_to),
+            # ('date_order', '>=', self.date_from),
+            # ('date_order', '<=', self.date_to),
         ])
 
         for order in purchase_orders:
@@ -86,7 +86,7 @@ class DemandGroupWizard(models.TransientModel):
                 if line.product_id.type == 'product':  # Only stockable products
                     # Looking for the corresponding key
                     for key in product_data:
-                        if key[0] == line.product_id.id and key[1] == order.demand_group_id.id:
+                        if key[0] == line.product_id.id and key[1] == line.demand_group_id.id:
                             product_data[key]['quantity_purchase'] += line.product_qty
         
         # Creating records for the report
