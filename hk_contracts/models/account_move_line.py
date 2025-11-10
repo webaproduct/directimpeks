@@ -26,10 +26,10 @@ class AccountMoveLine(models.Model):
             account_id = self.env["account.account"].browse(
                 vals.get("account_id", 0) or record.account_id.id
             )
-            if account_id.l10n_ua_track_by_contract:
+            if record.contract_required:
                 record.update({"contract_id": move_id.contract_id.id})
-            else:
-                record.update({"contract_id": False})
+            # else:
+            #     record.update({"contract_id": False})
 
         return result
 
@@ -38,10 +38,10 @@ class AccountMoveLine(models.Model):
         lines = super().create(vals_list)
 
         for record in lines:
-            if record.account_id.l10n_ua_track_by_contract:
+            if record.contract_required:
                 record.update({"contract_id": record.move_id.contract_id.id})
-            else:
-                record.update({"contract_id": False})
+            # else:
+            #     record.update({"contract_id": False})
 
         return lines
 
