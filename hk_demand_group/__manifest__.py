@@ -18,6 +18,7 @@
     "data": [
         "security/ir.model.access.csv",
         "wizards/demand_group_wizard_views.xml",
+        "wizards/invoice_import_wizard_views.xml",
         "views/demand_group_views.xml",
         "views/purchase_views.xml",
         "views/stock_picking_views.xml",

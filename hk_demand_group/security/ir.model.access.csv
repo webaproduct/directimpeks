@@ -3,3 +3,5 @@ access_demand_group_user,demand.group.user,model_demand_group,base.group_user,1,
 access_demand_group_manager,demand.group.manager,model_demand_group,base.group_system,1,1,1,1
 access_demand_group_wizard_user,demand.group.wizard.user,model_demand_group_wizard,purchase.group_purchase_user,1,1,1,1
 access_demand_group_wizard_line_user,demand.group.wizard.line.user,model_demand_group_wizard_line,purchase.group_purchase_user,1,1,1,1
+access_invoice_import_wizard_user,invoice.import.wizard.user,model_invoice_import_wizard,purchase.group_purchase_user,1,1,1,1
+access_wizard_invoice_import_user,wizard.invoice.import.user,model_wizard_invoice_import,purchase.group_purchase_user,1,1,1,1

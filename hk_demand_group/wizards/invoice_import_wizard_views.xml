@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree view for invoice import lines -->
+    <record id="view_wizard_invoice_import_tree" model="ir.ui.view">
+        <field name="name">wizard.invoice.import.tree</field>
+        <field name="model">wizard.invoice.import</field>
+        <field name="arch" type="xml">
+            <tree string="Invoice Lines">
+                <field name="sequence"/>
+                <field name="barcode"/>
+                <field name="quantity"/>
+                <field name="base_price"/>
+                <field name="discount"/>
+                <field name="price_with_discount"/>
+                <field name="recipient_code"/>
+                <field name="recipient_partner_id"/>
+                <field name="invoice_number"/>
+                <field name="primary_order_number"/>
+                <field name="source_purchase_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view for invoice import lines -->
+    <record id="view_wizard_invoice_import_form" model="ir.ui.view">
+        <field name="name">wizard.invoice.import.form</field>
+        <field name="model">wizard.invoice.import</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="barcode"/>
+                            <field name="quantity"/>
+                            <field name="base_price"/>
+                            <field name="discount"/>
+                            <field name="price_with_discount"/>
+                        </group>
+                        <group>
+                            <field name="recipient_code"/>
+                            <field name="recipient_partner_id"/>
+                            <field name="invoice_number"/>
+                            <field name="primary_order_number"/>
+                            <field name="source_purchase_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form view for invoice import wizard -->
+    <record id="view_invoice_import_wizard_form" model="ir.ui.view">
+        <field name="name">invoice.import.wizard.form</field>
+        <field name="model">invoice.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Invoice">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="file_data" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="internal_owner_id"/>
+                            <field name="picking_type_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Інвойс" name="invoice_lines">
+                            <field name="invoice_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="barcode"/>
+                                    <field name="quantity"/>
+                                    <field name="base_price"/>
+                                    <field name="discount"/>
+                                    <field name="price_with_discount"/>
+                                    <field name="recipient_code"/>
+                                    <field name="recipient_partner_id"/>
+                                    <field name="invoice_number"/>
+                                    <field name="primary_order_number"/>
+                                    <field name="source_purchase_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_import_file" string="Завантажити" type="object" class="btn-primary"/>
+                    <button name="action_cancel" string="Відмінити" type="object" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard action -->
+    <record id="action_invoice_import_wizard" model="ir.actions.act_window">
+        <field name="name">Завантажити фактуру</field>
+        <field name="res_model">invoice.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu item in Purchase section -->
+    <menuitem id="menu_invoice_import_wizard"
+              name="Завантажити фактуру"
+              parent="purchase.menu_procurement_management"
+              action="action_invoice_import_wizard"
+              sequence="100"/>
+</odoo>
