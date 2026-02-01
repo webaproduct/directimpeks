@@ -31,8 +31,15 @@ class InvoiceImportWizard(models.TransientModel):
             
             lines_to_create = []
             for index, row in df.iterrows():
+                barcode = str(row.get('Штрихкод', '')) if pd.notna(row.get('Штрихкод')) else ''
                 recipient_code = str(row.get('Код отримувача', '')) if pd.notna(row.get('Код отримувача')) else ''
                 primary_order_number = str(row.get('Номер первинного замовлення постачальнику', '')) if pd.notna(row.get('Номер первинного замовлення постачальнику')) else ''
+                
+                product_id = False
+                if barcode:
+                    product = self.env['product.product'].search([('barcode', '=', barcode)], limit=1)
+                    if product:
+                        product_id = product.id
                 
                 recipient_partner_id = False
                 if recipient_code:
@@ -49,7 +56,8 @@ class InvoiceImportWizard(models.TransientModel):
                 line_vals = {
                     'wizard_id': self.id,
                     'sequence': int(row.get('№ п/п', index + 1)) if pd.notna(row.get('№ п/п')) else index + 1,
-                    'barcode': str(row.get('Штрихкод', '')) if pd.notna(row.get('Штрихкод')) else '',
+                    'barcode': barcode,
+                    'product_id': product_id,
                     'quantity': float(row.get('Кількість', 0)) if pd.notna(row.get('Кількість')) else 0,
                     'base_price': float(row.get('Базова тарифна Ціна', 0)) if pd.notna(row.get('Базова тарифна Ціна')) else 0,
                     'discount': float(row.get('знижка', 0)) if pd.notna(row.get('знижка')) else 0,
@@ -90,6 +98,7 @@ class WizardInvoiceImport(models.TransientModel):
     wizard_id = fields.Many2one('invoice.import.wizard', string='Wizard', ondelete='cascade', required=True)
     sequence = fields.Integer(string='№ п/п', default=1)
     barcode = fields.Char(string='Barcode', required=True)
+    product_id = fields.Many2one('product.product', string='Product')
     quantity = fields.Float(string='Quantity', required=True, digits='Product Unit of Measure')
     base_price = fields.Float(string='Base Price', required=True, digits='Product Price')
     discount = fields.Float(string='Discount', digits='Product Price')
