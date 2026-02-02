@@ -6,7 +6,7 @@ import pandas as pd
 
 
 class InvoiceImportWizard(models.TransientModel):
-    _name = 'invoice.import.wizard'
+    _name = 'wizard.invoice.import.settings'
     _description = 'Invoice Import Wizard'
 
     file_data = fields.Binary(string='XLS File', required=True)
@@ -14,7 +14,25 @@ class InvoiceImportWizard(models.TransientModel):
     internal_owner_id = fields.Many2one('res.partner', string='Product Owner', required=True)
     picking_type_id = fields.Many2one('stock.picking.type', string='Operation Type', required=True)
     
-    invoice_line_ids = fields.One2many('wizard.invoice.import', 'wizard_id', string='Invoice Lines')
+    invoice_line_ids = fields.One2many('wizard.invoice.import.line', 'wizard_id', string='Invoice Lines')
+    selected_line_id = fields.Many2one('wizard.invoice.import.line', string='Selected Line')
+    distribution_ids = fields.One2many('wizard.invoice.import.distribution', 'wizard_id', string='Distribution Lines')
+    
+    @api.onchange('selected_line_id')
+    def _onchange_selected_line(self):
+        """Filter distribution lines by selected invoice line product"""
+        if self.selected_line_id and self.selected_line_id.product_id:
+            return {
+                'domain': {
+                    'distribution_ids': [('product_id', '=', self.selected_line_id.product_id.id)]
+                }
+            }
+        else:
+            return {
+                'domain': {
+                    'distribution_ids': []
+                }
+            }
 
     def action_import_file(self):
         """Import data from XLS file using pandas"""
@@ -71,12 +89,12 @@ class InvoiceImportWizard(models.TransientModel):
                 lines_to_create.append(line_vals)
             
             for line_vals in lines_to_create:
-                self.env['wizard.invoice.import'].create(line_vals)
+                self.env['wizard.invoice.import.line'].create(line_vals)
             
             return {
                 'type': 'ir.actions.act_window',
                 'name': _('Import Invoice'),
-                'res_model': 'invoice.import.wizard',
+                'res_model': 'wizard.invoice.import.settings',
                 'view_mode': 'form',
                 'res_id': self.id,
                 'target': 'new',
@@ -91,11 +109,11 @@ class InvoiceImportWizard(models.TransientModel):
 
 
 class WizardInvoiceImport(models.TransientModel):
-    _name = 'wizard.invoice.import'
+    _name = 'wizard.invoice.import.line'
     _description = 'Wizard Invoice Import Line'
     _order = 'sequence, id'
 
-    wizard_id = fields.Many2one('invoice.import.wizard', string='Wizard', ondelete='cascade', required=True)
+    wizard_id = fields.Many2one('wizard.invoice.import.settings', string='Wizard', ondelete='cascade', required=True)
     sequence = fields.Integer(string='№ п/п', default=1)
     barcode = fields.Char(string='Barcode', required=True)
     product_id = fields.Many2one('product.product', string='Product')
@@ -108,3 +126,21 @@ class WizardInvoiceImport(models.TransientModel):
     invoice_number = fields.Char(string='Invoice Number', required=True)
     primary_order_number = fields.Char(string='Primary Order Number', required=True)
     source_purchase_id = fields.Many2one('purchase.order', string='Source Purchase Order')
+    distribution_ids = fields.One2many('wizard.invoice.import.distribution', 'invoice_line_id', string='Distribution Lines')
+
+
+class WizardInvoiceImportDistribution(models.TransientModel):
+    _name = 'wizard.invoice.import.distribution'
+    _description = 'Wizard Invoice Import Distribution'
+    _order = 'id'
+
+    wizard_id = fields.Many2one('wizard.invoice.import.settings', string='Wizard', ondelete='cascade', required=True)
+    invoice_line_id = fields.Many2one('wizard.invoice.import.line', string='Invoice Line')
+    product_id = fields.Many2one('product.product', string='Product', required=True)
+    quantity = fields.Float(string='Quantity', digits='Product Unit of Measure')
+    quantity_purchase = fields.Float(string='Purchase Quantity', digits='Product Unit of Measure')
+    quantity_result = fields.Float(string='Result Quantity', digits='Product Unit of Measure')
+    recipient_partner_id = fields.Many2one('res.partner', string='Recipient Partner')
+    source_purchase_id = fields.Many2one('purchase.order', string='Source Purchase Order')
+    source_purchase_line_id = fields.Many2one('purchase.order.line', string='Source Purchase Line')
+    demand_group_id = fields.Many2one('demand.group', string='Demand Group')
