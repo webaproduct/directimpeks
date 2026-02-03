@@ -6,3 +6,4 @@ access_demand_group_wizard_line_user,demand.group.wizard.line.user,model_demand_
 access_wizard_invoice_import_settings_user,wizard.invoice.import.settings.user,model_wizard_invoice_import_settings,purchase.group_purchase_user,1,1,1,1
 access_wizard_invoice_import_line_user,wizard.invoice.import.line.user,model_wizard_invoice_import_line,purchase.group_purchase_user,1,1,1,1
 access_wizard_invoice_import_distribution_user,wizard.invoice.import.distribution.user,model_wizard_invoice_import_distribution,purchase.group_purchase_user,1,1,1,1
+access_wizard_invoice_import_purchase_user,wizard.invoice.import.purchase.user,model_wizard_invoice_import_purchase,purchase.group_purchase_user,1,1,1,1

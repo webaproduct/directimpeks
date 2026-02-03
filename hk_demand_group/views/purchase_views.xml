@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Tree view for related purchase order lines -->
+    <record id="purchase_order_line_tree_related" model="ir.ui.view">
+        <field name="name">purchase.order.line.tree.related</field>
+        <field name="model">purchase.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="Related Purchase Order Lines" create="false" edit="false">
+                <field name="order_id"/>
+                <field name="product_id"/>
+                <field name="name"/>
+                <field name="product_qty"/>
+                <field name="product_uom"/>
+                <field name="price_unit"/>
+                <field name="discount"/>
+                <field name="price_subtotal"/>
+                <field name="demand_group_id"/>
+                <field name="source_purchase_order_id"/>
+                <field name="source_purchase_order_line_id"/>
+            </tree>
+        </field>
+    </record>
+
     <!-- Add fields to purchase order line form -->
     <record id="purchase_order_line_form_inherit_hk_demand_group" model="ir.ui.view">
         <field name="name">purchase.order.line.form.inherit.hk.demand.group</field>
@@ -21,6 +42,31 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
+            <!-- Add smart button for related purchases -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_source_purchases"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-arrow-left"
+                        invisible="source_purchase_count == 0">
+                    <field name="source_purchase_count" widget="statinfo" string="Первинні замовлення"/>
+                </button>
+                <button name="action_view_related_purchases"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="related_purchase_count == 0">
+                    <field name="related_purchase_count" widget="statinfo" string="Related Orders"/>
+                </button>
+                <button name="action_view_related_purchase_lines"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-list"
+                        invisible="related_purchase_line_count == 0">
+                    <field name="related_purchase_line_count" widget="statinfo" string="Related Lines"/>
+                </button>
+            </xpath>
+            
             <!-- Add internal_owner_id to order form -->
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="internal_owner_id"/>
@@ -30,6 +76,8 @@
             <xpath expr="//field[@name='order_line']/tree//field[@name='price_subtotal']" position="after">
                 <field name="demand_group_id" optional="show"/>
                 <field name="demand_partner_id" optional="hide"/>
+                <field name="source_purchase_order_id" optional="hide"/>
+                <field name="source_purchase_order_line_id" optional="hide"/>
             </xpath>
         </field>
     </record>

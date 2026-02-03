@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 import base64
 import io
 import pandas as pd
@@ -17,6 +17,7 @@ class InvoiceImportWizard(models.TransientModel):
     invoice_line_ids = fields.One2many('wizard.invoice.import.line', 'wizard_id', string='Invoice Lines')
     selected_line_id = fields.Many2one('wizard.invoice.import.line', string='Selected Line')
     distribution_ids = fields.One2many('wizard.invoice.import.distribution', 'wizard_id', string='Distribution Lines')
+    purchase_line_ids = fields.One2many('wizard.invoice.import.purchase', 'wizard_id', string='Purchase Lines')
     
     @api.onchange('selected_line_id')
     def _onchange_selected_line(self):
@@ -91,6 +92,8 @@ class InvoiceImportWizard(models.TransientModel):
             for line_vals in lines_to_create:
                 self.env['wizard.invoice.import.line'].create(line_vals)
             
+            self._load_purchase_lines()
+            
             return {
                 'type': 'ir.actions.act_window',
                 'name': _('Import Invoice'),
@@ -102,6 +105,193 @@ class InvoiceImportWizard(models.TransientModel):
             
         except Exception as e:
             raise UserError(_('Error importing file: %s') % str(e))
+
+    def _load_purchase_lines(self):
+        """Load expected purchase order lines with remaining quantities"""
+        self.ensure_one()
+        
+        self.purchase_line_ids.unlink()
+        
+        products = self.invoice_line_ids.mapped('product_id')
+        purchases = self.invoice_line_ids.mapped('source_purchase_id')
+        if not products:
+            return
+        
+        domain = [
+            ('product_id', 'in', products.ids),
+            ('order_id', 'in', purchases.ids),
+            ('order_id.state', 'in', ['purchase']),
+        ]
+        
+        po_lines = self.env['purchase.order.line'].search(domain, order='order_id, demand_group_id, id')
+        
+        purchase_lines_to_create = []
+        for po_line in po_lines:
+            qty_to_receive = po_line.product_qty - po_line.qty_received
+            
+            if qty_to_receive <= 0:
+                continue
+            
+            purchase_lines_to_create.append({
+                'wizard_id': self.id,
+                'partner_id': po_line.order_id.partner_id.id,
+                'purchase_id': po_line.order_id.id,
+                'purchase_line_id': po_line.id,
+                'product_id': po_line.product_id.id,
+                'demand_group_id': po_line.demand_group_id.id if po_line.demand_group_id else False,
+                'recipient_partner_id': po_line.demand_group_id.partner_id.id if po_line.demand_group_id else False,
+                'quantity_plan': qty_to_receive,
+            })
+        
+        for line_vals in purchase_lines_to_create:
+            self.env['wizard.invoice.import.purchase'].create(line_vals)
+
+    def action_distribute(self):
+        """Distribute invoice lines to purchase order lines using FIFO method"""
+        self.ensure_one()
+        
+        if not self.invoice_line_ids:
+            raise UserError(_('No invoice lines to distribute'))
+        
+        self.distribution_ids.unlink()
+        
+        for invoice_line in self.invoice_line_ids.sorted(key=lambda l: l.sequence):
+            if not invoice_line.product_id:
+                continue
+            
+            remaining_qty = invoice_line.quantity
+            
+            domain = [
+                ('wizard_id', '=', self.id),
+                ('product_id', '=', invoice_line.product_id.id),
+            ]
+
+            if invoice_line.source_purchase_id:
+                domain.append(('purchase_id', '=', invoice_line.source_purchase_id.id))
+
+            if invoice_line.recipient_partner_id:
+                domain.append(('recipient_partner_id', '=', invoice_line.recipient_partner_id.id))
+
+            purchase_lines = self.purchase_line_ids.filtered_domain(domain).sorted(key=lambda p: (p.demand_group_id.id or 0, p.id))
+            
+            for purchase_line in purchase_lines:
+                available_qty = purchase_line.quantity_plan - purchase_line.quantity_distributed
+                
+                if available_qty <= 0 or remaining_qty <= 0:
+                    self.env['wizard.invoice.import.distribution'].create({
+                        'wizard_id': self.id,
+                        'invoice_line_id': invoice_line.id,
+                        'product_id': invoice_line.product_id.id,
+                        'quantity': 0,
+                        'quantity_purchase': purchase_line.quantity_plan,
+                        # 'quantity_result': 0,
+                        'recipient_partner_id': purchase_line.recipient_partner_id.id if purchase_line.recipient_partner_id else False,
+                        'source_purchase_id': purchase_line.purchase_id.id if purchase_line.purchase_id else False,
+                        'source_purchase_line_id': purchase_line.purchase_line_id.id if purchase_line.purchase_line_id else False,
+                        'demand_group_id': purchase_line.demand_group_id.id if purchase_line.demand_group_id else False,
+                    })
+                    continue
+                
+                allocated_qty = min(remaining_qty, available_qty)
+                
+                self.env['wizard.invoice.import.distribution'].create({
+                    'wizard_id': self.id,
+                    'invoice_line_id': invoice_line.id,
+                    'product_id': invoice_line.product_id.id,
+                    'quantity': allocated_qty,
+                    'quantity_purchase': purchase_line.quantity_plan,
+                    # 'quantity_result': available_qty - allocated_qty,
+                    'recipient_partner_id': purchase_line.recipient_partner_id.id if purchase_line.recipient_partner_id else False,
+                    'source_purchase_id': purchase_line.purchase_id.id if purchase_line.purchase_id else False,
+                    'source_purchase_line_id': purchase_line.purchase_line_id.id if purchase_line.purchase_line_id else False,
+                    'demand_group_id': purchase_line.demand_group_id.id if purchase_line.demand_group_id else False,
+                })
+                
+                purchase_line.quantity_distributed += allocated_qty
+                remaining_qty -= allocated_qty
+            
+            if remaining_qty > 0:
+                self.env['wizard.invoice.import.distribution'].create({
+                    'wizard_id': self.id,
+                    'invoice_line_id': invoice_line.id,
+                    'product_id': invoice_line.product_id.id,
+                    'quantity': remaining_qty,
+                    'quantity_purchase': 0,
+                    # 'quantity_result': remaining_qty,
+                    'recipient_partner_id': invoice_line.recipient_partner_id.id if invoice_line.recipient_partner_id else False,
+                    'source_purchase_id': invoice_line.source_purchase_id.id,
+                    'source_purchase_line_id': False,
+                    'demand_group_id': False,
+                })
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Import Invoice'),
+            'res_model': 'wizard.invoice.import.settings',
+            'view_mode': 'form',
+            'res_id': self.id,
+            'target': 'new',
+        }
+
+    def action_save(self):
+        """Create purchase orders based on distribution"""
+        self.ensure_one()
+        
+        if not self.distribution_ids:
+            raise UserError(_('No distribution lines to save'))
+        
+        purchase_orders_created = []
+        
+        distribution_by_supplier = {}
+        for dist_line in self.distribution_ids.filtered(lambda d: d.quantity > 0 and d.source_purchase_id):
+            supplier_id = dist_line.source_purchase_id.partner_id.id
+            if supplier_id not in distribution_by_supplier:
+                distribution_by_supplier[supplier_id] = []
+            distribution_by_supplier[supplier_id].append(dist_line)
+        
+        for supplier_id, dist_lines in distribution_by_supplier.items():
+            source_po = dist_lines[0].source_purchase_id
+            
+            po_vals = {
+                'partner_id': supplier_id,
+                'date_order': fields.Datetime.now(),
+                'origin': source_po.name if source_po else '',
+            }
+            
+            new_po = self.env['purchase.order'].create(po_vals)
+            
+            for dist_line in dist_lines:
+                if dist_line.quantity <= 0:
+                    continue
+                
+                po_line_vals = {
+                    'order_id': new_po.id,
+                    'product_id': dist_line.product_id.id,
+                    'product_qty': dist_line.quantity,
+                    'price_unit': dist_line.invoice_line_id.base_price,
+                    'discount': dist_line.invoice_line_id.discount,
+                    # 'price_with_discount': dist_line.invoice_line_id.price_with_discount,
+                    'date_planned': fields.Datetime.now(),
+                    'demand_group_id': dist_line.demand_group_id.id if dist_line.demand_group_id else False,
+                    'source_purchase_order_id': dist_line.source_purchase_id.id if dist_line.source_purchase_id else False,
+                    'source_purchase_order_line_id': dist_line.source_purchase_line_id.id if dist_line.source_purchase_line_id else False,
+                }
+                
+                self.env['purchase.order.line'].create(po_line_vals)
+            
+            purchase_orders_created.append(new_po.id)
+        
+        if not purchase_orders_created:
+            raise UserError(_('No purchase orders were created'))
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Created Purchase Orders'),
+            'res_model': 'purchase.order',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', purchase_orders_created)],
+            'target': 'current',
+        }
 
     def action_cancel(self):
         """Cancel wizard"""
@@ -128,6 +318,17 @@ class WizardInvoiceImport(models.TransientModel):
     source_purchase_id = fields.Many2one('purchase.order', string='Source Purchase Order')
     distribution_ids = fields.One2many('wizard.invoice.import.distribution', 'invoice_line_id', string='Distribution Lines')
 
+    # @api.constrains('quantity', 'distribution_ids')
+    # def _check_distribution_quantity(self):
+    #     for record in self:
+    #         if record.distribution_ids:
+    #             total_distributed = sum(record.distribution_ids.mapped('quantity'))
+    #             if abs(total_distributed - record.quantity) > 0.01:
+    #                 raise ValidationError(
+    #                     _('Total distributed quantity (%.2f) must equal invoice line quantity (%.2f) for line %s') %
+    #                     (total_distributed, record.quantity, record.barcode)
+    #                 )
+
 
 class WizardInvoiceImportDistribution(models.TransientModel):
     _name = 'wizard.invoice.import.distribution'
@@ -144,3 +345,31 @@ class WizardInvoiceImportDistribution(models.TransientModel):
     source_purchase_id = fields.Many2one('purchase.order', string='Source Purchase Order')
     source_purchase_line_id = fields.Many2one('purchase.order.line', string='Source Purchase Line')
     demand_group_id = fields.Many2one('demand.group', string='Demand Group')
+
+    # @api.constrains('quantity', 'quantity_purchase')
+    # def _check_quantity_limit(self):
+    #     for record in self:
+    #         if record.quantity_purchase > 0 and record.quantity > record.quantity_purchase:
+    #             raise ValidationError(
+    #                 _('Distributed quantity (%.2f) cannot exceed purchase quantity (%.2f) for product %s') %
+    #                 (record.quantity, record.quantity_purchase, record.product_id.display_name)
+    #             )
+    #
+    #         if record.invoice_line_id:
+    #             record.invoice_line_id._check_distribution_quantity()
+
+
+class WizardInvoiceImportPurchase(models.TransientModel):
+    _name = 'wizard.invoice.import.purchase'
+    _description = 'Wizard Invoice Import Purchase Lines'
+    _order = 'partner_id, demand_group_id, id'
+
+    wizard_id = fields.Many2one('wizard.invoice.import.settings', string='Wizard', ondelete='cascade', required=True)
+    partner_id = fields.Many2one('res.partner', string='Supplier', required=True)
+    purchase_id = fields.Many2one('purchase.order', string='Purchase Order')
+    purchase_line_id = fields.Many2one('purchase.order.line', string='Purchase Line')
+    product_id = fields.Many2one('product.product', string='Product')
+    demand_group_id = fields.Many2one('demand.group', string='Demand Group')
+    recipient_partner_id = fields.Many2one('res.partner', string='Recipient Partner')
+    quantity_plan = fields.Float(string='Planned Quantity', digits='Product Unit of Measure')
+    quantity_distributed = fields.Float(string='Distributed Quantity', digits='Product Unit of Measure', default=0.0)
