@@ -74,7 +74,8 @@
         <field name="name">wizard.invoice.import.distribution.tree</field>
         <field name="model">wizard.invoice.import.distribution</field>
         <field name="arch" type="xml">
-            <tree string="Distribution Lines" editable="bottom">
+            <tree string="Distribution Lines" editable="bottom" decoration-danger="has_quantity_error">
+                <field name="has_quantity_error" invisible="1"/>
                 <field name="product_id"/>
                 <field name="quantity"/>
                 <field name="quantity_purchase"/>
@@ -147,13 +148,14 @@
                             <field name="picking_type_id"/>
                         </group>
                     </group>
-                    <group>
-                        <field name="selected_line_id" domain="[('wizard_id', '=', id)]" options="{'no_create': True, 'no_open': True}"/>
-                    </group>
+<!--                    <group>-->
+<!--                        <field name="selected_line_id" domain="[('wizard_id', '=', id)]" options="{'no_create': True, 'no_open': True}"/>-->
+<!--                    </group>-->
                     <notebook>
                         <page string="Інвойс" name="invoice_lines">
                             <field name="invoice_line_ids">
-                                <tree decoration-danger="not product_id" create="false" edit="false" delete="false">
+                                <tree decoration-danger="not product_id or has_distribution_error" create="false" edit="false" delete="false">
+                                    <field name="has_distribution_error" invisible="1"/>
                                     <field name="sequence"/>
                                     <field name="barcode"/>
                                     <field name="product_id"/>

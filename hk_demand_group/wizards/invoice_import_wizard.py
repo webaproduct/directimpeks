@@ -5,7 +5,7 @@ import io
 import pandas as pd
 
 
-class InvoiceImportWizard(models.TransientModel):
+class WizardInvoiceImportSettings(models.TransientModel):
     _name = 'wizard.invoice.import.settings'
     _description = 'Invoice Import Wizard'
 
@@ -15,25 +15,25 @@ class InvoiceImportWizard(models.TransientModel):
     picking_type_id = fields.Many2one('stock.picking.type', string='Operation Type', required=True)
     
     invoice_line_ids = fields.One2many('wizard.invoice.import.line', 'wizard_id', string='Invoice Lines')
-    selected_line_id = fields.Many2one('wizard.invoice.import.line', string='Selected Line')
+    # selected_line_id = fields.Many2one('wizard.invoice.import.line', string='Selected Line')
     distribution_ids = fields.One2many('wizard.invoice.import.distribution', 'wizard_id', string='Distribution Lines')
     purchase_line_ids = fields.One2many('wizard.invoice.import.purchase', 'wizard_id', string='Purchase Lines')
     
-    @api.onchange('selected_line_id')
-    def _onchange_selected_line(self):
-        """Filter distribution lines by selected invoice line product"""
-        if self.selected_line_id and self.selected_line_id.product_id:
-            return {
-                'domain': {
-                    'distribution_ids': [('product_id', '=', self.selected_line_id.product_id.id)]
-                }
-            }
-        else:
-            return {
-                'domain': {
-                    'distribution_ids': []
-                }
-            }
+    # @api.onchange('selected_line_id')
+    # def _onchange_selected_line(self):
+    #     """Filter distribution lines by selected invoice line product"""
+    #     if self.selected_line_id and self.selected_line_id.product_id:
+    #         return {
+    #             'domain': {
+    #                 'distribution_ids': [('product_id', '=', self.selected_line_id.product_id.id)]
+    #             }
+    #         }
+    #     else:
+    #         return {
+    #             'domain': {
+    #                 'distribution_ids': []
+    #             }
+    #         }
 
     def action_import_file(self):
         """Import data from XLS file using pandas"""
@@ -240,6 +240,33 @@ class InvoiceImportWizard(models.TransientModel):
         if not self.distribution_ids:
             raise UserError(_('No distribution lines to save'))
         
+        # Перевірка на помилки розподілу
+        error_lines = []
+        for line in self.invoice_line_ids:
+            if line.distribution_ids:
+                total_distributed = sum(line.distribution_ids.mapped('quantity'))
+                if abs(total_distributed - line.quantity) > 0.01:
+                    error_lines.append(
+                        _('Line %s: distributed %.2f but quantity is %.2f') % 
+                        (line.barcode, total_distributed, line.quantity)
+                    )
+        
+        # Перевірка на перевищення quantity над quantity_purchase в рядках розподілу
+        quantity_errors = []
+        for dist_line in self.distribution_ids:
+            if dist_line.quantity_purchase>0 and dist_line.quantity > dist_line.quantity_purchase:
+                quantity_errors.append(
+                    _('Distribution line for %s: quantity %.2f exceeds purchase quantity %.2f') % 
+                    (dist_line.product_id.display_name, dist_line.quantity, dist_line.quantity_purchase)
+                )
+        
+        if error_lines or quantity_errors:
+            all_errors = error_lines + quantity_errors
+            raise UserError(
+                _('Cannot save: validation errors:\n\n%s') % 
+                '\n'.join(all_errors)
+            )
+        
         purchase_orders_created = []
         
         distribution_by_supplier = {}
@@ -317,6 +344,28 @@ class WizardInvoiceImport(models.TransientModel):
     primary_order_number = fields.Char(string='Primary Order Number', required=True)
     source_purchase_id = fields.Many2one('purchase.order', string='Source Purchase Order')
     distribution_ids = fields.One2many('wizard.invoice.import.distribution', 'invoice_line_id', string='Distribution Lines')
+    has_distribution_error = fields.Boolean(string='Distribution Error', compute='_compute_distribution_error', store=False)
+
+    @api.depends('quantity', 'distribution_ids', 'distribution_ids.quantity', 'distribution_ids.quantity_purchase')
+    def _compute_distribution_error(self):
+        for record in self:
+            if record.distribution_ids:
+                total_distributed = sum(record.distribution_ids.mapped('quantity'))
+                # Перевірка невідповідності суми розподілу
+                has_total_error = abs(total_distributed - record.quantity) > 0.01
+                # Перевірка перевищення quantity над quantity_purchase в окремих рядках
+                has_quantity_exceed = any(
+                    (dist.quantity_purchase > 0) and (dist.quantity > dist.quantity_purchase)
+                    for dist in record.distribution_ids
+                )
+                record.has_distribution_error = has_total_error or has_quantity_exceed
+            else:
+                record.has_distribution_error = False
+
+    @api.onchange('quantity', 'distribution_ids')
+    def _onchange_check_distribution(self):
+        """Trigger recompute when distribution or quantity changes in UI"""
+        self._compute_distribution_error()
 
     # @api.constrains('quantity', 'distribution_ids')
     # def _check_distribution_quantity(self):
@@ -340,11 +389,25 @@ class WizardInvoiceImportDistribution(models.TransientModel):
     product_id = fields.Many2one('product.product', string='Product', required=True)
     quantity = fields.Float(string='Quantity', digits='Product Unit of Measure')
     quantity_purchase = fields.Float(string='Purchase Quantity', digits='Product Unit of Measure')
-    quantity_result = fields.Float(string='Result Quantity', digits='Product Unit of Measure')
+    # quantity_result = fields.Float(string='Result Quantity', digits='Product Unit of Measure')
     recipient_partner_id = fields.Many2one('res.partner', string='Recipient Partner')
     source_purchase_id = fields.Many2one('purchase.order', string='Source Purchase Order')
     source_purchase_line_id = fields.Many2one('purchase.order.line', string='Source Purchase Line')
     demand_group_id = fields.Many2one('demand.group', string='Demand Group')
+    has_quantity_error = fields.Boolean(string='Quantity Error', compute='_compute_quantity_error', store=False)
+
+    @api.depends('quantity', 'quantity_purchase')
+    def _compute_quantity_error(self):
+        for record in self:
+            if record.quantity_purchase > 0:
+                record.has_quantity_error = record.quantity > record.quantity_purchase
+            else:
+                record.has_quantity_error = False
+
+    @api.onchange('quantity', 'quantity_purchase')
+    def _onchange_check_quantity(self):
+        """Trigger recompute when quantity or quantity_purchase changes in UI"""
+        self._compute_quantity_error()
 
     # @api.constrains('quantity', 'quantity_purchase')
     # def _check_quantity_limit(self):
