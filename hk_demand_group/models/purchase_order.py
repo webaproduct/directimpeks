@@ -116,6 +116,17 @@ class PurchaseOrder(models.Model):
                     new_qty = source_line.product_qty - line.product_qty
                     if new_qty < 0:
                         new_qty = 0
+                                        
+                    # Знаходимо відповідні stock.move для source_line
+                    moves = self.env['stock.move'].search([
+                        ('purchase_line_id', '=', source_line.id),
+                        ('state', 'not in', ['done', 'cancel'])
+                    ])
+                    
+                    for move in moves:
+                        if move.product_uom_qty > line.product_qty:
+                            new_move_qty = move.product_uom_qty - line.product_qty
+                            move.product_uom_qty = new_move_qty
                     source_line.product_qty = new_qty
 
         return res
