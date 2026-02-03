@@ -279,10 +279,19 @@ class WizardInvoiceImportSettings(models.TransientModel):
         for supplier_id, dist_lines in distribution_by_supplier.items():
             source_po = dist_lines[0].source_purchase_id
             
+            # Збираємо унікальні номери інвойсів для цього постачальника
+            invoice_numbers = set()
+            for dist_line in dist_lines:
+                if dist_line.invoice_line_id and dist_line.invoice_line_id.invoice_number:
+                    invoice_numbers.add(dist_line.invoice_line_id.invoice_number)
+            origin = ', '.join(sorted(invoice_numbers)) if invoice_numbers else ''
+            
             po_vals = {
                 'partner_id': supplier_id,
                 'date_order': fields.Datetime.now(),
-                'origin': source_po.name if source_po else '',
+                'origin': origin,
+                'internal_owner_id': self.internal_owner_id.id if self.internal_owner_id else False,
+                'picking_type_id': self.picking_type_id.id if self.picking_type_id else False,
             }
             
             new_po = self.env['purchase.order'].create(po_vals)
