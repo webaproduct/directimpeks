@@ -49,6 +49,9 @@ class WizardInvoiceImportSettings(models.TransientModel):
             self.invoice_line_ids.unlink()
             
             lines_to_create = []
+            lines_with_recipient = []
+            lines_without_recipient = []
+            
             for index, row in df.iterrows():
                 barcode = str(row.get('Штрихкод', '')) if pd.notna(row.get('Штрихкод')) else ''
                 recipient_code = str(row.get('Код отримувача', '')) if pd.notna(row.get('Код отримувача')) else ''
@@ -68,9 +71,26 @@ class WizardInvoiceImportSettings(models.TransientModel):
                 
                 source_purchase_id = False
                 if primary_order_number:
-                    purchase_order = self.env['purchase.order'].search([('partner_ref', '=', primary_order_number)], limit=1)
+                    purchase_order = self.env['purchase.order'].search([
+                        ('state', 'in', ['purchase']),
+                        ('partner_ref', '=', primary_order_number)
+                    ], limit=1)
                     if purchase_order:
                         source_purchase_id = purchase_order.id
+                
+                # Перевірка наявності коду отримувача у відповідному замовленні постачальника
+                if recipient_code and source_purchase_id:
+                    # Перевіряємо чи є такий код отримувача в рядках цього замовлення
+                    po_line_with_recipient = self.env['purchase.order.line'].search([
+                        ('order_id', '=', source_purchase_id),
+                        ('demand_group_id.partner_id.ref', '=', recipient_code)
+                    ], limit=1)
+                    
+                    if not po_line_with_recipient:
+                        raise UserError(
+                            _('Recipient code "%s" not found in purchase order "%s" (line %s, barcode %s)') % 
+                            (recipient_code, primary_order_number, index + 1, barcode)
+                        )
                 
                 line_vals = {
                     'wizard_id': self.id,
@@ -87,7 +107,15 @@ class WizardInvoiceImportSettings(models.TransientModel):
                     'primary_order_number': primary_order_number,
                     'source_purchase_id': source_purchase_id,
                 }
-                lines_to_create.append(line_vals)
+                
+                # Розділяємо строки на ті, що з кодом отримувача і без
+                if recipient_code:
+                    lines_with_recipient.append(line_vals)
+                else:
+                    lines_without_recipient.append(line_vals)
+            
+            # Спочатку створюємо строки з кодом отримувача, потім без коду
+            lines_to_create = lines_with_recipient + lines_without_recipient
             
             for line_vals in lines_to_create:
                 self.env['wizard.invoice.import.line'].create(line_vals)
