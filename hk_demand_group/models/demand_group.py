@@ -5,10 +5,11 @@ from odoo.exceptions import ValidationError
 class DemandGroup(models.Model):
     _name = 'demand.group'
     _description = 'Order Group'
-    _order = 'id desc'
+    _order = 'date desc, id desc'
 
     name = fields.Char(string='Name', required=True, copy=False, default=lambda self: _('New'), store=True, compute='_compute_name')
     active = fields.Boolean(default=True)
+    date = fields.Datetime(string='Date', compute='_compute_date', store=True)
     
     # Relations with sale.order or stock.request
     sale_order_id = fields.Many2one('sale.order', string='Sale Order')
@@ -17,6 +18,16 @@ class DemandGroup(models.Model):
 
     def _compute_name(self):
         self.name =  f'{self.partner_id}/{self.sale_order_id.name if self.sale_order_id else self.stock_request_id.name if self.stock_request_id else ""}'
+    
+    @api.depends('sale_order_id', 'sale_order_id.date_order', 'stock_request_id', 'stock_request_id.date_deadline')
+    def _compute_date(self):
+        for record in self:
+            if record.sale_order_id and record.sale_order_id.date_order:
+                record.date = record.sale_order_id.date_order
+            elif record.stock_request_id and record.stock_request_id.date_deadline:
+                record.date = record.stock_request_id.date_deadline
+            else:
+                record.date = False
     
     # @api.constrains('sale_order_id', 'stock_request_id')
     # def _check_relation_type(self):
