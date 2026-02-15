@@ -13,6 +13,7 @@ class WizardInvoiceImportSettings(models.TransientModel):
     file_name = fields.Char(string='File Name')
     internal_owner_id = fields.Many2one('res.partner', string='Product Owner', required=True)
     picking_type_id = fields.Many2one('stock.picking.type', string='Operation Type', required=True)
+    use_discounted_price = fields.Boolean(string='Load Discounted Price', default=False, help='If checked, price_unit will be set to discounted price and discount will be 0')
     
     invoice_line_ids = fields.One2many('wizard.invoice.import.line', 'wizard_id', string='Invoice Lines')
     # selected_line_id = fields.Many2one('wizard.invoice.import.line', string='Selected Line')
@@ -328,13 +329,20 @@ class WizardInvoiceImportSettings(models.TransientModel):
                 if dist_line.quantity <= 0:
                     continue
                 
+                # Визначаємо ціну та знижку в залежності від чекбоксу
+                if self.use_discounted_price:
+                    price_unit = dist_line.invoice_line_id.price_with_discount
+                    discount = 0
+                else:
+                    price_unit = dist_line.invoice_line_id.base_price
+                    discount = -dist_line.invoice_line_id.discount
+                
                 po_line_vals = {
                     'order_id': new_po.id,
                     'product_id': dist_line.product_id.id,
                     'product_qty': dist_line.quantity,
-                    'price_unit': dist_line.invoice_line_id.base_price,
-                    'discount': dist_line.invoice_line_id.discount,
-                    # 'price_with_discount': dist_line.invoice_line_id.price_with_discount,
+                    'price_unit': price_unit,
+                    'discount': discount,
                     'date_planned': fields.Datetime.now(),
                     'demand_group_id': dist_line.demand_group_id.id if dist_line.demand_group_id else False,
                     'source_purchase_order_id': dist_line.source_purchase_id.id if dist_line.source_purchase_id else False,

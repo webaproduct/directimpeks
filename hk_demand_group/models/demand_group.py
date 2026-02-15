@@ -19,13 +19,13 @@ class DemandGroup(models.Model):
     def _compute_name(self):
         self.name =  f'{self.partner_id}/{self.sale_order_id.name if self.sale_order_id else self.stock_request_id.name if self.stock_request_id else ""}'
     
-    @api.depends('sale_order_id', 'sale_order_id.date_order', 'stock_request_id', 'stock_request_id.date_deadline')
+    @api.depends('sale_order_id', 'sale_order_id.date_order', 'stock_request_id', 'stock_request_id.requested_date')
     def _compute_date(self):
         for record in self:
             if record.sale_order_id and record.sale_order_id.date_order:
                 record.date = record.sale_order_id.date_order
-            elif record.stock_request_id and record.stock_request_id.date_deadline:
-                record.date = record.stock_request_id.date_deadline
+            elif record.stock_request_id and record.stock_request_id.requested_date:
+                record.date = record.stock_request_id.requested_date
             else:
                 record.date = False
     

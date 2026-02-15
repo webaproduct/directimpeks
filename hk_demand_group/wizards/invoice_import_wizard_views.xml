@@ -146,6 +146,7 @@
                         <group>
                             <field name="internal_owner_id"/>
                             <field name="picking_type_id"/>
+                            <field name="use_discounted_price"/>
                         </group>
                     </group>
 <!--                    <group>-->
