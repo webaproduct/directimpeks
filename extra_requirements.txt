@@ -1,0 +1,10 @@
+xlrd
+chardet
+xlsxwriter
+openpyxl
+dropbox
+pyncclient
+boto3
+nextcloud-api-wrapper
+paramiko
+ofxparse
