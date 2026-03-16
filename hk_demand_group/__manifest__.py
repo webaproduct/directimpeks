@@ -31,6 +31,7 @@
         "views/stock_quant_views.xml",
         "views/contract_views.xml",
         "views/res_config_settings_views.xml",
+        "views/product_views.xml",
     ],
     "installable": True,
     "auto_install": False,

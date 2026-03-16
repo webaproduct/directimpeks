@@ -321,6 +321,7 @@ class WizardInvoiceImportSettings(models.TransientModel):
                 'origin': origin,
                 'internal_owner_id': self.internal_owner_id.id if self.internal_owner_id else False,
                 'picking_type_id': self.picking_type_id.id if self.picking_type_id else False,
+                'fact_purchase': True,
             }
             
             new_po = self.env['purchase.order'].create(po_vals)
@@ -337,13 +338,18 @@ class WizardInvoiceImportSettings(models.TransientModel):
                     price_unit = dist_line.invoice_line_id.base_price
                     discount = -dist_line.invoice_line_id.discount
                 
+                # Копіюємо date_planned з первинного замовлення
+                date_planned = fields.Datetime.now()
+                if dist_line.source_purchase_line_id and dist_line.source_purchase_line_id.date_planned:
+                    date_planned = dist_line.source_purchase_line_id.date_planned
+                
                 po_line_vals = {
                     'order_id': new_po.id,
                     'product_id': dist_line.product_id.id,
                     'product_qty': dist_line.quantity,
                     'price_unit': price_unit,
                     'discount': discount,
-                    'date_planned': fields.Datetime.now(),
+                    'date_planned': date_planned,
                     'demand_group_id': dist_line.demand_group_id.id if dist_line.demand_group_id else False,
                     'source_purchase_order_id': dist_line.source_purchase_id.id if dist_line.source_purchase_id else False,
                     'source_purchase_order_line_id': dist_line.source_purchase_line_id.id if dist_line.source_purchase_line_id else False,
