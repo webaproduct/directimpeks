@@ -9,6 +9,8 @@ class PurchaseOrder(models.Model):
     related_purchase_count = fields.Integer(string='Related Purchases', compute='_compute_related_purchase_count')
     related_purchase_line_count = fields.Integer(string='Related Purchase Lines', compute='_compute_related_purchase_line_count')
     source_purchase_count = fields.Integer(string='Source Purchases', compute='_compute_source_purchase_count')
+    fact_purchase = fields.Boolean(string='Фактична закупівля', default=False, copy=False)
+    additional_purchase = fields.Boolean(string='Це дозамовлення?', default=False, copy=False)
 
     @api.depends('order_line.source_purchase_order_id')
     def _compute_related_purchase_count(self):
@@ -128,5 +130,22 @@ class PurchaseOrder(models.Model):
                             new_move_qty = move.product_uom_qty - line.product_qty
                             move.product_uom_qty = new_move_qty
                     source_line.product_qty = new_qty
+                
+                # Оновлення sale.order.line для рядків з demand_group_id.sale_order_id
+                if line.demand_group_id and line.demand_group_id.sale_order_id:
+                    sale_order = line.demand_group_id.sale_order_id
+                    # Знаходимо всі рядки sale.order з таким самим товаром
+                    sale_lines = self.env['sale.order.line'].search([
+                        ('order_id', '=', sale_order.id),
+                        ('product_id', '=', line.product_id.id)
+                    ])
+                    
+                    # Оновлюємо поля в знайдених рядках
+                    for sale_line in sale_lines:
+                        sale_line.write({
+                            'delivery_date': line.date_planned,
+                            'vendor_id': order.partner_id.id,
+                            'purshase_ref': order.partner_ref if order.partner_ref else False,
+                        })
 
         return res
