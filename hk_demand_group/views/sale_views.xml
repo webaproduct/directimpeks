@@ -11,4 +11,108 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Tree view for sale order line delivery analysis -->
+    <record id="sale_order_line_delivery_analysis_tree" model="ir.ui.view">
+        <field name="name">sale.order.line.delivery.analysis.tree</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="Аналіз Доставки товарів покупцям" create="false" edit="false">
+                <field name="order_id"/>
+                <field name="partner_id" string="Покупець"/>
+                <field name="vendor_id" string="Постачальник"/>
+                <field name="purshase_ref"/>
+                <field name="product_id"/>
+                <field name="delivery_date" optional="show"/>
+                <field name="product_uom_qty" sum="Замовлена кількість"/>
+                <field name="price_total" sum="Вартість замовленого товару"/>
+                <field name="qty_delivered" sum="Доставлена кількість"/>
+                <field name="amount_delivered" sum="Вартість доставленого товару"/>
+                <field name="remain_qty" sum="Залишилось доставити кількість"/>
+                <field name="remain_amount" sum="Залишилось доставити Вартість"/>
+                <field name="currency_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Pivot view for sale order line delivery analysis -->
+    <record id="sale_order_line_delivery_analysis_pivot" model="ir.ui.view">
+        <field name="name">sale.order.line.delivery.analysis.pivot</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Аналіз Доставки товарів покупцям">
+                <field name="partner_id" type="row"/>
+                <field name="product_id" type="row"/>
+                <field name="product_uom_qty" type="measure"/>
+                <field name="price_total" type="measure"/>
+                <field name="qty_delivered" type="measure"/>
+                <field name="amount_delivered" type="measure"/>
+                <field name="remain_qty" type="measure"/>
+                <field name="remain_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Search view for sale order line delivery analysis -->
+    <record id="sale_order_line_delivery_analysis_search" model="ir.ui.view">
+        <field name="name">sale.order.line.delivery.analysis.search</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Пошук">
+                <field name="order_id"/>
+                <field name="partner_id"/>
+                <field name="vendor_id"/>
+                <field name="purshase_ref"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter string="Дата доставки" name="delivery_date" date="delivery_date"/>
+                <separator/>
+                <group expand="0" string="Групувати за">
+                    <filter string="Дата доставки" name="group_delivery_date" domain="[]" context="{'group_by': 'delivery_date'}"/>
+                    <filter string="Валюта замовлення" name="group_currency" domain="[]" context="{'group_by': 'currency_id'}"/>
+                    <filter string="Постачальник" name="group_vendor" domain="[]" context="{'group_by': 'vendor_id'}"/>
+                    <filter string="Покупець" name="group_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Референс замовлення постачальнику" name="group_purshase_ref" domain="[]" context="{'group_by': 'purshase_ref'}"/>
+                    <filter string="Замовлення" name="group_order" domain="[]" context="{'group_by': 'order_id'}"/>
+                    <filter string="Бренд" name="group_brand" domain="[]" context="{'group_by': 'product_id.brand_id'}"/>
+                    <filter string="№ лінії" name="group_number_line" domain="[]" context="{'group_by': 'product_id.number_line'}"/>
+                    <filter string="Сезон/база" name="group_season_base" domain="[]" context="{'group_by': 'product_id.season_base'}"/>
+                    <filter string="Категорія 1" name="group_category_one" domain="[]" context="{'group_by': 'product_id.category_one'}"/>
+                    <filter string="Категорія 2" name="group_category_two" domain="[]" context="{'group_by': 'product_id.category_two'}"/>
+                    <filter string="Форма" name="group_form" domain="[]" context="{'group_by': 'product_id.form'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for sale order line delivery analysis -->
+    <record id="action_sale_order_line_delivery_analysis" model="ir.actions.act_window">
+        <field name="name">Аналіз Доставки товарів покупцям</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="search_view_id" ref="sale_order_line_delivery_analysis_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Немає даних для відображення
+            </p>
+            <p>
+                Аналіз доставки товарів покупцям дозволяє відстежувати замовлені та доставлені товари.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu item in Purchase > Reporting -->
+    <menuitem id="menu_sale_order_line_delivery_analysis_purchase"
+              name="Аналіз Доставки товарів покупцям"
+              action="action_sale_order_line_delivery_analysis"
+              parent="purchase.menu_purchase_report"
+              sequence="101"/>
+
+    <!-- Menu item in Sales > Reporting -->
+    <menuitem id="menu_sale_order_line_delivery_analysis_sale"
+              name="Аналіз Доставки товарів покупцям"
+              action="action_sale_order_line_delivery_analysis"
+              parent="sale.sale_menu_sale_report"
+              sequence="101"/>
 </odoo>
