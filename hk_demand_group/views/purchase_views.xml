@@ -190,12 +190,12 @@
                     <filter string="Референс постачальника" name="group_partner_ref" domain="[]" context="{'group_by': 'partner_ref'}"/>
                     <filter string="Отримувач" name="group_demand_partner" domain="[]" context="{'group_by': 'demand_partner_id'}"/>
                     <filter string="Замовлення (група попиту)" name="group_demand_group" domain="[]" context="{'group_by': 'demand_group_id'}"/>
-                    <filter string="Бренд" name="group_brand" domain="[]" context="{'group_by': 'product_id.brand_id'}"/>
-                    <filter string="№ лінії" name="group_number_line" domain="[]" context="{'group_by': 'product_id.number_line'}"/>
-                    <filter string="Сезон/база" name="group_season_base" domain="[]" context="{'group_by': 'product_id.season_base'}"/>
-                    <filter string="Категорія 1" name="group_category_one" domain="[]" context="{'group_by': 'product_id.category_one'}"/>
-                    <filter string="Категорія 2" name="group_category_two" domain="[]" context="{'group_by': 'product_id.category_two'}"/>
-                    <filter string="Форма" name="group_form" domain="[]" context="{'group_by': 'product_id.form'}"/>
+                    <filter string="Бренд" name="group_brand" domain="[]" context="{'group_by': 'brand_id'}"/>
+                    <filter string="№ лінії" name="group_number_line" domain="[]" context="{'group_by': 'number_line'}"/>
+                    <filter string="Сезон/база" name="group_season_base" domain="[]" context="{'group_by': 'season_base'}"/>
+                    <filter string="Категорія 1" name="group_category_one" domain="[]" context="{'group_by': 'category_one'}"/>
+                    <filter string="Категорія 2" name="group_category_two" domain="[]" context="{'group_by': 'category_two'}"/>
+                    <filter string="Форма" name="group_form" domain="[]" context="{'group_by': 'form'}"/>
                 </group>
             </search>
         </field>
@@ -222,13 +222,13 @@
     <menuitem id="menu_purchase_order_line_analysis_purchase"
               name="Аналіз надходження товарів від постачальника"
               action="action_purchase_order_line_analysis"
-              parent="purchase.menu_purchase_report"
+              parent="purchase.purchase_report_main"
               sequence="100"/>
 
     <!-- Menu item in Sales > Reporting -->
     <menuitem id="menu_purchase_order_line_analysis_sale"
               name="Аналіз надходження товарів від постачальника"
               action="action_purchase_order_line_analysis"
-              parent="sale.sale_menu_sale_report"
+              parent="sale.menu_sale_report"
               sequence="100"/>
 </odoo>

@@ -14,6 +14,7 @@
         "purchase",
         "warehouse_stock_request_app",
         "contract",
+        "oleg_weba_directimpeks"
     ],
     "data": [
         "security/ir.model.access.csv",

@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.api import onchange
 
 
 class PurchaseOrder(models.Model):
@@ -149,3 +150,9 @@ class PurchaseOrder(models.Model):
                         })
 
         return res
+
+    @api.onchange('date_planned','additional_purchase','fact_purchase')
+    def _onchange_compute_date_planned(self):
+        for line in self.order_line:
+            line._onchange_compute_date_planned()
+
