@@ -210,6 +210,7 @@ class DemandGroupWizardLine(models.TransientModel):
             
             purchase_order = self.env['purchase.order'].create(po_vals)
             purchase_order_ids.append(purchase_order.id)
+            purchase_order._onchange_compute_date_planned()
         
         # Opening created orders
         action = {
