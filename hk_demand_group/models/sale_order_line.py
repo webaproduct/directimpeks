@@ -17,6 +17,19 @@ class SaleOrderLine(models.Model):
     category_one = fields.Char(string='Категорія 1', related='product_id.category_one', store=True, readonly=True)
     category_two = fields.Char(string='Категорія 2', related='product_id.category_two', store=True, readonly=True)
     form = fields.Char(string='Форма', related='product_id.form', store=True, readonly=True)
+    attribute_line_ids = fields.Many2many(
+        comodel_name='product.template.attribute.value',
+        relation='sale_order_line_attribute_value',
+        string="Атрибути",
+        compute='_compute_attr', store=True)
+
+    @api.depends('product_id', 'product_id.product_template_attribute_value_ids')
+    def _compute_attr(self):
+        for line in self:
+            if line.product_id and line.product_id.product_tmpl_id:
+                line.attribute_line_ids = line.product_id.product_template_attribute_value_ids
+            else:
+                line.attribute_line_ids = False
 
     @api.depends('qty_delivered', 'price_unit')
     def _compute_amount_delivered(self):

@@ -338,10 +338,10 @@ class WizardInvoiceImportSettings(models.TransientModel):
                     price_unit = dist_line.invoice_line_id.base_price
                     discount = -dist_line.invoice_line_id.discount
                 
-                # Копіюємо date_planned з первинного замовлення
-                date_planned = fields.Datetime.now()
-                if dist_line.source_purchase_line_id and dist_line.source_purchase_line_id.date_planned:
-                    date_planned = dist_line.source_purchase_line_id.date_planned
+                # Копіюємо delivery_date з первинного замовлення
+                delivery_date = fields.Datetime.now()
+                if dist_line.source_purchase_line_id and dist_line.source_purchase_line_id.delivery_date:
+                    delivery_date = dist_line.source_purchase_line_id.delivery_date
                 
                 po_line_vals = {
                     'order_id': new_po.id,
@@ -349,7 +349,7 @@ class WizardInvoiceImportSettings(models.TransientModel):
                     'product_qty': dist_line.quantity,
                     'price_unit': price_unit,
                     'discount': discount,
-                    'date_planned': date_planned,
+                    'delivery_date': delivery_date,
                     'demand_group_id': dist_line.demand_group_id.id if dist_line.demand_group_id else False,
                     'source_purchase_order_id': dist_line.source_purchase_id.id if dist_line.source_purchase_id else False,
                     'source_purchase_order_line_id': dist_line.source_purchase_line_id.id if dist_line.source_purchase_line_id else False,

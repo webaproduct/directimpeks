@@ -74,6 +74,7 @@
             
             <!-- Add fields to order lines -->
             <xpath expr="//field[@name='order_line']/tree//field[@name='price_subtotal']" position="after">
+                <field name="delivery_date" optional="show"/>
                 <field name="demand_group_id" optional="show"/>
                 <field name="demand_partner_id" optional="hide"/>
                 <field name="source_purchase_order_id" optional="hide"/>
@@ -138,7 +139,7 @@
                 <field name="product_id"/>
                 <field name="demand_group_id"/>
                 <field name="demand_partner_id"/>
-                <field name="date_planned" optional="show"/>
+                <field name="delivery_date" optional="show"/>
                 <field name="product_qty" sum="Замовлена кількість"/>
                 <field name="price_total" sum="Вартість замовленого товару"/>
                 <field name="qty_received" sum="Отримана кількість"/>
@@ -181,10 +182,10 @@
                 <field name="demand_group_id"/>
                 <field name="demand_partner_id"/>
                 <separator/>
-                <filter string="Дата доставки" name="date_planned" date="date_planned"/>
+                <filter string="Дата доставки" name="delivery_date" date="delivery_date"/>
                 <separator/>
                 <group expand="0" string="Групувати за">
-                    <filter string="Дата доставки" name="group_date_planned" domain="[]" context="{'group_by': 'date_planned'}"/>
+                    <filter string="Дата доставки" name="group_delivery_date" domain="[]" context="{'group_by': 'delivery_date'}"/>
                     <filter string="Валюта замовлення" name="group_currency" domain="[]" context="{'group_by': 'currency_id'}"/>
                     <filter string="Постачальник" name="group_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
                     <filter string="Референс постачальника" name="group_partner_ref" domain="[]" context="{'group_by': 'partner_ref'}"/>
