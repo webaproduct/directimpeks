@@ -11,7 +11,7 @@ class PurchaseOrderLine(models.Model):
     amount_received = fields.Monetary(string='Вартість отриманого товару', compute='_compute_amount_received', store=True, readonly=True)
     remain_qty = fields.Float(string='Залишилось отримати кількість', compute='_compute_remain_qty', store=True, readonly=True)
     remain_amount = fields.Monetary(string='Залишилось отримати Вартість', compute='_compute_remain_amount', store=True, readonly=True)
-    partner_ref = fields.Char(string='Референс постачальника', related='source_purchase_order_id.partner_ref', store=True, readonly=True)
+    partner_ref = fields.Char(string='Референс постачальника', compute='_compute_partner_ref', store=True, readonly=True)
     brand_id = fields.Many2one('product.brand', string='Бренд', related='product_id.brand_id', store=True, readonly=True)
     number_line = fields.Char(string='№ лінії', related='product_id.number_line', store=True, readonly=True)
     season_base = fields.Char(string='Сезон/база', related='product_id.season_base', store=True, readonly=True)
@@ -23,7 +23,16 @@ class PurchaseOrderLine(models.Model):
         relation='purchase_order_line_attribute_value',
         string="Атрибути",
         compute='_compute_attr', store=True)
-    delivery_date = fields.Date(string='Delivery date', compute='_compute_delivery_date', store=True)
+    delivery_date = fields.Date(string='Delivery date', compute='_compute_delivery_date', store=True, readonly=False)
+
+
+    @api.depends('order_id', 'order_id.partner_ref')
+    def _compute_partner_ref(self):
+        for line in self:
+            if line.source_purchase_order_line_id:
+                line.partner_ref = line.source_purchase_order_line_id.partner_ref
+            else:
+                line.partner_ref = line.order_id.partner_ref
 
     @api.depends('product_id', 'product_id.product_template_attribute_value_ids')
     def _compute_attr(self):
@@ -70,3 +79,30 @@ class PurchaseOrderLine(models.Model):
                         # Дата з картки товару
                         if line.product_id.date_planned:
                             line.delivery_date = line.product_id.date_planned
+                    self._update_so_fields()
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'delivery_date' in vals or 'partner_ref' in vals or 'partner_id' in vals:
+            self._update_so_fields()
+        return res
+
+    def _update_so_fields(self):
+        # Оновлення sale.order.line для рядків з demand_group_id.sale_order_id
+        for line in self:
+            if line.demand_group_id and line.demand_group_id.sale_order_id:
+                sale_order = line.demand_group_id.sale_order_id
+                # Знаходимо всі рядки sale.order з таким самим товаром
+                sale_lines = self.env['sale.order.line'].search([
+                    ('order_id', '=', sale_order.id),
+                    ('product_id', '=', line.product_id.id)
+                ])
+
+                # Оновлюємо поля в знайдених рядках
+                for sale_line in sale_lines:
+                    sale_line.write({
+                        'delivery_date': line.delivery_date,
+                        'vendor_id': line.partner_id.id,
+                        'purshase_ref': line.order_id.partner_ref if line.order_id.partner_ref else False,
+                    })
+

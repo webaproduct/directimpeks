@@ -23,6 +23,7 @@ class SaleOrderLine(models.Model):
         string="Атрибути",
         compute='_compute_attr', store=True)
 
+
     @api.depends('product_id', 'product_id.product_template_attribute_value_ids')
     def _compute_attr(self):
         for line in self:

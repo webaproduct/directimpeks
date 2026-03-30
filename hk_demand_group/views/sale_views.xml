@@ -87,7 +87,7 @@
                     <filter string="Категорія 1" name="group_category_one" domain="[]" context="{'group_by': 'category_one'}"/>
                     <filter string="Категорія 2" name="group_category_two" domain="[]" context="{'group_by': 'category_two'}"/>
                     <filter string="Форма" name="group_form" domain="[]" context="{'group_by': 'form'}"/>
-                    <filter string="Атбрибути" name="group_attribute" domain="[]" context="{'group_by': 'attribute_line_ids'}"/>
+                    <filter string="Атрибути" name="group_attribute" domain="[]" context="{'group_by': 'attribute_line_ids'}"/>
                 </group>
             </search>
         </field>

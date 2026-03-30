@@ -85,6 +85,7 @@ class PurchaseOrder(models.Model):
             'context': {'create': False},
         }
 
+
     def _prepare_picking(self):
         """
         Extension of the standard method to add fields demand_group_id and internal_owner_id
@@ -131,23 +132,8 @@ class PurchaseOrder(models.Model):
                             new_move_qty = move.product_uom_qty - line.product_qty
                             move.product_uom_qty = new_move_qty
                     source_line.product_qty = new_qty
-                
-                # Оновлення sale.order.line для рядків з demand_group_id.sale_order_id
-                if line.demand_group_id and line.demand_group_id.sale_order_id:
-                    sale_order = line.demand_group_id.sale_order_id
-                    # Знаходимо всі рядки sale.order з таким самим товаром
-                    sale_lines = self.env['sale.order.line'].search([
-                        ('order_id', '=', sale_order.id),
-                        ('product_id', '=', line.product_id.id)
-                    ])
-                    
-                    # Оновлюємо поля в знайдених рядках
-                    for sale_line in sale_lines:
-                        sale_line.write({
-                            'delivery_date': line.delivery_date,
-                            'vendor_id': order.partner_id.id,
-                            'purshase_ref': order.partner_ref if order.partner_ref else False,
-                        })
+
+                line._update_so_delivery_date()
 
         return res
 
@@ -155,3 +141,9 @@ class PurchaseOrder(models.Model):
     def _onchange_compute_date_planned(self):
         for line in self.order_line:
             line._compute_delivery_date()
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'partner_ref' in vals or 'partner_id' in vals:
+            self.order_line._update_so_fields()
+        return res
