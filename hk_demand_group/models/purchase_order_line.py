@@ -56,15 +56,17 @@ class PurchaseOrderLine(models.Model):
 
     @api.depends('order_id.date_planned', 'order_id.fact_purchase', 'order_id.additional_purchase', 'product_id', 'product_id.date_planned')
     def _compute_delivery_date(self):
+
         for line in self:
-            if line.product_id and line.order_id:
-                # Якщо це дозамовлення та не фактична закупівля
-                if line.order_id.additional_purchase and not line.order_id.fact_purchase:
-                    # Дата з поля "Очікуване прибуття" замовлення
-                    if line.order_id.date_planned:
-                        line.delivery_date = line.order_id.date_planned
-                # Якщо це НЕ дозамовлення та не фактична закупівля
-                elif not line.order_id.additional_purchase and not line.order_id.fact_purchase:
-                    # Дата з картки товару
-                    if line.product_id.date_planned:
-                        line.delivery_date = line.product_id.date_planned
+            if not line.order_id.fact_purchase and line.qty_received == 0:
+                if line.product_id and line.order_id:
+                    # Якщо це дозамовлення та не фактична закупівля
+                    if line.order_id.additional_purchase:
+                        # Дата з поля "Очікуване прибуття" замовлення
+                        if line.order_id.date_planned:
+                            line.delivery_date = line.order_id.date_planned
+                    # Якщо це НЕ дозамовлення та не фактична закупівля
+                    elif not line.order_id.additional_purchase:
+                        # Дата з картки товару
+                        if line.product_id.date_planned:
+                            line.delivery_date = line.product_id.date_planned
