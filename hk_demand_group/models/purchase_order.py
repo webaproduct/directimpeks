@@ -144,7 +144,7 @@ class PurchaseOrder(models.Model):
                     # Оновлюємо поля в знайдених рядках
                     for sale_line in sale_lines:
                         sale_line.write({
-                            'delivery_date': line.date_planned,
+                            'delivery_date': line.delivery_date,
                             'vendor_id': order.partner_id.id,
                             'purshase_ref': order.partner_ref if order.partner_ref else False,
                         })
