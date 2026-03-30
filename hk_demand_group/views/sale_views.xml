@@ -30,6 +30,13 @@
                 <field name="amount_delivered" sum="Вартість доставленого товару"/>
                 <field name="remain_qty" sum="Залишилось доставити кількість"/>
                 <field name="remain_amount" sum="Залишилось доставити Вартість"/>
+                <field name="brand_id" optional="show"/>
+                <field name="number_line" optional="show"/>
+                <field name="season_base" optional="show"/>
+                <field name="category_one" optional="show"/>
+                <field name="category_two" optional="show"/>
+                <field name="form" optional="show"/>
+                <field name="attribute_line_ids" widget="many2many_tags" optional="show"/>
                 <field name="currency_id" optional="hide"/>
             </tree>
         </field>
