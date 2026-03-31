@@ -133,7 +133,7 @@ class PurchaseOrder(models.Model):
                             move.product_uom_qty = new_move_qty
                     source_line.product_qty = new_qty
 
-                line._update_so_delivery_date()
+                line._update_so_fields()
 
         return res
 
