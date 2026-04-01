@@ -72,6 +72,8 @@
                 <field name="purshase_ref"/>
                 <field name="product_id"/>
                 <separator/>
+                <filter string="Підтверджені" name="filter_sale" domain="[('order_id.state', '=', 'sale')]"/>
+                <separator/>
                 <filter string="Дата доставки" name="delivery_date" date="delivery_date"/>
                 <separator/>
                 <group expand="0" string="Групувати за">
@@ -99,7 +101,7 @@
         <field name="res_model">sale.order.line</field>
         <field name="view_mode">tree,pivot</field>
         <field name="search_view_id" ref="sale_order_line_delivery_analysis_search"/>
-        <field name="context">{}</field>
+        <field name="context">{'search_default_filter_sale': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Немає даних для відображення
