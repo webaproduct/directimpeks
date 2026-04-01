@@ -18,11 +18,16 @@ class PurchaseOrderLine(models.Model):
     category_one = fields.Char(string='Категорія 1', related='product_id.category_one', store=True, readonly=True)
     category_two = fields.Char(string='Категорія 2', related='product_id.category_two', store=True, readonly=True)
     form = fields.Char(string='Форма', related='product_id.form', store=True, readonly=True)
-    attribute_line_ids = fields.Many2many(
+    # attribute_line_id = fields.Many2one(
+    #     comodel_name='product.template.attribute.line',
+    #     relation='purchase_order_line_attribute',
+    #     string="Атрибути",
+    #     compute='_compute_attr', store=True)
+    attribute_line_value_ids = fields.Many2many(
         comodel_name='product.template.attribute.value',
         relation='purchase_order_line_attribute_value',
-        string="Атрибути",
-        compute='_compute_attr', store=True)
+        string="Значення атрибутів",
+        compute='_compute_attr_value', store=True)
     delivery_date = fields.Date(string='Delivery date', compute='_compute_delivery_date', store=True, readonly=False)
 
 
@@ -38,9 +43,17 @@ class PurchaseOrderLine(models.Model):
     def _compute_attr(self):
         for line in self:
             if line.product_id and line.product_id.product_tmpl_id:
-                line.attribute_line_ids = line.product_id.product_template_attribute_value_ids
+                line.attribute_line_id = line.product_id.attribute_line_ids.attribute_id
             else:
-                line.attribute_line_ids = False
+                line.attribute_line_id = False
+
+    @api.depends('product_id', 'product_id.product_template_attribute_value_ids')
+    def _compute_attr_value(self):
+        for line in self:
+            if line.product_id and line.product_id.product_tmpl_id:
+                line.attribute_line_value_ids = line.product_id.attribute_line_ids.value_ids
+            else:
+                line.attribute_line_value_ids = False
 
     @api.depends('qty_received', 'price_unit', 'discount')
     def _compute_amount_received(self):
@@ -77,7 +90,7 @@ class PurchaseOrderLine(models.Model):
                     # Якщо це НЕ дозамовлення та не фактична закупівля
                     elif not line.order_id.additional_purchase:
                         # Дата з картки товару
-                        if line.product_id.date_planned:
+                        if line.product_id.date_planned and (line.order_id.state == 'draft' or line.order_id.state == 'sent'):
                             line.delivery_date = line.product_id.date_planned
                     self._update_so_fields()
 
@@ -103,6 +116,6 @@ class PurchaseOrderLine(models.Model):
                     sale_line.write({
                         'delivery_date': line.delivery_date,
                         'vendor_id': line.partner_id.id,
-                        'purshase_ref': line.order_id.partner_ref if line.order_id.partner_ref else False,
+                        'purshase_ref': line.order_id.partner_ref if line.order_id.partner_ref and not sale_line.purshase_ref  else False,
                     })
 
