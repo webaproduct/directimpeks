@@ -5,8 +5,8 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     delivery_date = fields.Date(string='Дата доставки', copy=False)
-    vendor_id = fields.Many2one('res.partner', string='Vendor')
-    purshase_ref = fields.Char(string='Purchase reference')
+    vendor_id = fields.Many2one('res.partner', string='Vendor', copy=False)
+    purshase_ref = fields.Char(string='Purchase reference', copy=False)
     amount_delivered = fields.Monetary(string='Вартість доставленого товару', compute='_compute_amount_delivered', store=True, readonly=True)
     remain_qty = fields.Float(string='Залишилось доставити кількість', compute='_compute_remain_qty', store=True, readonly=True)
     remain_amount = fields.Monetary(string='Залишилось доставити Вартість', compute='_compute_remain_amount', store=True, readonly=True)
@@ -17,20 +17,20 @@ class SaleOrderLine(models.Model):
     category_one = fields.Char(string='Категорія 1', related='product_id.category_one', store=True, readonly=True)
     category_two = fields.Char(string='Категорія 2', related='product_id.category_two', store=True, readonly=True)
     form = fields.Char(string='Форма', related='product_id.form', store=True, readonly=True)
-    attribute_line_ids = fields.Many2many(
-        comodel_name='product.template.attribute.value',
-        relation='sale_order_line_attribute_value',
+    attribute_line_value_ids = fields.Many2many(
+        comodel_name='product.attribute.value',
+        relation='sale_order_line_attribute_value_',
         string="Атрибути",
-        compute='_compute_attr', store=True)
+        compute='_compute_attr_value', store=True)
 
 
     @api.depends('product_id', 'product_id.product_template_attribute_value_ids')
-    def _compute_attr(self):
+    def _compute_attr_value(self):
         for line in self:
-            if line.product_id and line.product_id.product_tmpl_id:
-                line.attribute_line_ids = line.product_id.product_template_attribute_value_ids
+            if line.product_id:
+                line.attribute_line_value_ids = line.product_id.attribute_line_ids.value_ids
             else:
-                line.attribute_line_ids = False
+                line.attribute_line_value_ids = False
 
     @api.depends('qty_delivered', 'price_unit')
     def _compute_amount_delivered(self):

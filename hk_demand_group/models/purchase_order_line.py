@@ -24,8 +24,8 @@ class PurchaseOrderLine(models.Model):
     #     string="Атрибути",
     #     compute='_compute_attr', store=True)
     attribute_line_value_ids = fields.Many2many(
-        comodel_name='product.template.attribute.value',
-        relation='purchase_order_line_attribute_value',
+        comodel_name='product.attribute.value',
+        relation='purchase_order_line_attribute_value_',
         string="Значення атрибутів",
         compute='_compute_attr_value', store=True)
     delivery_date = fields.Date(string='Delivery date', compute='_compute_delivery_date', store=True, readonly=False)
@@ -50,7 +50,7 @@ class PurchaseOrderLine(models.Model):
     @api.depends('product_id', 'product_id.product_template_attribute_value_ids')
     def _compute_attr_value(self):
         for line in self:
-            if line.product_id and line.product_id.product_tmpl_id:
+            if line.product_id:
                 line.attribute_line_value_ids = line.product_id.attribute_line_ids.value_ids
             else:
                 line.attribute_line_value_ids = False

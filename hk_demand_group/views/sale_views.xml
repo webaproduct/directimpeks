@@ -36,7 +36,7 @@
                 <field name="category_one" optional="show"/>
                 <field name="category_two" optional="show"/>
                 <field name="form" optional="show"/>
-                <field name="attribute_line_ids" widget="many2many_tags" optional="show"/>
+                <field name="attribute_line_value_ids" widget="many2many_tags" optional="show"/>
                 <field name="currency_id" optional="hide"/>
             </tree>
         </field>
@@ -89,7 +89,7 @@
                     <filter string="Категорія 1" name="group_category_one" domain="[]" context="{'group_by': 'category_one'}"/>
                     <filter string="Категорія 2" name="group_category_two" domain="[]" context="{'group_by': 'category_two'}"/>
                     <filter string="Форма" name="group_form" domain="[]" context="{'group_by': 'form'}"/>
-                    <filter string="Атрибути" name="group_attribute" domain="[]" context="{'group_by': 'attribute_line_ids'}"/>
+                    <filter string="Значення атрибутів" name="group_attribute" domain="[]" context="{'group_by': 'attribute_line_value_ids'}"/>
                 </group>
             </search>
         </field>

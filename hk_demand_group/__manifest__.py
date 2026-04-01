@@ -9,6 +9,7 @@
     "depends": [
         "base",
         "account",
+        "product",
         "sale",
         "stock",
         "purchase",
