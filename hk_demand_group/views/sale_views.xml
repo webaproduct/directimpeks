@@ -36,7 +36,7 @@
                 <field name="category_one" optional="show"/>
                 <field name="category_two" optional="show"/>
                 <field name="form" optional="show"/>
-                <field name="attribute_line_value_ids" widget="many2many_tags" optional="show"/>
+                <field name="attribute_line_value_ids" widget="many2many_tags" optional="hide"/>
                 <field name="currency_id" optional="hide"/>
             </tree>
         </field>

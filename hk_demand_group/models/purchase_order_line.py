@@ -113,9 +113,13 @@ class PurchaseOrderLine(models.Model):
 
                 # Оновлюємо поля в знайдених рядках
                 for sale_line in sale_lines:
-                    sale_line.write({
+                    vals = {
                         'delivery_date': line.delivery_date,
-                        'vendor_id': line.partner_id.id,
-                        'purshase_ref': line.order_id.partner_ref if line.order_id.partner_ref and not sale_line.purshase_ref  else False,
-                    })
+                        'vendor_id': line.partner_id.id
+                    }
+                    if line.order_id.partner_ref and not sale_line.purshase_ref:
+                        vals.update({
+                            'purshase_ref': line.order_id.partner_ref
+                        })
+                    sale_line.write(vals)
 
